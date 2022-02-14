@@ -3,6 +3,7 @@ import axios from 'axios';
 
 import Playlist from "@/lib/models/playlist";
 import PlaylistItem from "@/lib/models/playlistItem";
+import Podcast from './Podcast';
 
 type PlaylistEditorProps = {
   playlist: Playlist;
@@ -33,9 +34,11 @@ const PlaylistEditor = ({ playlist }: PlaylistEditorProps) => {
       <pre>{JSON.stringify(list, null, 2)}</pre>
       <hr />
       {loading && <div>Loading...</div>}
-      <pre>
-        {JSON.stringify(items, null, 2)}
-      </pre>
+      {items.map((item) => (
+        <div key={item.id}>
+          <h5>{item.url}</h5>
+        </div>
+      ))}
     </div>
   );
 };

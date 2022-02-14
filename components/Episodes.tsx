@@ -1,9 +1,11 @@
 /* eslint-disable @next/next/no-img-element */
 import { useCallback, useState } from 'react';
+import { Button, Form, InputGroup } from 'react-bootstrap';
 import Parser from 'rss-parser';
 
-import Episode from './Episode';
 import { ItemWithiTunes } from '@/lib/types/podcast';
+import Episode from './Episode';
+import styles from './Episodes.module.scss';
 
 type EpisodesProps = {
   feed: Parser.Output<any>;
@@ -32,10 +34,6 @@ const Episodes = ({ feed, loading }: EpisodesProps) => {
     }));
   }, [feed?.items, filter]);
 
-  if (loading) {
-    return <div>Loading episodes...</div>
-  }
-
   if (!feed) {
     return null;
   }
@@ -43,22 +41,27 @@ const Episodes = ({ feed, loading }: EpisodesProps) => {
   return (
     <>
       <form onSubmit={filterEpisodes}>
-        <input
-          type="text"
-          placeholder="Search Episodes"
-          value={filter}
-          onChange={(e) => setFilter(e.target.value)}
-        />
-        <button type="submit">Search</button>
-      </form>
-      <div>
-        {filtered.map((ep) => (
-          <Episode
-            key={ep.guid}
-            item={ep}
-            feedImage={feed.image ? feed.image.url : feed.itunes?.image}
+        <InputGroup>
+          <Form.Control
+            type="text"
+            placeholder="Search Episodes"
+            value={filter}
+            onChange={(e) => setFilter(e.target.value)}
           />
-        ))}
+          <Button type="submit">Search</Button>
+        </InputGroup>
+      </form>
+      <div className={styles.episodes}>
+        {loading
+          ? <div>Loading...</div>
+          : filtered.map((ep) => (
+              <Episode
+                key={ep.guid}
+                item={ep}
+                feedImage={feed.image ? feed.image.url : feed.itunes?.image}
+              />
+            ))
+        }
       </div>
     </>
   );

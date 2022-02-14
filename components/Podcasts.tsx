@@ -1,8 +1,11 @@
 import { useCallback, useState } from 'react';
 import axios from 'axios';
+import { Button, Form, InputGroup } from 'react-bootstrap';
 
 import { Podcast as PodcastType } from '@/lib/types/podcast';
 import Podcast from './Podcast';
+
+import styles from './Podcasts.module.scss';
 
 type PodcastsProps = {
   onClick: Function;
@@ -27,24 +30,28 @@ const Podcasts = ({ onClick }: PodcastsProps) => {
   return (
     <>
       <form onSubmit={search}>
-        <input
-          type="text"
-          placeholder="Search For Podcast"
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-        />
-        <button type="submit">Search</button>
-      </form>
-      {searching
-        ? <>Searching...</>
-        : results.map((result: PodcastType) => (
-          <Podcast
-            key={result.collectionId}
-            podcast={result}
-            onClick={onClick}
+        <InputGroup>
+          <Form.Control
+            type="text"
+            placeholder="Search For Podcast"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
           />
-        ))
-      }
+          <Button type="submit">Search</Button>
+        </InputGroup>
+      </form>
+      <div className={styles.podcasts}>
+        {searching
+          ? <>Searching...</>
+          : results.map((result: PodcastType) => (
+            <Podcast
+              key={result.collectionId}
+              podcast={result}
+              onClick={onClick}
+            />
+          ))
+        }
+      </div>
     </>
   )
 };

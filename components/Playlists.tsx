@@ -39,9 +39,9 @@ const Playlists = ({ onEdit }: PlaylistsProps) => {
 
   return (
     <div>
-      <div className="d-flex flex-row align-items-center justify-content-between">
+      <div className="d-flex flex-row align-items-center justify-content-between mb-2">
         <div>Playlists</div>
-        <Button onClick={addList} size="sm" variant="outline-primary">Add</Button>
+        <Button onClick={addList} size="sm" variant="link">Add</Button>
       </div>
       {loading && <div>Loading...</div>}
       {lists.length === 0 && <div>No playlists</div>}
