@@ -12,7 +12,7 @@ type PlaylistsProps = {
 
 const Playlists = ({ onEdit }: PlaylistsProps) => {
   const [lists, setLists] = useState<PlaylistEntry[]>([]);
-  const { data, error, isValidating } = useSWR('/api/playlists', axios);
+  const { data, error, isValidating } = useSWR('/api/playlists/mine', axios);
 
   const addList = useCallback(async () => {
     const name = prompt('What do you want to name the playlist?');

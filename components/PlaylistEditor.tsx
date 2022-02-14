@@ -66,7 +66,7 @@ const PlaylistEditor = ({ playlist, show, onHide }: PlaylistEditorProps) => {
       });
 
       onHide();
-      mutate('/api/playlists');
+      mutate('/api/playlists/mine');
     } catch (ex) {
       alert(ex.message || 'Error saving playlist');
     } finally {
@@ -84,7 +84,7 @@ const PlaylistEditor = ({ playlist, show, onHide }: PlaylistEditorProps) => {
     setDeleting(true);
     try {
       await axios.post('/api/playlists/delete', { id: list.id });
-      mutate('/api/playlists');
+      mutate('/api/playlists/mine');
       onHide();
     } catch (ex) {
       alert(ex.message || 'Error deleting playlist');

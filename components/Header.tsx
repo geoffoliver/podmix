@@ -1,4 +1,5 @@
 import { useSession, signIn, signOut } from "next-auth/react"
+import Link from "next/link";
 import { Button, Container, Navbar } from 'react-bootstrap';
 
 const Header = () => {
@@ -7,7 +8,9 @@ const Header = () => {
   return (
     <Navbar bg="light" expand="lg">
       <Container fluid>
-        <Navbar.Brand href="/">Podlists</Navbar.Brand>
+        <Link href="/" passHref>
+          <Navbar.Brand href="/">Podlists</Navbar.Brand>
+        </Link>
         <Navbar.Toggle aria-controls="navbar-nav" />
         <Navbar.Collapse id="navbar-nav" className="justify-content-end">
           {session
