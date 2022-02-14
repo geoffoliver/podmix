@@ -30,7 +30,7 @@ class Playlist extends Model<InferAttributes<Playlist>, InferCreationAttributes<
   declare getItems: HasManyGetAssociationsMixin<PlaylistItem>;
   declare addItem: HasManyAddAssociationMixin<PlaylistItem, string>;
   declare addItems: HasManyAddAssociationsMixin<PlaylistItem, string>;
-  declare setitems: HasManySetAssociationsMixin<PlaylistItem, string>;
+  declare setItems: HasManySetAssociationsMixin<PlaylistItem, string>;
   declare removeItem: HasManyRemoveAssociationMixin<PlaylistItem, string>;
   declare removeItems: HasManyRemoveAssociationsMixin<PlaylistItem, string>;
   declare hasItem: HasManyHasAssociationMixin<PlaylistItem, string>;

@@ -1,13 +1,17 @@
 /* eslint-disable @next/next/no-img-element */
 import { useCallback, useEffect, useRef, useState } from 'react';
+import { Alert, Form, Modal, Button } from 'react-bootstrap';
+import { mutate } from 'swr';
 import axios from 'axios';
-import { Alert, Form, Modal, Button, Table } from 'react-bootstrap';
-import { DateTime } from 'luxon';
+import update from 'immutability-helper'
+import { DndProvider } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
 
 import Playlist from "@/lib/models/playlist";
 import PlaylistItem from "@/lib/models/playlistItem";
 
 import styles from './PlaylistEditor.module.scss';
+import PlaylistItemComponent from './PlaylistItem';
 
 type PlaylistEditorProps = {
   playlist: Playlist;
@@ -16,9 +20,12 @@ type PlaylistEditorProps = {
 };
 
 const PlaylistEditor = ({ playlist, show, onHide }: PlaylistEditorProps) => {
+  const [saving, setSaving] = useState(false);
+  const [deleting, setDeleting] = useState(false);
   const [loading, setLoading] = useState(false);
   const [list, setList] = useState(playlist);
   const [items, setItems] = useState<PlaylistItem[]>([]);
+  const [removed, setRemoved] = useState<PlaylistItem[]>([]);
   const form = useRef(null);
 
   const loadList = useCallback(async () => {
@@ -42,21 +49,78 @@ const PlaylistEditor = ({ playlist, show, onHide }: PlaylistEditorProps) => {
     } as Playlist);
   }, [list]);
 
-  const savePlaylist = useCallback((e?) => {
+  const savePlaylist = useCallback(async (e?) => {
     if (e) {
       e.preventDefault();
     }
-    console.log(list);
-    console.log(items);
-    onHide();
-  }, [onHide, list, items]);
+
+    setSaving(true);
+
+    try {
+      await axios.post('/api/playlists/save', {
+        id: list.id,
+        name: list.name,
+        description: list.description,
+        items,
+        removed,
+      });
+
+      onHide();
+      mutate('/api/playlists');
+    } catch (ex) {
+      alert(ex.message || 'Error saving playlist');
+    } finally {
+      setSaving(false);
+    }
+  }, [onHide, list, items, removed]);
+
+  const deletePlaylist = useCallback(async () => {
+    const doRemove = confirm('Are you sure you want to delete this playlist?');
+
+    if (!doRemove) {
+      return;
+    }
+
+    setDeleting(true);
+    try {
+      await axios.post('/api/playlists/delete', { id: list.id });
+      mutate('/api/playlists');
+      onHide();
+    } catch (ex) {
+      alert(ex.message || 'Error deleting playlist');
+    } finally {
+      setDeleting(false);
+    }
+  }, [list.id, onHide]);
+
+  const removeItem = useCallback((itm: PlaylistItem) => {
+    const doRemove = confirm(`Are you sure you want to remove "${itm.title}?"`);
+
+    if (!doRemove) {
+      return;
+    }
+
+    setRemoved([...removed, itm]);
+    setItems(items.filter((item) => item !== itm));
+  }, [items, removed]);
+
+  const moveItem = useCallback((dragIndex: number, hoverIndex: number) => {
+    setItems((prevItems: PlaylistItem[]) =>
+        update(prevItems, {
+          $splice: [
+            [dragIndex, 1],
+            [hoverIndex, 0, prevItems[dragIndex] as PlaylistItem],
+          ],
+        }),
+      );
+  }, []);
 
   useEffect(() => {
     loadList();
   }, [loadList]);
 
   return (
-    <Modal show={show} size="lg" onHide={() => onHide()} scrollable>
+    <Modal show={show} size="lg" onHide={() => !saving && onHide()} scrollable>
       <Modal.Header closeButton>
         <Modal.Title>
           Edit Playlist
@@ -93,27 +157,35 @@ const PlaylistEditor = ({ playlist, show, onHide }: PlaylistEditorProps) => {
               This playlist does not contain any podcast episodes.
             </Alert>
           )}
-          {items.map((item) => (
-            <div key={item.id} className={styles.item}>
-              <div className={styles.titleContainer}>
-                <img src={item.image} height="40" width="40" alt={`${item.title} image`} />
-                <div className="ps-2">
-                  <div className={styles.title}>{item.title}</div>
-                  <div className="text-muted small">{item.duration}</div>
-                </div>
-              </div>
-            </div>
-          ))}
+          <DndProvider backend={HTML5Backend}>
+            {items.map((item, i) => (
+              <PlaylistItemComponent
+                key={item.id}
+                index={i}
+                item={item}
+                onRemove={removeItem}
+                onMove={moveItem}
+              />
+            ))}
+          </DndProvider>
           <button type="submit" className="visually-hidden">Save</button>
         </form>
       </Modal.Body>
       <Modal.Footer>
-        <Button variant="outline-secondary" onClick={() => onHide()}>
-          Close
-        </Button>
-        <Button variant="success" onClick={() => savePlaylist()}>
-          Save
-        </Button>
+        <div className={styles.footer}>
+          <Button variant="outline-danger" className="mr-auto" onClick={deletePlaylist} disabled={saving || deleting}>
+            {deleting ? 'Deleting' : 'Delete Playlist'}
+          </Button>
+          <div>
+            <Button variant="outline-secondary" onClick={() => onHide()} disabled={saving || deleting}>
+              Close
+            </Button>
+            &nbsp;
+            <Button variant="success" onClick={() => savePlaylist()} disabled={saving || deleting}>
+              {saving ? 'Saving' : 'Save'}
+            </Button>
+          </div>
+        </div>
       </Modal.Footer>
     </Modal>
   );

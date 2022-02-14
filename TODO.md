@@ -1,7 +1,9 @@
 - [ ] Edit playlist
-  - [ ] Remove item
-  - [ ] Reorder items
-  - [ ] Save
-  - [ ] Delete
+  - [x] Remove item
+  - [x] Reorder items
+  - [x] Save
+  - [x] Delete
   - [ ] Share
+    - [ ] RSS feed
+    - [ ] M3U playlist?
 - [ ] Search playlists

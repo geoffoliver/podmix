@@ -2,6 +2,7 @@ import { PlaylistEntry } from '@/lib/types/playlist';
 import { useCallback, useEffect, useState } from 'react';
 import { Button, ListGroup, ListGroupItem } from 'react-bootstrap';
 import axios from 'axios';
+import useSWR from 'swr';
 
 import Playlist from '@/components/Playlist';
 
@@ -10,15 +11,8 @@ type PlaylistsProps = {
 }
 
 const Playlists = ({ onEdit }: PlaylistsProps) => {
-  const [loading, setLoading] = useState(false);
   const [lists, setLists] = useState<PlaylistEntry[]>([]);
-
-  const getPlaylists = useCallback(async () => {
-    setLoading(true);
-    const result = await axios.get('/api/playlists');
-    setLists(result.data.playlists);
-    setLoading(false);
-  }, []);
+  const { data, error, isValidating } = useSWR('/api/playlists', axios);
 
   const addList = useCallback(async () => {
     const name = prompt('What do you want to name the playlist?');
@@ -34,8 +28,10 @@ const Playlists = ({ onEdit }: PlaylistsProps) => {
   }, [lists]);
 
   useEffect(() => {
-    getPlaylists();
-  }, [getPlaylists]);
+    if (data && data.data && data.data.playlists) {
+      setLists(data.data.playlists);
+    }
+  }, [data]);
 
   return (
     <div>
@@ -43,8 +39,9 @@ const Playlists = ({ onEdit }: PlaylistsProps) => {
         <div><strong>Playlists</strong></div>
         <Button onClick={addList} size="sm" variant="link">Add</Button>
       </div>
-      {loading && <div>Loading...</div>}
-      {!loading && lists.length === 0 && <div>No playlists</div>}
+      {error && <div>{JSON.stringify(error)}</div>}
+      {isValidating && lists.length === 0 && <div>Loading...</div>}
+      {!isValidating && lists.length === 0 && <div>No playlists</div>}
       <ListGroup>
         {lists.map((list) => (
           <Playlist key={list.id} list={list} onEdit={onEdit} />
