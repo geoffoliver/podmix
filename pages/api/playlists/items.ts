@@ -10,11 +10,20 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     return res.status(401).json({ error: 'Unauthorized' });
   }
 
-  const playlists = await Playlist.findAll({
+  console.log(req.body);
+
+  const playlist = await Playlist.findOne({
     where: {
       userId: session.user.id,
-    }
+      id: req.body.id,
+    },
   });
 
-  return res.status(200).json({ playlists })
+  if (!playlist) {
+    return res.status(404).json({ error: 'Invalid playlist' });
+  }
+
+  const items = await playlist.getItems();
+
+  return res.status(200).json({ items })
 }

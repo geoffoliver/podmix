@@ -43,6 +43,4 @@ PlaylistItem.init({
   tableName: 'playlist_items',
 });
 
-PlaylistItem.belongsTo(Playlist, { foreignKey: 'playlistId', as: 'Playlist' });
-
 export default PlaylistItem;

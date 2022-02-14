@@ -1,25 +1,21 @@
 import { useCallback, useState } from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
 import Head from 'next/head'
-import axios from 'axios';
-import Parser from 'rss-parser';
+import { DndProvider } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
 
-import { Podcast } from '@/lib/types/podcast';
-import EpisodesComponent from '@/components/Episodes';
-import Podcasts from '@/components/Podcasts';
 import Playlists from '@/components/Playlists';
+import PodcastBrowser from '@/components/PodcastBrowser';
+import PlaylistEditor from '@/components/PlaylistEditor';
+import Playlist from '@/lib/models/playlist';
 
 export default function Home() {
-  const [loadingFeed, setLoadingFeed] = useState(false);
-  const [feed, setFeed] = useState<Parser.Output<any>>(null);
+  const [mainView, setMainView] = useState('browser');
+  const [playlist, setPlaylist] = useState<Playlist>(null);
 
-  const getEpisodes = useCallback(async (p: Podcast) => {
-    setLoadingFeed(true);
-    const resp = await axios.post('/api/get-podcast-episodes', {
-      id: p.collectionId,
-    });
-    setLoadingFeed(false);
-    setFeed(resp.data);
+  const editPlaylist = useCallback((list) => {
+    setPlaylist(list);
+    setMainView('edit');
   }, []);
 
   return (
@@ -27,23 +23,28 @@ export default function Home() {
       <Head>
         <title>Podlists</title>
       </Head>
-      <Container>
-        <Row>
-          <Col md={2}>
-            <Playlists />
-          </Col>
-          <Col>
-            <Row>
-              <Col md={6}>
-                <Podcasts onClick={getEpisodes} />
-              </Col>
-              <Col md={6}>
-                <EpisodesComponent feed={feed} key={feed?.title} loading={loadingFeed} />
-              </Col>
-            </Row>
-          </Col>
-        </Row>
-      </Container>
+      <DndProvider backend={HTML5Backend}>
+        <Container>
+          <Row>
+            <Col md={2}>
+              <Playlists onEdit={editPlaylist} />
+            </Col>
+            <Col md={10}>
+              {mainView === 'browser'
+                ? <PodcastBrowser />
+                : (
+                  <>
+                    <div>
+                      <button onClick={() => setMainView('browser')}>Back</button>
+                    </div>
+                    <PlaylistEditor playlist={playlist} />
+                  </>
+                )
+              }
+            </Col>
+          </Row>
+        </Container>
+      </DndProvider>
     </>
   );
 }

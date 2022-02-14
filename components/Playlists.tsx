@@ -3,7 +3,13 @@ import { useCallback, useEffect, useState } from 'react';
 import { Button, ListGroup, ListGroupItem } from 'react-bootstrap';
 import axios from 'axios';
 
-const Playlists = () => {
+import Playlist from '@/components/Playlist';
+
+type PlaylistsProps = {
+  onEdit: Function;
+}
+
+const Playlists = ({ onEdit }: PlaylistsProps) => {
   const [loading, setLoading] = useState(false);
   const [lists, setLists] = useState<PlaylistEntry[]>([]);
 
@@ -41,7 +47,7 @@ const Playlists = () => {
       {lists.length === 0 && <div>No playlists</div>}
       <ListGroup>
         {lists.map((list) => (
-          <ListGroupItem key={list.id}>{list.name}</ListGroupItem>
+          <Playlist key={list.id} list={list} onEdit={onEdit} />
         ))}
       </ListGroup>
     </div>

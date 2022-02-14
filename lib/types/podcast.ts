@@ -1,5 +1,7 @@
 import Parser from 'rss-parser';
 
+export const PODCAST_EPISODE = 'Episode';
+
 export type Podcast = {
   wrapperType: string;
   kind: string;

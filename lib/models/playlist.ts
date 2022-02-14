@@ -64,5 +64,6 @@ Playlist.init({
 });
 
 Playlist.hasMany(PlaylistItem, { foreignKey: 'playlistId', as: 'items' });
+PlaylistItem.belongsTo(Playlist, { foreignKey: 'playlistId', as: 'Playlist' });
 
 export default Playlist;
