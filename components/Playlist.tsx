@@ -20,9 +20,6 @@ const Playlist = ({ list, onEdit }: PlaylistProps) => {
   const handleDrop = useCallback(async (episode: ItemWithiTunes) => {
     setSaving(true);
 
-    console.log(context);
-    console.log(episode);
-
     const image = (episode.itunes && episode.itunes.image)
       ? episode.itunes.image
       : context.podcast.artworkUrl600;
