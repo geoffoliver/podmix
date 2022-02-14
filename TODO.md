@@ -1,0 +1,7 @@
+- [ ] Edit playlist
+  - [ ] Remove item
+  - [ ] Reorder items
+  - [ ] Save
+  - [ ] Delete
+  - [ ] Share
+- [ ] Search playlists

@@ -15,6 +15,7 @@ const Podcasts = ({ onClick }: PodcastsProps) => {
   const [results, setResults] = useState<PodcastType[]>([]);
   const [searching, setSearching] = useState(false);
   const [query, setQuery] = useState('');
+
   const search = useCallback(async (e) => {
     e.preventDefault();
     setSearching(true);

@@ -30,7 +30,7 @@ const Playlists = ({ onEdit }: PlaylistsProps) => {
       name
     });
 
-    setLists([...lists, result.data.playlist]);
+    setLists([result.data.playlist, ...lists]);
   }, [lists]);
 
   useEffect(() => {
@@ -40,11 +40,11 @@ const Playlists = ({ onEdit }: PlaylistsProps) => {
   return (
     <div>
       <div className="d-flex flex-row align-items-center justify-content-between mb-2">
-        <div>Playlists</div>
+        <div><strong>Playlists</strong></div>
         <Button onClick={addList} size="sm" variant="link">Add</Button>
       </div>
       {loading && <div>Loading...</div>}
-      {lists.length === 0 && <div>No playlists</div>}
+      {!loading && lists.length === 0 && <div>No playlists</div>}
       <ListGroup>
         {lists.map((list) => (
           <Playlist key={list.id} list={list} onEdit={onEdit} />

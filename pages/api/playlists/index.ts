@@ -13,7 +13,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   const playlists = await Playlist.findAll({
     where: {
       userId: session.user.id,
-    }
+    },
+    order: [['createdAt', 'DESC']]
   });
 
   return res.status(200).json({ playlists })
