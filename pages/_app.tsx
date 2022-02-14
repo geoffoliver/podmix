@@ -1,7 +1,18 @@
-import '../styles/globals.css'
+import { SessionProvider } from "next-auth/react"
 
-function MyApp({ Component, pageProps }) {
-  return <Component {...pageProps} />
+import Header from "@/components/Header";
+
+import '../styles/globals.scss'
+
+function MyApp({
+  Component, pageProps: { session, ...pageProps }
+}) {
+  return (
+    <SessionProvider session={session}>
+      <Header />
+      <Component {...pageProps} />
+    </SessionProvider>
+  );
 }
 
 export default MyApp

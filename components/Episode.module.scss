@@ -1,0 +1,32 @@
+.episode {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  padding: 0;
+  margin: 0;
+  max-width: 100%;
+
+  img {
+    max-width: 70px;
+    margin-right: 15px;
+  }
+
+  + .episode {
+    margin-top: 10px;
+  }
+}
+
+.info {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.title {
+  font-weight: bold;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+  display: block;
+}

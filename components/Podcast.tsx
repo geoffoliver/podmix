@@ -1,52 +1,23 @@
 /* eslint-disable @next/next/no-img-element */
-export type Podcast = {
-  wrapperType: string;
-  kind: string;
-  artistId: number;
-  collectionId: number;
-  trackId: number;
-  artistName: string;
-  collectionName: string;
-  trackName: string;
-  collectionCensoredName: string;
-  trackCensoredName: string;
-  artistViewUrl: string;
-  collectionViewUrl: string;
-  feedUrl: string;
-  trackViewUrl: string;
-  artworkUrl30: string;
-  artworkUrl60: string;
-  artworkUrl100: string;
-  collectionPrice: number;
-  trackPrice: number;
-  trackRentalPrice: number;
-  collectionHdPrice: number;
-  trackHdPrice: number;
-  trackHdRentalPrice: number;
-  releaseDate: string;
-  collectionExplicitness: string;
-  trackExplicitness: string;
-  trackCount: number;
-  country: string;
-  currency: string;
-  primaryGenreName: string;
-  contentAdvisoryRating: string;
-  artworkUrl600: string;
-  genreIds: string[];
-  genres: string[];
-};
+
+import { Podcast as PodcastType } from '@/lib/types/podcast';
+
+import styles from './Podcast.module.scss';
 
 export type PodcastProps = {
-  podcast: Podcast;
+  podcast: PodcastType;
+  onClick: Function;
 };
 
-const PodcastComponent = ({ podcast }: PodcastProps) => {
+const Podcast = ({ podcast, onClick }: PodcastProps) => {
   return (
-    <div>
-      <img src={podcast.artworkUrl100} alt={`Artwork for ${podcast.collectionName}`} />
-      <h1>{podcast.collectionName}</h1>
+    <div className={styles.podcast}>
+      <button onClick={() => onClick(podcast) }>
+        <img src={podcast.artworkUrl100} alt={`Artwork for ${podcast.collectionName}`} className="img-fluid" loading="lazy" />
+        <div className={styles.name}>{podcast.collectionName}</div>
+      </button>
     </div>
   )
 };
 
-export default PodcastComponent;
+export default Podcast;
