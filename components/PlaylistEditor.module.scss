@@ -1,0 +1,26 @@
+.item {
+  & + .item {
+    padding-top: 10px;
+    margin-top: 10px;
+    border-top: 1px solid #efefef;
+  }
+}
+
+.titleContainer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.title {
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1;
+  font-weight: bold;
+}
+
+.date {
+  width: 25%;
+}

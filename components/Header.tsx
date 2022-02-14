@@ -6,7 +6,7 @@ const Header = () => {
 
   return (
     <Navbar bg="light" expand="lg">
-      <Container>
+      <Container fluid>
         <Navbar.Brand href="/">Podlists</Navbar.Brand>
         <Navbar.Toggle aria-controls="navbar-nav" />
         <Navbar.Collapse id="navbar-nav" className="justify-content-end">

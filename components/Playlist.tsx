@@ -1,11 +1,12 @@
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 import { ListGroupItem } from 'react-bootstrap';
 import { useDrop } from 'react-dnd';
 import axios from 'axios';
 
 import { PlaylistEntry } from "@/lib/types/playlist";
-import { PODCAST_EPISODE } from '@/lib/types/podcast';
+import { ItemWithiTunes, Podcast, PODCAST_EPISODE } from '@/lib/types/podcast';
 import { useCallback } from 'react';
+import PodcastsContext from '@/lib/context/podcasts';
 
 type PlaylistProps = {
   list: PlaylistEntry;
@@ -14,15 +15,33 @@ type PlaylistProps = {
 
 const Playlist = ({ list, onEdit }: PlaylistProps) => {
   const [saving, setSaving] = useState(false);
+  const context = useContext(PodcastsContext);
 
-  const handleDrop = useCallback(async (episode) => {
+  const handleDrop = useCallback(async (episode: ItemWithiTunes) => {
     setSaving(true);
-    const result = await axios.post('/api/playlists/add-item', {
+
+    console.log(context);
+    console.log(episode);
+
+    const image = (episode.itunes && episode.itunes.image)
+      ? episode.itunes.image
+      : context.podcast.artworkUrl600;
+
+    await axios.post('/api/playlists/add-item', {
       id: list.id,
-      url: episode.enclosure.url,
+      mediaUrl: episode.enclosure.url,
+      link: episode.link,
+      title: episode.title,
+      pubDate: new Date(episode.pubDate),
+      collectionId: context.podcast.collectionId,
+      collectionName: context.podcast.collectionName,
+      artistName: context.podcast.artistName,
+      description: episode.contentSnippet,
+      duration: episode.itunes?.duration,
+      image,
     });
     setSaving(false);
-  }, [list]);
+  }, [context, list]);
 
   const [{ isOver, canDrop }, drop] = useDrop({
     accept: [PODCAST_EPISODE],

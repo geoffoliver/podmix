@@ -21,8 +21,20 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     return res.status(404).json({ error: 'Invalid playlist' });
   }
 
+  const totalItems = await playlist.countItems();
+
   const item = await playlist.createItem({
-    url: req.body.url,
+    mediaUrl: req.body.mediaUrl,
+    link: req.body.link,
+    title: req.body.title,
+    pubDate: req.body.pubDate,
+    collectionId: req.body.collectionId,
+    collectionName: req.body.collectionName,
+    artistName: req.body.artistName,
+    image: req.body.image,
+    description: req.body.description,
+    duration: req.body.duration,
+    position: req.body.position || totalItems
   });
 
   return res.status(200).json({ item })

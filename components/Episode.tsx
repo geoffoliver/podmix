@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 import truncate from 'truncate';
 
-import { ItemWithiTunes, PODCAST_EPISODE } from '@/lib/types/podcast';
+import { ItemWithiTunes, Podcast, PODCAST_EPISODE } from '@/lib/types/podcast';
 import styles from './Episode.module.scss';
 import { useDrag } from 'react-dnd';
 
@@ -30,12 +30,13 @@ const Episode = ({ item, feedImage }: EpisodeProps) => {
             ? item.itunes.image
             : feedImage
         }
-        alt="Image"
+        alt="Episode Image"
         className="img-flulid"
         loading="lazy"
       />
       <div className={styles.info}>
         <div className={styles.title}>{item.title}</div>
+        {item.itunes && <div className="small text-muted">{item.itunes.duration}</div>}
         <p className="small">{truncate(item.contentSnippet, 100)}</p>
       </div>
     </div>

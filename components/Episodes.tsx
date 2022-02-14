@@ -34,13 +34,9 @@ const Episodes = ({ feed, loading }: EpisodesProps) => {
     }));
   }, [feed?.items, filter]);
 
-  if (!feed) {
-    return null;
-  }
-
   return (
     <>
-      <form onSubmit={filterEpisodes}>
+      {feed && <form onSubmit={filterEpisodes}>
         <InputGroup>
           <Form.Control
             type="text"
@@ -50,7 +46,7 @@ const Episodes = ({ feed, loading }: EpisodesProps) => {
           />
           <Button type="submit">Search</Button>
         </InputGroup>
-      </form>
+      </form>}
       <div className={styles.episodes}>
         {loading
           ? <div>Loading...</div>

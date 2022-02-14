@@ -25,6 +25,7 @@ class Playlist extends Model<InferAttributes<Playlist>, InferCreationAttributes<
   declare id: CreationOptional<string>;
   declare userId: string;
   declare name?: string | null;
+  declare description?: string | null;
 
   declare getItems: HasManyGetAssociationsMixin<PlaylistItem>;
   declare addItem: HasManyAddAssociationMixin<PlaylistItem, string>;
@@ -57,6 +58,10 @@ Playlist.init({
   },
   name: {
     type: DataTypes.STRING,
+  },
+  description: {
+    type: DataTypes.STRING,
+    allowNull: true,
   },
 }, {
   sequelize,
