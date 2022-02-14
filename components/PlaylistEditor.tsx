@@ -1,7 +1,8 @@
 /* eslint-disable @next/next/no-img-element */
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { Alert, Form, Modal, Button } from 'react-bootstrap';
+import { Alert, Form, Modal, Button, Col, Row } from 'react-bootstrap';
 import { mutate } from 'swr';
+import Link from 'next/link';
 import axios from 'axios';
 import update from 'immutability-helper'
 import { DndProvider } from 'react-dnd';
@@ -128,27 +129,51 @@ const PlaylistEditor = ({ playlist, show, onHide }: PlaylistEditorProps) => {
       </Modal.Header>
       <Modal.Body>
         <form onSubmit={savePlaylist} ref={form}>
-          <Form.Group>
-            <Form.Control
-              name="name"
-              placeholder="Name"
-              value={list.name || ''}
-              onChange={updateValue}
-              className="mb-3"
-              size="sm"
-              required
-            />
-          </Form.Group>
-          <Form.Group>
-            <Form.Control
-              as="textarea"
-              placeholder="Description"
-              name="description"
-              size="sm"
-              value={list.description || ''}
-              onChange={updateValue}
-            />
-          </Form.Group>
+          <Row className="d-flex align-items-center">
+            <Col sm={9}>
+              <Form.Group>
+                <Form.Control
+                  name="name"
+                  placeholder="Name"
+                  value={list.name || ''}
+                  onChange={updateValue}
+                  className="mb-3"
+                  size="sm"
+                  required
+                />
+              </Form.Group>
+              <Form.Group>
+                <Form.Control
+                  as="textarea"
+                  placeholder="Description"
+                  name="description"
+                  size="sm"
+                  className="mb-3"
+                  value={list.description || ''}
+                  onChange={updateValue}
+                />
+              </Form.Group>
+            </Col>
+            <Col sm={3}>
+              <ul className="list-unstyled text-end">
+                <li>
+                  <Link href={`/playlist/${list.id}`}>
+                    <a target="_blank">Detail Page</a>
+                  </Link>
+                </li>
+                <li>
+                  <Link href={`/api/rss/${list.id}`}>
+                    <a target="_blank">RSS Feed</a>
+                  </Link>
+                </li>
+                <li>
+                  <Link href={`/api/m38/${list.id}`}>
+                    <a target="_blank">M3U Playlist</a>
+                  </Link>
+                </li>
+              </ul>
+            </Col>
+          </Row>
           <hr />
           {loading && <div>Loading...</div>}
           {!loading && items.length === 0 && (

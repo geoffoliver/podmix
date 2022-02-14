@@ -1,9 +1,11 @@
-- [ ] Edit playlist
+- [x] Edit playlist
   - [x] Remove item
   - [x] Reorder items
   - [x] Save
   - [x] Delete
-  - [ ] Share
-    - [ ] RSS feed
-    - [ ] M3U playlist?
+  - [x] Share
+    - [x] RSS feed
+    - [x] M3U playlist
 - [ ] Search playlists
+- [ ] Playlist detail
+- [ ] Convert all durations to seconds

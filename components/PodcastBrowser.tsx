@@ -25,16 +25,18 @@ const PodcastBrowser = () => {
 
   return (
     <Row>
-      <Col md={6}>
+      <Col md={(feed || loadingFeed) ? 6 : 12}>
         <Podcasts onClick={getEpisodes} />
       </Col>
-      <Col md={6}>
-        <EpisodesComponent
-          feed={feed}
-          key={feed?.title}
-          loading={loadingFeed}
-        />
-      </Col>
+      {(loadingFeed || feed) && (
+        <Col md={6}>
+          <EpisodesComponent
+            feed={feed}
+            key={feed?.title}
+            loading={loadingFeed}
+          />
+        </Col>
+      )}
     </Row>
   );
 };

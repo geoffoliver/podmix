@@ -7,7 +7,7 @@ const Header = () => {
 
   return (
     <Navbar bg="light" expand="lg">
-      <Container fluid>
+      <Container>
         <Link href="/" passHref>
           <Navbar.Brand href="/">Podlists</Navbar.Brand>
         </Link>
