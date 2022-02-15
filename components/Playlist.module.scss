@@ -10,8 +10,10 @@
   font-size: $font-size-sm;
   border-radius: $border-radius-sm;
 
-  &:hover {
-    background: $gray-300;
+  &:hover,
+  &:focus,
+  &:active {
+    background: lighten($primary, 55%);
   }
 }
 
