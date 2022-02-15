@@ -14,6 +14,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   await sequelize.sync();
 
   return await NextAuth(req, res, {
+    pages: {
+      signOut: '/'
+    },
     providers: [
       FacebookProvider({
         clientId: process.env.FACEBOOK_ID,

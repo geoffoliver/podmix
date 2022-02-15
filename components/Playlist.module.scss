@@ -1,0 +1,21 @@
+@import '../styles/bootstrap-theme.scss';
+@import '~bootstrap/scss/functions';
+@import '~bootstrap/scss/variables';
+@import '~bootstrap/scss/mixins';
+
+.item {
+  border: 0;
+  margin-bottom: 15px;
+  font-weight: bold;
+  font-size: $font-size-sm;
+  border-radius: $border-radius-sm;
+
+  &:hover {
+    background: $gray-300;
+  }
+}
+
+.active {
+  background: $primary;
+  color: $white;
+}

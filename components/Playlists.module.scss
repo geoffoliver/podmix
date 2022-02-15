@@ -1,0 +1,32 @@
+@import '../styles/bootstrap-theme.scss';
+@import '~bootstrap/scss/functions';
+@import '~bootstrap/scss/variables';
+@import '~bootstrap/scss/mixins';
+
+.header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid $gray-200;
+  margin-bottom: 10px;
+  padding: 0 0 10px 10px;
+}
+
+.noPlaylists {
+  padding: 20px;
+  background: $gray-100;
+  border: 1px solid $gray-200;
+  border-radius: $border-radius;
+  margin-top: 1rem;
+
+  p {
+    font-size: $font-size-sm;
+    margin-bottom: 0;
+  }
+}
+
+.playlists {
+  max-height: 82vh;
+  overflow: auto;
+}

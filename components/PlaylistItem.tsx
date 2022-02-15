@@ -2,13 +2,14 @@
 import { useRef } from 'react';
 import { useDrag, useDrop } from 'react-dnd';
 import { Button } from 'react-bootstrap';
-// import { DateTime } from 'luxon';
+import { Identifier, XYCoord } from 'dnd-core';
+import classnames from 'classnames';
 
 import PlaylistItem from "@/lib/models/playlistItem";
-
-import styles from './PlaylistItem.module.scss';
-import { Identifier, XYCoord } from 'dnd-core';
 import { PLAYLIST_ENTRY } from '@/lib/types/playlist';
+
+import Icon from './Icon';
+import styles from './PlaylistItem.module.scss';
 
 type PlaylistItemProps = {
   item: PlaylistItem;
@@ -112,11 +113,12 @@ const PlaylistItemComponent = ({ item, index, onRemove, onMove }: PlaylistItemPr
         </div>
       </div>
       <Button
-        variant="outline-danger"
+        variant="link"
         size="sm"
+        title="Remove..."
         onClick={() => onRemove(item)}
       >
-        Remove
+        <Icon icon="trash-alt" className="text-danger" />
       </Button>
     </div>
   );

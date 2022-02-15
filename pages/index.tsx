@@ -20,9 +20,6 @@ export default function Home() {
       <Container className="mt-3">
         <Row>
           <Col>
-            <Link href='/build'>
-              Build playlist
-            </Link>
             {isValidating && !playlists && <div>Loading...</div>}
             {error && <div>{JSON.stringify(error)}</div>}
             {playlists.map((p) => {

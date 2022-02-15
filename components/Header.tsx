@@ -16,9 +16,18 @@ const Header = () => {
           {session
             ? (
               <>
-                {session.user.name || session.user.email}
-                &nbsp;
-                <Button type="button" onClick={() => signOut()}>Logout</Button>
+                <Link href="/build">
+                  <a>
+                    {session.user.name || session.user.email}
+                  </a>
+                </Link>
+                <Button
+                  type="button"
+                  onClick={() => signOut({ callbackUrl: '/' })}
+                  className="ms-2"
+                >
+                  Logout
+                </Button>
               </>
             ) : (
             <Button type="button" onClick={() => signIn()}>Login</Button>

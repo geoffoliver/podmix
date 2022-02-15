@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
 import Head from 'next/head'
 import { DndProvider } from 'react-dnd';
@@ -10,8 +10,10 @@ import PlaylistEditor from '@/components/PlaylistEditor';
 import Playlist from '@/lib/models/playlist';
 import PodcastsContext from '@/lib/context/podcasts';
 import { Podcast } from '@/lib/types/podcast';
+import { getSession, signIn } from 'next-auth/react';
+import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
 
-export default function Home() {
+export default function Build({ loggedIn }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const [showEdit, setShowEdit] = useState(false);
   const [playlist, setPlaylist] = useState<Playlist>(null);
   const [podcast, setLocalPodcast] = useState<Podcast>(null);
@@ -25,6 +27,34 @@ export default function Home() {
     setLocalPodcast(p);
   }, []);
 
+  useEffect(() => {
+    if (!loggedIn) {
+      signIn();
+    }
+  }, [loggedIn]);
+
+  if (!loggedIn) {
+    return null;
+  }
+
+  /*
+  if (!loggedIn) {
+    return (
+      <>
+        <Head>
+          <title>Login Required - Podlists</title>
+        </Head>
+        <Container>
+          <Row>
+            <Col>
+              <h1>You must login to access this feature.</h1>
+            </Col>
+          </Row>
+        </Container>
+      </>
+    )
+  }
+  */
   return (
     <>
       <Head>
@@ -32,12 +62,12 @@ export default function Home() {
       </Head>
       <DndProvider backend={HTML5Backend}>
         <PodcastsContext.Provider value={{ podcast, setPodcast }}>
-          <Container className="mt-3" fluid>
+          <Container className="mt-3">
             <Row>
-              <Col md={2}>
+              <Col md={3}>
                 <Playlists onEdit={editPlaylist} />
               </Col>
-              <Col md={10}>
+              <Col md={9}>
                 <PodcastBrowser />
               </Col>
             </Row>
@@ -55,3 +85,13 @@ export default function Home() {
     </>
   );
 }
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const session = await getSession(context);
+
+  return {
+    props: {
+      loggedIn: !!session,
+    },
+  };
+};

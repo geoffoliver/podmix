@@ -1,12 +1,14 @@
-import { useContext, useState } from 'react'
+import { useContext, useCallback, useState } from 'react'
 import { ListGroupItem } from 'react-bootstrap';
 import { useDrop } from 'react-dnd';
 import axios from 'axios';
+import classnames from 'classnames';
 
 import { PlaylistEntry } from "@/lib/types/playlist";
-import { ItemWithiTunes, Podcast, PODCAST_EPISODE } from '@/lib/types/podcast';
-import { useCallback } from 'react';
+import { ItemWithiTunes, PODCAST_EPISODE } from '@/lib/types/podcast';
 import PodcastsContext from '@/lib/context/podcasts';
+
+import styles from './Playlist.module.scss';
 
 type PlaylistProps = {
   list: PlaylistEntry;
@@ -61,7 +63,7 @@ const Playlist = ({ list, onEdit }: PlaylistProps) => {
     <ListGroupItem
       key={list.id}
       onClick={() => onEdit(list)}
-      style={{ backgroundColor }}
+      className={classnames(styles.item, { [styles.active]: isActive })}
       ref={drop}
       action
     >

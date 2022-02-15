@@ -15,6 +15,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     order: [['items', 'position', 'ASC']],
   });
 
+  if (!playlist) {
+    return res.status(404).json({ error: 'Invalid playlist' });
+  }
+
   const list = new M3uPlaylist();
   list.title = playlist.name;
 

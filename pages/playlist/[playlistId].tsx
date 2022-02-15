@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import Head from 'next/head';
 import Link from 'next/link';
 import { Container, Row, Col } from 'react-bootstrap';
@@ -7,6 +8,7 @@ import Playlist from '@/lib/models/playlist';
 import PlaylistItem from '@/lib/models/playlistItem';
 
 import styles from './playlistId.module.scss';
+import Icon from '@/components/Icon';
 
 type PlaylistDetailProps = {
   playlist: Playlist;
@@ -27,30 +29,42 @@ export default function PlaylistDetail({ playlist }: PlaylistDetailProps) {
           <Col>
             <div className={styles.title}>
               <h1>{playlist.name}</h1>
-              <Link href={`/api/rss/${playlist.id}`}>
-                <a target="_blank">
-                  RSS Feed
-                </a>
-              </Link>
-              &nbsp;
-              &middot;
-              &nbsp;
-              <Link href={`/api/m3u/${playlist.id}`}>
-                <a target="_blank">
-                  M3U Playlist
-                </a>
-              </Link>
             </div>
             {playlist.description && <p>{playlist.description}</p>}
-            {playlist.items.map((item) => {
-              return (
-                <div key={item.id}>
-                  <div className={styles.episodeTitle}>{item.title}</div>
-                  <div>{item.description}</div>
-                  <br />
-                </div>
-              );
-            })}
+            <ul className={styles.links}>
+              <li>
+                <Link href={`/api/rss/${playlist.id}`}>
+                  <a target="_blank">
+                    <Icon icon="rss" fixedWidth className="me-2" />
+                    RSS Feed
+                  </a>
+                </Link>
+              </li>
+              <li>
+                <Link href={`/api/m3u/${playlist.id}`}>
+                  <a target="_blank">
+                    <Icon icon="file-audio" fixedWidth className="me-2" />
+                    MP3 Playlist
+                  </a>
+                </Link>
+              </li>
+            </ul>
+            <div className={styles.playlistItems}>
+              {playlist.items.map((item) => {
+                return (
+                  <Row key={item.id}>
+                    <Col sm={1}>
+                      <img src={item.image} alt={`${item.title} image`} className="img-fluid" width="100" />
+                    </Col>
+                    <Col sm={11}>
+                      <div className={styles.episodeTitle}>{item.title}</div>
+                      <div className={styles.description}>{item.description}</div>
+                      <div className={styles.duration}>{item.duration}</div>
+                    </Col>
+                  </Row>
+                );
+              })}
+            </div>
           </Col>
         </Row>
       </Container>

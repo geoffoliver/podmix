@@ -1,3 +1,8 @@
+@import '../styles/bootstrap-theme.scss';
+@import '~bootstrap/scss/functions';
+@import '~bootstrap/scss/variables';
+@import '~bootstrap/scss/mixins';
+
 .episode {
   display: flex;
   flex-direction: row;
@@ -24,7 +29,12 @@
   }
 
   &:hover {
-    background-color: lightblue;
+    background: $primary;
+    color: $white;
+
+    .duration {
+      color: $white;
+    }
   }
 }
 
@@ -41,4 +51,13 @@
   text-overflow: ellipsis;
   max-width: 100%;
   display: block;
+}
+
+.duration {
+  color: $text-muted;
+  font-size: $font-size-sm;
+}
+
+.description {
+  font-size: $font-size-sm;
 }

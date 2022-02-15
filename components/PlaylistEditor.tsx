@@ -13,6 +13,7 @@ import PlaylistItem from "@/lib/models/playlistItem";
 
 import styles from './PlaylistEditor.module.scss';
 import PlaylistItemComponent from './PlaylistItem';
+import Icon from './Icon';
 
 type PlaylistEditorProps = {
   playlist: Playlist;
@@ -121,7 +122,14 @@ const PlaylistEditor = ({ playlist, show, onHide }: PlaylistEditorProps) => {
   }, [loadList]);
 
   return (
-    <Modal show={show} size="lg" onHide={() => !saving && onHide()} scrollable>
+    <Modal
+      size="lg"
+      backdrop="static"
+      show={show}
+      keyboard={false}
+      onHide={() => !saving && onHide()}
+      scrollable
+    >
       <Modal.Header closeButton>
         <Modal.Title>
           Edit Playlist
@@ -158,17 +166,26 @@ const PlaylistEditor = ({ playlist, show, onHide }: PlaylistEditorProps) => {
               <ul className="list-unstyled text-end">
                 <li>
                   <Link href={`/playlist/${list.id}`}>
-                    <a target="_blank">Detail Page</a>
+                    <a target="_blank">
+                      Detail Page
+                      <Icon icon="globe" fixedWidth className="ms-2" />
+                    </a>
                   </Link>
                 </li>
-                <li>
+                <li className="my-2">
                   <Link href={`/api/rss/${list.id}`}>
-                    <a target="_blank">RSS Feed</a>
+                    <a target="_blank">
+                      RSS Feed
+                      <Icon icon="rss" fixedWidth className="ms-2" />
+                    </a>
                   </Link>
                 </li>
                 <li>
                   <Link href={`/api/m38/${list.id}`}>
-                    <a target="_blank">M3U Playlist</a>
+                    <a target="_blank">
+                      MP3 Playlist
+                      <Icon icon="file-audio" fixedWidth className="ms-2" />
+                    </a>
                   </Link>
                 </li>
               </ul>
