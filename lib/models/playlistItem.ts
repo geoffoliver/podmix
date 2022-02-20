@@ -11,6 +11,7 @@ import { ItemWithiTunes } from "../types/podcast";
 
 import sequelize from './index';
 import Playlist from './playlist';
+import Podcast from './podcast';
 
 class PlaylistItem extends Model<InferAttributes<PlaylistItem>, InferCreationAttributes<PlaylistItem>> {
   declare id: CreationOptional<string>;
@@ -31,9 +32,11 @@ class PlaylistItem extends Model<InferAttributes<PlaylistItem>, InferCreationAtt
   declare updatedAt: CreationOptional<Date>;
 
   declare playlist: NonAttribute<Playlist>;
+  declare podcast: NonAttribute<Podcast>;
 
   declare static associations: {
     playlist: Association<PlaylistItem, Playlist>;
+    podcast: Association<PlaylistItem, Podcast>;
   }
 }
 

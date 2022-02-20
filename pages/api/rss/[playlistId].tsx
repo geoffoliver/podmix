@@ -25,19 +25,20 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     description: playlist.description,
     link: `${process.env.PUBLIC_URL}/playlist/${playlist.id}`,
     copyright: new Date().getFullYear().toString(),
+    // TODO: image
   });
 
   playlist.items.forEach((item) => {
     f.addItem({
       title: item.title,
       id: item.id,
-      link: item.link,
+      link: item.feedData.link,
       date: item.pubDate,
       description: item.description,
-      image: item.image,
-      enclosure: {
-        url: item.mediaUrl,
-      }
+      audio: {
+        url: item.url,
+        length: item.filesize,
+      },
     });
   });
 

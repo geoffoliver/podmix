@@ -3,6 +3,7 @@ import { M3uPlaylist, M3uMedia } from 'm3u-parser-generator';
 
 import Playlist from '@/lib/models/playlist';
 import PlaylistItem from '@/lib/models/playlistItem';
+import Podcast from '@/lib/models/podcast';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const playlist = await Playlist.findByPk(req.query.playlistId.toString(), {
@@ -10,7 +11,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       {
         model: PlaylistItem,
         as: 'items',
-      }
+        include: [{
+          model: Podcast,
+          as: 'podcast',
+        }],
+      },
     ],
     order: [['items', 'position', 'ASC']],
   });
@@ -23,9 +28,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   list.title = playlist.name;
 
   playlist.items.forEach((item) => {
-    const media = new M3uMedia(item.mediaUrl);
-    media.name = `${item.collectionName} - ${item.title}`;
-    media.group = item.collectionName;
+    const media = new M3uMedia(item.url);
+    media.name = `${item.artist} - ${item.title}`;
+    media.group = item.podcast.iTunesCollectionName;
     list.medias.push(media);
   });
 

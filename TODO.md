@@ -16,6 +16,8 @@
 - [x] Add user relationships to playlists
 - [ ] Save user profile
   - [ ] Upload user picture
+- [ ] RSS feed image (favicon?)
+- [ ] Generate image for playlists
 - [ ] Default profile picture
 - [ ] Search
   - [ ] Playlists
