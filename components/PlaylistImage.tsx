@@ -9,10 +9,12 @@ type PlaylistImageProps = {
 
 import styles from './PlaylistImage.module.scss';
 
+const DEFAULT_PLAYLIST_IMAGE = '/playlist-placeholder.png';
+
 const PlaylistImage = ({ playlist }: PlaylistImageProps) => {
   const images = useMemo(() => {
     if (!playlist.items || playlist.items.length === 0) {
-      return ['/playlist-placeholder.png'];
+      return [DEFAULT_PLAYLIST_IMAGE];
     }
 
     const img: string[] = [];
@@ -23,6 +25,12 @@ const PlaylistImage = ({ playlist }: PlaylistImageProps) => {
       }
       return img.length === 4;
     });
+
+    if (img.length > 1) {
+      while (img.length < 4) {
+        img.push(DEFAULT_PLAYLIST_IMAGE);
+      }
+    }
 
     return img;
   }, [playlist]);
