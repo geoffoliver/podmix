@@ -1,6 +1,7 @@
 import { SessionProvider } from "next-auth/react"
 
 import Header from "@/components/Header";
+import ForceProfileSetup from "@/components/ForceProfileSetup";
 
 import '../styles/globals.scss'
 
@@ -9,6 +10,7 @@ function MyApp({
 }) {
   return (
     <SessionProvider session={session}>
+      <ForceProfileSetup />
       <Header />
       <Component {...pageProps} />
     </SessionProvider>

@@ -6,15 +6,18 @@ import {
   faFileAudio,
   faGlobe,
   faTrashAlt,
+  faSignOut,
+  faCamera,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIconProps } from '@fortawesome/react-fontawesome';
-import { IconProp } from '@fortawesome/fontawesome-svg-core';
 
 library.add(
   faRss,
   faFileAudio,
   faGlobe,
   faTrashAlt,
+  faSignOut,
+  faCamera,
 );
 
 const Icon = (props: FontAwesomeIconProps) => {

@@ -1,0 +1,13 @@
+.userIcon {
+  margin-left: 5px;
+
+  &:global(.nav-link) {
+    padding-bottom: 0;
+    padding-top: 4px;
+
+    img {
+      width: 31px;
+      border-radius: 50%;
+    }
+  }
+}

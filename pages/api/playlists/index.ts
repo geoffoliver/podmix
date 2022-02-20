@@ -3,6 +3,7 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 import Playlist from '@/lib/models/playlist';
 import { WhereOptions } from 'sequelize/types';
 import PlaylistItem from '@/lib/models/playlistItem';
+import User from '@/lib/models/user';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   let playlists: Playlist[] = [];
@@ -31,6 +32,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         attributes: [
           'image',
         ],
+      },
+      {
+        model: User,
+        as: 'user',
       },
     ],
     order: [['createdAt', 'DESC']],

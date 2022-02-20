@@ -6,9 +6,16 @@ import EmailProvider from 'next-auth/providers/email'
 import SequelizeAdapter from '@next-auth/sequelize-adapter';
 
 import sequelize from '@/lib/models/index';
+import User from '@/lib/models/user';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  const adapter = SequelizeAdapter(sequelize);
+  const adapter = SequelizeAdapter(sequelize, {
+    models: {
+      // `as any` is hacky as fuck, but ModelCtor is deprecated
+      // and ModelStatic doesn't wanna play nice. ugh.
+      User: User as any,
+    },
+  });
 
   // TODO: remove this after development
   await sequelize.sync();

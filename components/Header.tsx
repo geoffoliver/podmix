@@ -1,6 +1,10 @@
+/* eslint-disable @next/next/no-img-element */
 import { useSession, signIn, signOut } from "next-auth/react"
 import Link from "next/link";
 import { Button, Container, Nav, Navbar } from 'react-bootstrap';
+
+import styles from './Header.module.scss';
+import Icon from "./Icon";
 
 const Header = () => {
   const { data: session } = useSession()
@@ -17,20 +21,29 @@ const Header = () => {
             ? (
               <>
                 <Nav>
-                  <Nav.Link href="/build">
-                    {session.user.name || session.user.email}
+                  <Link href="/build" passHref>
+                    <Nav.Link href="/build">
+                      Build Playlist
+                    </Nav.Link>
+                  </Link>
+                  <Link href="/profile" passHref>
+                    <Nav.Link href="/profile" className={styles.userIcon}>
+                      {session.user.image && (
+                        <img
+                          src={session.user.image}
+                          className={styles.userIcon}
+                          alt={session.user.name || session.user.email}
+                        />
+                      )}
+                    </Nav.Link>
+                  </Link>
+                  <Nav.Link onClick={() => signOut({ callbackUrl: '/' })} title="Logout">
+                    <Icon icon="sign-out" />
                   </Nav.Link>
                 </Nav>
-                <Button
-                  type="button"
-                  onClick={() => signOut({ callbackUrl: '/' })}
-                  className="ms-2"
-                >
-                  Logout
-                </Button>
               </>
             ) : (
-            <Button type="button" onClick={() => signIn()}>Login</Button>
+            <Button type="button" variant="success" onClick={() => signIn()}>Login</Button>
             )
           }
         </Navbar.Collapse>

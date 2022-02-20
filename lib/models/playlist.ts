@@ -16,10 +16,11 @@ import {
   HasManyRemoveAssociationsMixin,
   HasManySetAssociationsMixin,
   Association,
-} from "sequelize";
+} from 'sequelize';
 
 import sequelize from './index';
-import PlaylistItem from "./playlistItem";
+import PlaylistItem from './playlistItem';
+import User from './user';
 
 class Playlist extends Model<InferAttributes<Playlist>, InferCreationAttributes<Playlist>> {
   declare id: CreationOptional<string>;
@@ -39,9 +40,11 @@ class Playlist extends Model<InferAttributes<Playlist>, InferCreationAttributes<
   declare createItem: HasManyCreateAssociationMixin<PlaylistItem, 'playlistId'>;
 
   declare items: NonAttribute<PlaylistItem[]>;
+  declare user: NonAttribute<User>;
 
   declare static associations: {
     items: Association<Playlist, PlaylistItem>;
+    user: Association<Playlist, User>;
   }
 }
 

@@ -48,7 +48,7 @@ const PlaylistSummary = ({ playlist }: PlaylistSummaryProps) => {
           </Link>
         </div>
         <div className={styles.author}>
-          <Truncate lines={1}>{playlist.userId}</Truncate>
+          <Truncate lines={1}>{playlist.user.name}</Truncate>
         </div>
         {/* playlist.description && (
           <div className={styles.description}>

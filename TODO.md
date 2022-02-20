@@ -13,7 +13,8 @@
 - [x] Convert all durations to seconds
   - [x] In database
   - [x] On episode list
-- [ ] Add user relationships to playlists
+- [x] Add user relationships to playlists
+- [ ] Default profile pictur
 - [ ] Search
   - [ ] Playlists
   - [ ] Artists
