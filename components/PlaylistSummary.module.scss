@@ -6,6 +6,7 @@
 .summary {
   display: flex;
   flex-direction: column;
+  padding-bottom: 15px;
 }
 
 .details {
@@ -24,7 +25,6 @@
 }
 
 .author {
-  margin-top: 0.5rem;
   font-size: $font-size-sm;
   color: $text-muted;
   font-weight: bold;

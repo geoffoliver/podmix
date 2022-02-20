@@ -67,10 +67,10 @@ export default function Build({ loggedIn }: InferGetServerSidePropsType<typeof g
           <div className={styles.playlistBuilder}>
             <Container>
               <Row>
-                <Col md={3} xl={2}>
+                <Col sm={3}>
                   <Playlists onEdit={editPlaylist} />
                 </Col>
-                <Col md={9} xl={10}>
+                <Col sm={9}>
                   <PodcastBrowser />
                 </Col>
               </Row>

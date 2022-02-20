@@ -33,25 +33,25 @@ const PlaylistSummary = ({ playlist }: PlaylistSummaryProps) => {
   return (
     <div className={styles.summary}>
       <Link href={`/playlist/${playlist.id}`}>
-        <a>
+        <a title={playlist.name}>
           <PlaylistImage playlist={playlist} />
         </a>
       </Link>
       <div className={styles.details}>
         <div className={styles.title}>
           <Link href={`/playlist/${playlist.id}`}>
-            <a>
+            <a title={playlist.name}>
               <Truncate lines={1}>
                 {playlist.name}
               </Truncate>
             </a>
           </Link>
         </div>
-        <div className={styles.author}>
-          <Truncate lines={1}>{playlist.user.name}</Truncate>
+        <div className={styles.author} title={`By ${playlist.user.name}`}>
+          <Truncate lines={1}>By {playlist.user.name}</Truncate>
         </div>
         {/* playlist.description && (
-          <div className={styles.description}>
+          <div className={styles.description} title={playlist.description}>
             <Truncate lines={2}>
               {playlist.description}
             </Truncate>

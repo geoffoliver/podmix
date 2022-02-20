@@ -17,10 +17,10 @@ const Header = () => {
         </Link>
         <Navbar.Toggle aria-controls="navbar-nav" />
         <Navbar.Collapse id="navbar-nav" className="justify-content-end">
-          {session
-            ? (
-              <>
-                <Nav>
+          <Nav>
+            {session
+              ? (
+                <>
                   <Link href="/build" passHref>
                     <Nav.Link href="/build">
                       Build Playlist
@@ -40,12 +40,12 @@ const Header = () => {
                   <Nav.Link onClick={() => signOut({ callbackUrl: '/' })} title="Logout">
                     <Icon icon="sign-out" />
                   </Nav.Link>
-                </Nav>
-              </>
-            ) : (
-            <Button type="button" variant="success" onClick={() => signIn()}>Login</Button>
-            )
-          }
+                </>
+              ) : (
+              <Button type="button" variant="success" onClick={() => signIn()}>Login</Button>
+              )
+            }
+          </Nav>
         </Navbar.Collapse>
       </Container>
     </Navbar>

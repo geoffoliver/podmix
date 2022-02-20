@@ -15,9 +15,26 @@
   &:active {
     background: lighten($primary, 55%);
   }
+
+  &.flashing {
+    animation: flashBg 0.25s infinite;
+  }
+
+  &.saving {
+    background-color: lighten($success, 70%);
+  }
 }
 
 .active {
   background: $primary;
   color: $white;
+}
+
+@keyframes flashBg {
+  0%, 49% {
+    background-color: lighten($success, 70%);
+  }
+  50%, 100% {
+    background-color: #fff;
+  }
 }

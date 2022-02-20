@@ -1,4 +1,4 @@
-import { useContext, useCallback, useState } from 'react'
+import { useContext, useCallback, useState, useEffect } from 'react'
 import { ListGroupItem } from 'react-bootstrap';
 import { useDrop } from 'react-dnd';
 import axios from 'axios';
@@ -15,8 +15,11 @@ type PlaylistProps = {
   onEdit: Function;
 };
 
+let flashTimeout = null;
+
 const Playlist = ({ list, onEdit }: PlaylistProps) => {
   const [saving, setSaving] = useState(false);
+  const [flashing, setFlashing] = useState(false);
   const context = useContext(PodcastsContext);
 
   const handleDrop = useCallback(async (episode: ItemWithiTunes) => {
@@ -29,6 +32,10 @@ const Playlist = ({ list, onEdit }: PlaylistProps) => {
     });
 
     setSaving(false);
+    setFlashing(true);
+    flashTimeout = setTimeout(() => {
+      setFlashing(false);
+    }, 750);
   }, [context.podcast, list.id]);
 
   const [{ isOver, canDrop }, drop] = useDrop({
@@ -40,19 +47,19 @@ const Playlist = ({ list, onEdit }: PlaylistProps) => {
     }),
   });
 
+  useEffect(() => {
+    return () => {
+      clearTimeout(flashTimeout);
+    };
+  }, []);
+
   const isActive = isOver && canDrop;
-
-  let backgroundColor = null;
-
-  if (isActive) {
-    backgroundColor = 'lightblue';
-  }
 
   return (
     <ListGroupItem
       key={list.id}
       onClick={() => onEdit(list)}
-      className={classnames(styles.item, { [styles.active]: isActive })}
+      className={classnames(styles.item, { [styles.active]: isActive, [styles.flashing]: flashing, [styles.saving]: saving })}
       ref={drop}
       action
     >
