@@ -23,9 +23,6 @@
 
   p {
     margin-bottom: 0;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
   }
 
   &:hover {
@@ -35,6 +32,10 @@
     .duration {
       color: $white;
     }
+  }
+
+  + .episode {
+    border-top: 1px solid $gray-200;
   }
 }
 

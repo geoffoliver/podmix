@@ -1,0 +1,19 @@
+@import '../styles/bootstrap-theme.scss';
+@import '~bootstrap/scss/functions';
+@import '~bootstrap/scss/variables';
+@import '~bootstrap/scss/mixins';
+
+.images {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+
+  img {
+    flex-grow: 1;
+    width: 50%;
+
+    &:first-child :last-child {
+      width: 100%;
+    }
+  }
+}

@@ -1,6 +1,6 @@
-import axios, { AxiosResponse } from axios;
+import axios, { AxiosResponse } from 'axios';
 
-type iTunesResult = {
+export type iTunesResult = {
 	wrapperType: 'track' | 'collection' | 'artistFor';
 	kind: 'book' | 'album' | 'coached-audio' | 'feature-movie' | 'interactive-booklet' | 'music-video' | 'pdf' | 'podcast' | 'podcast-episode' | 'software-package' | 'song' | 'tv-episode' | 'artistFor';
   artistId: number;
@@ -37,20 +37,25 @@ type iTunesResult = {
   genres: string[];
 }
 
+export type iTunesData = {
+  resultCount: number;
+  results: iTunesResult[];
+};
+
 class iTunes {
   baseUrl = 'https://itunes.apple.com/';
 
-  async searchPodcasts(term: string): Promise<any> {
-    const url = `${this.baseUrl}/search?entity=podcast&term=${term}`;
+  async searchPodcasts(term: string): Promise<iTunesData> {
+    const url = `${this.baseUrl}/search?media=podcast&entity=podcast&term=${term}&limit=200`;
     return this.fetch(url);
   }
 
-  async lookupPodcast(id: number): Promise<any> {
-    const url = `${this.baseUrl}/lookup?id=${id}&entity=podcast`;
+  async lookupPodcast(id: number): Promise<iTunesData> {
+    const url = `${this.baseUrl}/lookup?entity=podcast&id=${id}`;
     return this.fetch(url);
   }
 
-  private async fetch(url: string): Promise<any> {
+  private async fetch(url: string): Promise<iTunesData> {
     const result = await axios.get(url);
     return result.data;
   }

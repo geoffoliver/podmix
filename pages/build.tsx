@@ -9,21 +9,23 @@ import PodcastBrowser from '@/components/PodcastBrowser';
 import PlaylistEditor from '@/components/PlaylistEditor';
 import Playlist from '@/lib/models/playlist';
 import PodcastsContext from '@/lib/context/podcasts';
-import { Podcast } from '@/lib/types/podcast';
 import { getSession, signIn } from 'next-auth/react';
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
+import { iTunesResult } from '@/lib/external/itunes';
+
+import styles from '@/styles/build.module.scss';
 
 export default function Build({ loggedIn }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const [showEdit, setShowEdit] = useState(false);
   const [playlist, setPlaylist] = useState<Playlist>(null);
-  const [podcast, setLocalPodcast] = useState<Podcast>(null);
+  const [podcast, setLocalPodcast] = useState<iTunesResult>(null);
 
   const editPlaylist = useCallback((list) => {
     setPlaylist(list);
     setShowEdit(true);
   }, []);
 
-  const setPodcast = useCallback((p: Podcast) => {
+  const setPodcast = useCallback((p: iTunesResult) => {
     setLocalPodcast(p);
   }, []);
 
@@ -62,16 +64,18 @@ export default function Build({ loggedIn }: InferGetServerSidePropsType<typeof g
       </Head>
       <DndProvider backend={HTML5Backend}>
         <PodcastsContext.Provider value={{ podcast, setPodcast }}>
-          <Container className="mt-3">
-            <Row>
-              <Col md={3}>
-                <Playlists onEdit={editPlaylist} />
-              </Col>
-              <Col md={9}>
-                <PodcastBrowser />
-              </Col>
-            </Row>
-          </Container>
+          <div className={styles.playlistBuilder}>
+            <Container>
+              <Row>
+                <Col md={3} xl={2}>
+                  <Playlists onEdit={editPlaylist} />
+                </Col>
+                <Col md={9} xl={10}>
+                  <PodcastBrowser />
+                </Col>
+              </Row>
+            </Container>
+          </div>
         </PodcastsContext.Provider>
       </DndProvider>
       {playlist && (

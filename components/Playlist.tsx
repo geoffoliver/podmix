@@ -22,25 +22,13 @@ const Playlist = ({ list, onEdit }: PlaylistProps) => {
   const handleDrop = useCallback(async (episode: ItemWithiTunes) => {
     setSaving(true);
 
-    const image = (episode.itunes && episode.itunes.image)
-      ? episode.itunes.image
-      : context.podcast.artworkUrl600;
-
     await axios.post('/api/playlists/add-item', {
       id: list.id,
       mediaUrl: episode.enclosure.url,
-      link: episode.link,
-      title: episode.title,
-      pubDate: new Date(episode.pubDate),
       collectionId: context.podcast.collectionId,
-      collectionName: context.podcast.collectionName,
-      artistName: context.podcast.artistName,
-      description: episode.contentSnippet,
-      duration: episode.itunes?.duration,
-      image,
     });
     setSaving(false);
-  }, [context, list]);
+  }, [context.podcast, list.id]);
 
   const [{ isOver, canDrop }, drop] = useDrop({
     accept: [PODCAST_EPISODE],

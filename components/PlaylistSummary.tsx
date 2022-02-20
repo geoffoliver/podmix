@@ -1,0 +1,65 @@
+/* eslint-disable @next/next/no-img-element */
+import { useMemo } from 'react';
+import Link from 'next/link';
+import Truncate from 'react-truncate';
+
+import Playlist from '@/lib/models/playlist';
+
+import styles from './PlaylistSummary.module.scss';
+import PlaylistImage from './PlaylistImage';
+
+type PlaylistSummaryProps = {
+  playlist: Playlist;
+};
+
+const PlaylistSummary = ({ playlist }: PlaylistSummaryProps) => {
+  const images = useMemo(() => {
+    if (!playlist.items || playlist.items.length === 0) {
+      return null;
+    }
+
+    const img: string[] = [];
+
+    playlist.items.some((item) => {
+      if (!img.includes(item.image)) {
+        img.push(item.image);
+      }
+      return img.length === 4;
+    });
+
+    return img;
+  }, [playlist]);
+
+  return (
+    <div className={styles.summary}>
+      <Link href={`/playlist/${playlist.id}`}>
+        <a>
+          <PlaylistImage playlist={playlist} />
+        </a>
+      </Link>
+      <div className={styles.details}>
+        <div className={styles.title}>
+          <Link href={`/playlist/${playlist.id}`}>
+            <a>
+              <Truncate lines={1}>
+                {playlist.name}
+              </Truncate>
+            </a>
+          </Link>
+        </div>
+        <div className={styles.author}>
+          <Truncate lines={1}>{playlist.userId}</Truncate>
+        </div>
+        {/* playlist.description && (
+          <div className={styles.description}>
+            <Truncate lines={2}>
+              {playlist.description}
+            </Truncate>
+          </div>
+        )*/}
+      </div>
+    </div>
+  )
+};
+
+export default PlaylistSummary;
