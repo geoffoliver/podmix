@@ -12,7 +12,7 @@ import styles from './PlaylistImage.module.scss';
 const PlaylistImage = ({ playlist }: PlaylistImageProps) => {
   const images = useMemo(() => {
     if (!playlist.items || playlist.items.length === 0) {
-      return null;
+      return ['/playlist-placeholder.png'];
     }
 
     const img: string[] = [];

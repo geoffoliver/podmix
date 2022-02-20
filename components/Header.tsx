@@ -18,9 +18,7 @@ const Header = () => {
               <>
                 <Nav>
                   <Nav.Link href="/build">
-                    <a>
-                      {session.user.name || session.user.email}
-                    </a>
+                    {session.user.name || session.user.email}
                   </Nav.Link>
                 </Nav>
                 <Button
