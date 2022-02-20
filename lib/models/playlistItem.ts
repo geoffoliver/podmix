@@ -7,6 +7,7 @@ import {
   NonAttribute,
   Association,
 } from "sequelize";
+import { ItemWithiTunes } from "../types/podcast";
 
 import sequelize from './index';
 import Playlist from './playlist';
@@ -14,17 +15,17 @@ import Playlist from './playlist';
 class PlaylistItem extends Model<InferAttributes<PlaylistItem>, InferCreationAttributes<PlaylistItem>> {
   declare id: CreationOptional<string>;
   declare playlistId: string;
-  declare collectionId: number;
-  declare collectionName: string;
-  declare description: string | null;
+  declare podcastId: string;
   declare position: number;
-  declare image: string;
-  declare duration: string | null;
-  declare artistName: string;
-  declare mediaUrl: string;
-  declare link: string | null;
   declare title: string;
   declare pubDate: Date;
+  declare description: string | null;
+  declare image: string;
+  declare duration: number | null;
+  declare artist: string;
+  declare url: string;
+  declare filesize: number;
+  declare feedData: ItemWithiTunes;
 
   declare createdAt: CreationOptional<Date>;
   declare updatedAt: CreationOptional<Date>;
@@ -47,44 +48,13 @@ PlaylistItem.init({
     type: DataTypes.UUID,
     allowNull: false,
   },
-  collectionId: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-  },
-  description: {
-    type: DataTypes.TEXT,
-    allowNull: true,
-    defaultValue: null,
-  },
-  collectionName: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
-  image: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
-  duration: {
-    type: DataTypes.STRING,
-    allowNull: true,
-    defaultValue: null,
-  },
-  artistName: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
-  mediaUrl: {
-    type: DataTypes.STRING,
+  podcastId: {
+    type: DataTypes.UUID,
     allowNull: false,
   },
   position: {
     type: DataTypes.INTEGER,
     allowNull: false,
-  },
-  link: {
-    type: DataTypes.STRING,
-    allowNull: true,
-    defaultValue: null,
   },
   title: {
     type: DataTypes.STRING,
@@ -92,6 +62,37 @@ PlaylistItem.init({
   },
   pubDate: {
     type: DataTypes.DATE,
+    allowNull: false,
+  },
+  description: {
+    type: DataTypes.TEXT,
+    allowNull: true,
+    defaultValue: null,
+  },
+  image: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  duration: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    defaultValue: 0,
+  },
+  artist: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  url: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  filesize: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    defaultValue: 0,
+  },
+  feedData: {
+    type: DataTypes.JSON,
     allowNull: false,
   },
   createdAt: DataTypes.DATE,

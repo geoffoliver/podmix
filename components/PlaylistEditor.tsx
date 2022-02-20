@@ -181,7 +181,7 @@ const PlaylistEditor = ({ playlist, show, onHide }: PlaylistEditorProps) => {
                   </Link>
                 </li>
                 <li>
-                  <Link href={`/api/m38/${list.id}`}>
+                  <Link href={`/api/m3u/${list.id}`}>
                     <a target="_blank">
                       MP3 Playlist
                       <Icon icon="file-audio" fixedWidth className="ms-2" />

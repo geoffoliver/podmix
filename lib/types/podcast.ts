@@ -2,6 +2,7 @@ import Parser from 'rss-parser';
 
 export const PODCAST_EPISODE = 'Episode';
 
+/*
 export type Podcast = {
   wrapperType: string;
   kind: string;
@@ -38,6 +39,7 @@ export type Podcast = {
   genreIds: string[];
   genres: string[];
 };
+*/
 
 export interface ItemWithiTunes extends Parser.Item {
   itunes?: {

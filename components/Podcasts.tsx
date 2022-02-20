@@ -2,7 +2,7 @@ import { useCallback, useState } from 'react';
 import axios from 'axios';
 import { Button, Form, InputGroup } from 'react-bootstrap';
 
-import { Podcast as PodcastType } from '@/lib/types/podcast';
+import { iTunesResult } from '@/lib/external/itunes';
 import Podcast from './Podcast';
 
 import styles from './Podcasts.module.scss';
@@ -12,9 +12,10 @@ type PodcastsProps = {
 };
 
 const Podcasts = ({ onClick }: PodcastsProps) => {
-  const [results, setResults] = useState<PodcastType[]>([]);
+  const [results, setResults] = useState<iTunesResult[]>([]);
   const [searching, setSearching] = useState(false);
   const [query, setQuery] = useState('');
+  const [searched, setSearched] = useState('');
 
   const search = useCallback(async (e) => {
     e.preventDefault();
@@ -24,6 +25,7 @@ const Podcasts = ({ onClick }: PodcastsProps) => {
     });
 
     setSearching(false);
+    setSearched(query);
     setResults(resp.data.results || [])
   }, [query]);
 
@@ -38,13 +40,13 @@ const Podcasts = ({ onClick }: PodcastsProps) => {
             value={query}
             onChange={(e) => setQuery(e.target.value)}
           />
-          <Button type="submit">Search</Button>
+          <Button type="submit" variant="outline-secondary">Search</Button>
         </InputGroup>
       </form>
       <div className={styles.podcasts}>
         {searching
           ? <>Searching...</>
-          : results.map((result: PodcastType) => (
+          : results.map((result: iTunesResult) => (
             <Podcast
               key={result.collectionId}
               podcast={result}
@@ -52,6 +54,16 @@ const Podcasts = ({ onClick }: PodcastsProps) => {
             />
           ))
         }
+        {!searching && searched && results.length === 0 && (
+          <div className="text-muted text-center p-3">
+            No results for &ldquo;{searched}&rdquo;
+          </div>
+        )}
+        {!searching && searched === '' && results.length === 0 && (
+          <div className="text-muted text-center p-3">
+            Search for a podcast with the field above
+          </div>
+        )}
       </div>
     </>
   )

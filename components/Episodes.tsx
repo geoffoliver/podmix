@@ -45,7 +45,7 @@ const Episodes = ({ feed, loading }: EpisodesProps) => {
             value={filter}
             onChange={(e) => setFilter(e.target.value)}
           />
-          <Button type="submit">Search</Button>
+          <Button type="submit" variant="outline-secondary">Search</Button>
         </InputGroup>
       </form>}
       <div className={styles.episodes}>

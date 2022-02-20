@@ -5,6 +5,7 @@
 
 .episodeTitle {
   font-weight: bold;
+  font-size: 1.2rem;
 }
 
 .links {
@@ -29,14 +30,21 @@
 }
 
 .playlistItems {
-  // padding: 15px;
-  // border: 1px solid $gray-200;
-  // max-height: 70vh;
-  // overflow: auto;
+  border-top: 1px solid $gray-200;
+  margin-top: 1.5rem;
+  padding: 1.5rem 0;
 
-  :global(.row) + :global(.row) {
-    margin-top: 1.5rem;
+  :global(.row) {
+    & + :global(.row) {
+      margin-top: 1.5rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid $gray-200;
+    }
   }
+}
+
+.description {
+  white-space: pre-wrap;
 }
 
 .duration {

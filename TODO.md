@@ -8,14 +8,18 @@
   - [x] Share
     - [x] RSS feed
     - [x] M3U playlist
-- [ ] Make iTunes search a library
-- [ ] Add episode to list with less data across the wire (only send collectionid and guid of podcast or something)
-- [ ] Download images
-  - [ ] Resize/optimize
-- [ ] Search playlists
+- [x] Make iTunes search a library
+- [x] Add episode to list with less data across the wire (only send collectionid and guid of podcast or something)
+- [x] Convert all durations to seconds
+  - [x] In database
+  - [x] On episode list
+- [ ] Add user relationships to playlists
+- [ ] Search
+  - [ ] Playlists
+  - [ ] Artists
+- [ ] Artist detail page
 - [ ] Playlist detail page
-- [ ] Convert all durations to seconds
-
+- [ ] Cache RSS and M3U files
 
 # Maybe
 

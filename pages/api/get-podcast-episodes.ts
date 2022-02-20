@@ -1,13 +1,21 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
-import axios from 'axios';
 import Parser from 'rss-parser';
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  const url = `https://itunes.apple.com/lookup?id=${req.body.id}&entity=podcast`;
-  const results = await axios.get(url);
+import iTunes from '@/lib/external/itunes';
 
-  if (results.data.resultCount === 1) {
-    const feedUrl = results.data.results[0].feedUrl;
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+  const itunes = new iTunes();
+
+  const results = await itunes.lookupPodcast(req.body.id);
+
+  console.log(results);
+
+  if (results.resultCount === 1) {
+    const feedUrl = results.results[0].feedUrl;
+
+    if (!feedUrl) {
+      return res.status(400).json({ error: 'This podcast does not have a public feed URL'});
+    }
 
     const parser = new Parser();
     const feed = await parser.parseURL(feedUrl);

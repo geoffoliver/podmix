@@ -1,9 +1,9 @@
 import { createContext } from 'react';
-import { Podcast } from '../types/podcast';
+import { iTunesResult } from '../external/itunes';
 
-const PodcastsContext = createContext<{ podcast: Podcast, setPodcast: Function }>({
+const PodcastsContext = createContext<{ podcast: iTunesResult, setPodcast: Function }>({
   podcast: null,
-  setPodcast: (p: Podcast) => {},
+  setPodcast: (p: iTunesResult) => {},
 });
 
 export default PodcastsContext;

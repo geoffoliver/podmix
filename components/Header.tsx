@@ -1,12 +1,12 @@
 import { useSession, signIn, signOut } from "next-auth/react"
 import Link from "next/link";
-import { Button, Container, Navbar } from 'react-bootstrap';
+import { Button, Container, Nav, Navbar } from 'react-bootstrap';
 
 const Header = () => {
   const { data: session } = useSession()
 
   return (
-    <Navbar bg="light" expand="lg">
+    <Navbar bg="dark" variant="dark" expand="lg">
       <Container>
         <Link href="/" passHref>
           <Navbar.Brand href="/">Podlists</Navbar.Brand>
@@ -16,11 +16,11 @@ const Header = () => {
           {session
             ? (
               <>
-                <Link href="/build">
-                  <a>
+                <Nav>
+                  <Nav.Link href="/build">
                     {session.user.name || session.user.email}
-                  </a>
-                </Link>
+                  </Nav.Link>
+                </Nav>
                 <Button
                   type="button"
                   onClick={() => signOut({ callbackUrl: '/' })}

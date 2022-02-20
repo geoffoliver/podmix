@@ -2,6 +2,7 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 
 import Playlist from '@/lib/models/playlist';
 import { WhereOptions } from 'sequelize/types';
+import PlaylistItem from '@/lib/models/playlistItem';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   let playlists: Playlist[] = [];
@@ -23,6 +24,15 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     where,
     limit,
     offset,
+    include: [
+      {
+        model: PlaylistItem,
+        as: 'items',
+        attributes: [
+          'image',
+        ],
+      },
+    ],
     order: [['createdAt', 'DESC']],
   });
 

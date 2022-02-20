@@ -2,13 +2,15 @@
 import Head from 'next/head';
 import Link from 'next/link';
 import { Container, Row, Col } from 'react-bootstrap';
-import { GetServerSideProps, GetStaticProps } from 'next';
+import { GetStaticProps } from 'next';
 
 import Playlist from '@/lib/models/playlist';
 import PlaylistItem from '@/lib/models/playlistItem';
 
 import styles from './playlistId.module.scss';
 import Icon from '@/components/Icon';
+import PlaylistImage from '@/components/PlaylistImage';
+import { secondsToDuration } from '@/lib/util';
 
 type PlaylistDetailProps = {
   playlist: Playlist;
@@ -27,28 +29,35 @@ export default function PlaylistDetail({ playlist }: PlaylistDetailProps) {
       <Container className="mt-3">
         <Row>
           <Col>
-            <div className={styles.title}>
-              <h1>{playlist.name}</h1>
-            </div>
-            {playlist.description && <p>{playlist.description}</p>}
-            <ul className={styles.links}>
-              <li>
-                <Link href={`/api/rss/${playlist.id}`}>
-                  <a target="_blank">
-                    <Icon icon="rss" fixedWidth className="me-2" />
-                    RSS Feed
-                  </a>
-                </Link>
-              </li>
-              <li>
-                <Link href={`/api/m3u/${playlist.id}`}>
-                  <a target="_blank">
-                    <Icon icon="file-audio" fixedWidth className="me-2" />
-                    MP3 Playlist
-                  </a>
-                </Link>
-              </li>
-            </ul>
+            <Row>
+              <Col md={2}>
+                <PlaylistImage playlist={playlist} />
+              </Col>
+              <Col md={10}>
+                <div className={styles.title}>
+                  <h1>{playlist.name}</h1>
+                </div>
+                {playlist.description && <p>{playlist.description}</p>}
+                <ul className={styles.links}>
+                  <li>
+                    <Link href={`/api/rss/${playlist.id}`}>
+                      <a target="_blank">
+                        <Icon icon="rss" fixedWidth className="me-2" />
+                        RSS Feed
+                      </a>
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href={`/api/m3u/${playlist.id}`}>
+                      <a target="_blank">
+                        <Icon icon="file-audio" fixedWidth className="me-2" />
+                        MP3 Playlist
+                      </a>
+                    </Link>
+                  </li>
+                </ul>
+              </Col>
+            </Row>
             <div className={styles.playlistItems}>
               {playlist.items.map((item) => {
                 return (
@@ -59,7 +68,7 @@ export default function PlaylistDetail({ playlist }: PlaylistDetailProps) {
                     <Col sm={11}>
                       <div className={styles.episodeTitle}>{item.title}</div>
                       <div className={styles.description}>{item.description}</div>
-                      <div className={styles.duration}>{item.duration}</div>
+                      <div className={styles.duration}>{secondsToDuration(item.duration)}</div>
                     </Col>
                   </Row>
                 );
