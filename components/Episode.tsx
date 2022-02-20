@@ -35,7 +35,7 @@ const Episode = ({ item, feedImage }: EpisodeProps) => {
         loading="lazy"
       />
       <div className={styles.info}>
-        <div className={styles.title}>{item.title}</div>
+        <div className={styles.title}>{item.guid} {item.title}</div>
         {item.itunes && <div className={styles.duration}>{item.itunes.duration}</div>}
         <p className={styles.description}>{item.contentSnippet}</p>
       </div>

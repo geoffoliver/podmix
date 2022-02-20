@@ -30,6 +30,7 @@ const Episodes = ({ feed, loading }: EpisodesProps) => {
       return (
         e.title.toLocaleLowerCase().includes(filt)
         || e.content.toLocaleLowerCase().includes(filt)
+        || e.guid.includes(filt)
       );
     }));
   }, [feed?.items, filter]);
@@ -50,9 +51,9 @@ const Episodes = ({ feed, loading }: EpisodesProps) => {
       <div className={styles.episodes}>
         {loading
           ? <div>Loading...</div>
-          : filtered.map((ep) => (
+          : filtered.map((ep, i) => (
               <Episode
-                key={ep.guid}
+                key={`${ep.guid}-${i}`}
                 item={ep}
                 feedImage={feed.image ? feed.image.url : feed.itunes?.image}
               />

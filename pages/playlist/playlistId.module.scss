@@ -29,10 +29,10 @@
 }
 
 .playlistItems {
-  padding: 15px;
-  border: 1px solid $gray-200;
-  max-height: 70vh;
-  overflow: auto;
+  // padding: 15px;
+  // border: 1px solid $gray-200;
+  // max-height: 70vh;
+  // overflow: auto;
 
   :global(.row) + :global(.row) {
     margin-top: 1.5rem;
