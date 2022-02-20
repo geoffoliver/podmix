@@ -6,11 +6,13 @@ import { GetStaticProps } from 'next';
 
 import Playlist from '@/lib/models/playlist';
 import PlaylistItem from '@/lib/models/playlistItem';
+import User from '@/lib/models/user';
 
-import styles from './playlistId.module.scss';
 import Icon from '@/components/Icon';
 import PlaylistImage from '@/components/PlaylistImage';
 import { secondsToDuration } from '@/lib/util';
+
+import styles from './playlistId.module.scss';
 
 type PlaylistDetailProps = {
   playlist: Playlist;
@@ -34,8 +36,9 @@ export default function PlaylistDetail({ playlist }: PlaylistDetailProps) {
                 <PlaylistImage playlist={playlist} />
               </Col>
               <Col md={10}>
-                <div className={styles.title}>
+                <div>
                   <h1>{playlist.name}</h1>
+                  <h6 className={styles.author}>By {playlist.user?.name}</h6>
                 </div>
                 {playlist.description && <p>{playlist.description}</p>}
                 <ul className={styles.links}>
@@ -87,6 +90,10 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
       {
         model: PlaylistItem,
         as: 'items',
+      },
+      {
+        model: User,
+        as: 'user',
       }
     ],
     order: [['items', 'position', 'ASC']]

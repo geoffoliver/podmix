@@ -14,7 +14,9 @@
   - [x] In database
   - [x] On episode list
 - [x] Add user relationships to playlists
-- [ ] Default profile pictur
+- [ ] Save user profile
+  - [ ] Upload user picture
+- [ ] Default profile picture
 - [ ] Search
   - [ ] Playlists
   - [ ] Artists

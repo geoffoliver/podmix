@@ -38,7 +38,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         as: 'user',
       },
     ],
-    order: [['createdAt', 'DESC']],
+    order: [['createdAt', 'DESC'], ['items', 'position', 'asc']],
   });
 
   return res.status(200).json({ playlists })
