@@ -45,6 +45,8 @@
 .volume {
   display: flex;
   align-items: center;
+  width: 175px;
+  display: flex;
 
   svg {
     margin-right: 10px;
@@ -56,6 +58,11 @@
     &:hover {
       color: $link-color;
     }
+  }
+
+  input {
+    flex-grow: 1;
+    width: calc(100% - 2rem);
   }
 }
 
