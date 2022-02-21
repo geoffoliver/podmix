@@ -39,28 +39,10 @@ export default function Build({ loggedIn }: InferGetServerSidePropsType<typeof g
     return null;
   }
 
-  /*
-  if (!loggedIn) {
-    return (
-      <>
-        <Head>
-          <title>Login Required - Podlists</title>
-        </Head>
-        <Container>
-          <Row>
-            <Col>
-              <h1>You must login to access this feature.</h1>
-            </Col>
-          </Row>
-        </Container>
-      </>
-    )
-  }
-  */
   return (
     <>
       <Head>
-        <title>Podlists</title>
+        <title>Podmix</title>
       </Head>
       <DndProvider backend={HTML5Backend}>
         <PodcastsContext.Provider value={{ podcast, setPodcast }}>

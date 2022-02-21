@@ -36,7 +36,7 @@ export default function PlaylistDetail({ playlist }: PlaylistDetailProps) {
   return (
     <>
       <Head>
-        <title>{playlist.name} - Podlists</title>
+        <title>{playlist.name} - Podmix</title>
       </Head>
       <Container className="mt-3">
         <Row>

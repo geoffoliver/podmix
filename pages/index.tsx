@@ -23,7 +23,7 @@ export default function Home() {
   return (
     <>
       <Head>
-        <title>Podlists</title>
+        <title>Podmix</title>
       </Head>
       <Container>
         <Row>

@@ -125,7 +125,7 @@ const Profile = () => {
   return (
     <>
       <Head>
-        <title>Edit Profile - Podlists</title>
+        <title>Edit Profile - Podmix</title>
       </Head>
       <Container className="mt-3">
         <Row>

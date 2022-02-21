@@ -13,7 +13,7 @@ const Header = () => {
     <Navbar bg="secondary" variant="dark" expand="lg">
       <Container>
         <Link href="/" passHref>
-          <Navbar.Brand href="/">Podlists</Navbar.Brand>
+          <Navbar.Brand href="/">Podmix</Navbar.Brand>
         </Link>
         <Navbar.Toggle aria-controls="navbar-nav" />
         <Navbar.Collapse id="navbar-nav" className="justify-content-end">
@@ -42,7 +42,7 @@ const Header = () => {
                   </Nav.Link>
                 </>
               ) : (
-              <Button type="button" variant="success" onClick={() => signIn()}>Login</Button>
+              <Button type="button" variant="primary" onClick={() => signIn()}>Login</Button>
               )
             }
           </Nav>

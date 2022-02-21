@@ -1,5 +1,5 @@
 {
-  "name": "podlists",
+  "name": "podmix",
   "private": true,
   "scripts": {
     "dev": "next dev",
