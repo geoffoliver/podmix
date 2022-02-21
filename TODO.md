@@ -18,7 +18,7 @@
   - [x] Upload user picture
 - [x] Generate image for playlists
   - [x] RSS feed image
-- [ ] Default profile picture
+- [x] Default profile picture
 - [ ] Search
   - [ ] Playlists
   - [ ] Artists

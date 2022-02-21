@@ -136,7 +136,7 @@ const Profile = () => {
                 <div className={styles.form}>
                   <div className={styles.picture}>
                     <button type="button" title="Change Profile Image" onClick={() => setShowUpload(true)}>
-                      <img src={profile?.image} alt="Profile Image"/>
+                      <img src={profile?.image || '/default-user-image.png'} alt="Profile Image"/>
                       <div>
                         <Icon icon="camera" size="2x" />
                         Change Picture

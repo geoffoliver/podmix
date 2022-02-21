@@ -28,13 +28,11 @@ const Header = () => {
                   </Link>
                   <Link href="/profile" passHref>
                     <Nav.Link href="/profile" className={styles.userIcon}>
-                      {session.user.image && (
-                        <img
-                          src={session.user.image}
-                          className={styles.userIcon}
-                          alt={session.user.name || session.user.email}
-                        />
-                      )}
+                      <img
+                        src={session.user.image || '/default-user-image.png'}
+                        className={styles.userIcon}
+                        alt={session.user.name || session.user.email}
+                      />
                     </Nav.Link>
                   </Link>
                   <Nav.Link onClick={() => signOut({ callbackUrl: '/' })} title="Logout">
