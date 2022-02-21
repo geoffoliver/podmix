@@ -27,18 +27,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     offset,
     include: [
       {
-        model: PlaylistItem,
-        as: 'items',
-        attributes: [
-          'image',
-        ],
-      },
-      {
         model: User,
         as: 'user',
       },
     ],
-    order: [['createdAt', 'DESC'], ['items', 'position', 'asc']],
+    order: [['createdAt', 'DESC']],
   });
 
   return res.status(200).json({ playlists })

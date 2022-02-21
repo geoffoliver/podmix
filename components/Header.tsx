@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 import { useSession, signIn, signOut } from "next-auth/react"
 import Link from "next/link";
-import { Button, Container, Nav, Navbar } from 'react-bootstrap';
+import { Form, Button, Container, Nav, Navbar } from 'react-bootstrap';
 
 import styles from './Header.module.scss';
 import Icon from "./Icon";
@@ -10,12 +10,20 @@ const Header = () => {
   const { data: session } = useSession()
 
   return (
-    <Navbar bg="secondary" variant="dark" expand="lg">
+    <Navbar variant="dark" expand="lg" className={styles.navbar}>
       <Container>
         <Link href="/" passHref>
-          <Navbar.Brand href="/">Podmix</Navbar.Brand>
+          <Navbar.Brand href="/"><Icon icon="shuffle" fixedWidth /> Podmix</Navbar.Brand>
         </Link>
         <Navbar.Toggle aria-controls="navbar-nav" />
+        <div className={styles.search}>
+          <Icon icon="search" />
+          <Form.Control
+            type="text"
+            size="sm"
+            placeholder="Search for playlists or podcasts"
+          />
+        </div>
         <Navbar.Collapse id="navbar-nav" className="justify-content-end">
           <Nav>
             {session

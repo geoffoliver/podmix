@@ -15,6 +15,8 @@ import {
   faVolumeHigh,
   faVolumeXmark,
   faSpinner,
+  faShuffle,
+  faSearch,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIconProps } from '@fortawesome/react-fontawesome';
 
@@ -31,8 +33,9 @@ library.add(
   faBackwardStep,
   faVolumeXmark,
   faVolumeHigh,
-  faSpinner
-  // faVolumeLow,
+  faSpinner,
+  faShuffle,
+  faSearch,
 );
 
 const Icon = (props: FontAwesomeIconProps) => {

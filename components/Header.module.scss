@@ -3,6 +3,33 @@
 @import '~bootstrap/scss/variables';
 @import '~bootstrap/scss/mixins';
 
+.navbar {
+  background: #000;
+
+  :global(.nav-link) {
+    white-space: nowrap;
+  }
+}
+
+.search {
+  padding: 0 15px;
+  width: 100%;
+  position: relative;
+
+  svg {
+    position: absolute;
+    left: 1.5rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: $gray-500;
+  }
+
+  input {
+    padding-left: 2rem;
+    border-radius: 16px;
+  }
+}
+
 .userIcon {
   margin-left: 5px;
 
