@@ -14,10 +14,10 @@
   - [x] In database
   - [x] On episode list
 - [x] Add user relationships to playlists
-- [ ] Save user profile
-  - [ ] Upload user picture
-- [ ] RSS feed image (favicon?)
-- [ ] Generate image for playlists
+- [x] Save user profile
+  - [x] Upload user picture
+- [x] Generate image for playlists
+  - [x] RSS feed image
 - [ ] Default profile picture
 - [ ] Search
   - [ ] Playlists

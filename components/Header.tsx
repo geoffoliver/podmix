@@ -10,7 +10,7 @@ const Header = () => {
   const { data: session } = useSession()
 
   return (
-    <Navbar bg="dark" variant="dark" expand="lg">
+    <Navbar bg="secondary" variant="dark" expand="lg">
       <Container>
         <Link href="/" passHref>
           <Navbar.Brand href="/">Podlists</Navbar.Brand>
@@ -23,7 +23,7 @@ const Header = () => {
                 <>
                   <Link href="/build" passHref>
                     <Nav.Link href="/build">
-                      Build Playlist
+                      My Playlists
                     </Nav.Link>
                   </Link>
                   <Link href="/profile" passHref>

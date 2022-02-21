@@ -1,12 +1,17 @@
 import { useMemo } from 'react';
+import { useSession } from 'next-auth/react';
+import { Container, Row, Col } from 'react-bootstrap';
 import Playlist from '@/lib/models/playlist';
 import Head from 'next/head'
-import { Container, Row, Col } from 'react-bootstrap';
 import useSWR from 'swr';
 import axios from 'axios';
+
 import PlaylistSummary from '@/components/PlaylistSummary';
 
+import styles from '@/styles/index.module.scss';
+
 export default function Home() {
+  const { data: session } = useSession();
   const { data, error, isValidating } = useSWR('/api/playlists', axios, {
     revalidateOnFocus: false,
   });
@@ -23,7 +28,7 @@ export default function Home() {
       <Container>
         <Row>
           <Col>
-            <div className="bg-dark text-light py-5 px-1 mb-3 text-center">
+            <div className={styles.hero}>
               <div className="my-5 p-4">
                 <h1>Podcast Playlists for Everyone</h1>
                 <p className="lead">Create, listen to, and share podcast playlists!</p>

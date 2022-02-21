@@ -1,0 +1,66 @@
+@import '../styles/bootstrap-theme.scss';
+@import '~bootstrap/scss/functions';
+@import '~bootstrap/scss/variables';
+@import '~bootstrap/scss/mixins';
+
+.player {
+  background: $gray-200;
+  border: 1px solid $gray-300;
+  padding: 20px;
+  border-radius: $border-radius;
+}
+
+.title {
+  padding-bottom: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 15px;
+
+  h5 {
+    margin: 0;
+  }
+}
+
+.controls {
+  > div + div {
+    margin-left: 15px;
+  }
+}
+
+.controls {
+  display: flex;
+  align-items: center;
+}
+
+.progress {
+  display: flex;
+  flex-grow: 1;
+
+  input {
+    width: 100%;
+  }
+}
+
+.volume {
+  display: flex;
+  align-items: center;
+
+  svg {
+    margin-right: 10px;
+  }
+
+  button {
+    color: $body-color;
+
+    &:hover {
+      color: $link-color;
+    }
+  }
+}
+
+.actualPlayer {
+  position: absolute;
+  left: -999rem;
+  top: -999rem;
+}

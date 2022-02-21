@@ -8,6 +8,13 @@ import {
   faTrashAlt,
   faSignOut,
   faCamera,
+  faPlay,
+  faPause,
+  faForwardStep,
+  faBackwardStep,
+  faVolumeHigh,
+  faVolumeXmark,
+  faSpinner,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIconProps } from '@fortawesome/react-fontawesome';
 
@@ -18,6 +25,14 @@ library.add(
   faTrashAlt,
   faSignOut,
   faCamera,
+  faPlay,
+  faPause,
+  faForwardStep,
+  faBackwardStep,
+  faVolumeXmark,
+  faVolumeHigh,
+  faSpinner
+  // faVolumeLow,
 );
 
 const Icon = (props: FontAwesomeIconProps) => {

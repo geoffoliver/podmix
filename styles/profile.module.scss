@@ -6,6 +6,7 @@
 .form {
   border: 1px solid #ddd;
   padding: 15px;
+  margin: 15px 0;
 }
 
 .picture {
@@ -56,4 +57,10 @@
     position: relative;
     z-index: 1;
   }
+}
+
+.fileField {
+  position: absolute;
+  left: -999rem;
+  top: -999rem;
 }

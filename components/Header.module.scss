@@ -1,3 +1,8 @@
+@import '../styles/bootstrap-theme.scss';
+@import '~bootstrap/scss/functions';
+@import '~bootstrap/scss/variables';
+@import '~bootstrap/scss/mixins';
+
 .userIcon {
   margin-left: 5px;
 
@@ -8,6 +13,7 @@
     img {
       width: 31px;
       border-radius: 50%;
+      border: 1px solid $gray-200;
     }
   }
 }

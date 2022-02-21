@@ -13,9 +13,13 @@ export function secondsToDuration(seconds: number = 0): String {
 
   const duration = Duration.fromDurationLike(sec * 1000);
 
-  if (sec < 3600) {
+  if (sec > 3600) {
+    return duration.toFormat("h 'hr' m 'min'");
+  }
+
+  if (sec >= 60) {
     return duration.toFormat("m 'minutes'");
   }
 
-  return duration.toFormat("h 'hr' m 'min'");
+  return duration.toFormat("s 'sec'");
 };

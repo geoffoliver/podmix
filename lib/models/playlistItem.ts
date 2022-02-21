@@ -73,7 +73,7 @@ PlaylistItem.init({
     defaultValue: null,
   },
   image: {
-    type: DataTypes.STRING,
+    type: DataTypes.TEXT,
     allowNull: false,
   },
   duration: {

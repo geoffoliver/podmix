@@ -27,6 +27,7 @@ class Playlist extends Model<InferAttributes<Playlist>, InferCreationAttributes<
   declare userId: string;
   declare name?: string | null;
   declare description?: string | null;
+  declare image?: string | null;
 
   declare getItems: HasManyGetAssociationsMixin<PlaylistItem>;
   declare addItem: HasManyAddAssociationMixin<PlaylistItem, string>;
@@ -64,6 +65,10 @@ Playlist.init({
   },
   description: {
     type: DataTypes.STRING,
+    allowNull: true,
+  },
+  image: {
+    type: DataTypes.TEXT,
     allowNull: true,
   },
 }, {

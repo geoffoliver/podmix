@@ -2,6 +2,7 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 import { getSession } from 'next-auth/react';
 
 import Playlist from '@/lib/models/playlist';
+import Bunny from '@/lib/external/bunny';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const session = await getSession({ req });
@@ -19,6 +20,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
   if (!playlist) {
     return res.status(404).json({ error: 'Invalid playlist' });
+  }
+
+  if (playlist.image) {
+    const bunny = new Bunny();
+    await bunny.delete(playlist.image);
   }
 
   await playlist.destroy();

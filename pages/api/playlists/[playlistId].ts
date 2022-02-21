@@ -21,8 +21,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     order: [['items', 'position', 'ASC']]
   });
 
-  console.log(playlist);
-
   if (!playlist) {
     return res.status(404).json({ error: 'Invalid playlist' });
   }

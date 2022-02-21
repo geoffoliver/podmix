@@ -7,6 +7,7 @@ import iTunes from '@/lib/external/itunes';
 import Podcast from '@/lib/models/podcast';
 import { ItemWithiTunes } from '@/lib/types/podcast';
 import { durationToSeconds } from '@/lib/util';
+import Bunny from '@/lib/external/bunny';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const session = await getSession({ req });
@@ -100,6 +101,14 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     position: req.body.position || totalItems,
     feedData:  feedItem,
   });
+
+  if (playlist.image) {
+    const bunny = new Bunny();
+    await bunny.delete(playlist.image);
+
+    playlist.set('image', null);
+    await playlist.save();
+  }
 
   return res.status(200).json({ item })
 }

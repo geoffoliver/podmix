@@ -3,6 +3,7 @@ import { getSession } from 'next-auth/react';
 
 import Playlist from '@/lib/models/playlist';
 import PlaylistItem from '@/lib/models/playlistItem';
+import Bunny from '@/lib/external/bunny';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const session = await getSession({ req });
@@ -41,7 +42,15 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   items.forEach((item, i) => {
     item.set('position', i);
   });
+
   await Promise.allSettled(items.map((i) => i.save()));
 
+  if (playlist.image) {
+    const bunny = new Bunny();
+    await bunny.delete(playlist.image);
+
+    playlist.set('image', null);
+    await playlist.save();
+  }
   return res.status(200).json({ playlist })
 }

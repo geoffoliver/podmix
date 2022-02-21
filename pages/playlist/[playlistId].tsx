@@ -1,8 +1,11 @@
 /* eslint-disable @next/next/no-img-element */
+import { useCallback, useState } from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
 import { Container, Row, Col } from 'react-bootstrap';
 import { GetStaticProps } from 'next';
+import dynamic from 'next/dynamic';
+import classnames from 'classnames';
 
 import Playlist from '@/lib/models/playlist';
 import PlaylistItem from '@/lib/models/playlistItem';
@@ -14,11 +17,18 @@ import { secondsToDuration } from '@/lib/util';
 
 import styles from './playlistId.module.scss';
 
+const PlaylistPlayer = dynamic(() => import('@/components/PlaylistPlayer'), {
+  ssr: false,
+});
+
 type PlaylistDetailProps = {
   playlist: Playlist;
 };
 
 export default function PlaylistDetail({ playlist }: PlaylistDetailProps) {
+  const [playing, setPlaying] = useState(null);
+  const [play, setPlay] = useState(0);
+
   if (!playlist) {
     return null;
   }
@@ -40,7 +50,14 @@ export default function PlaylistDetail({ playlist }: PlaylistDetailProps) {
                   <h1>{playlist.name}</h1>
                   <h6 className={styles.author}>By {playlist.user?.name}</h6>
                 </div>
-                {playlist.description && <p>{playlist.description}</p>}
+                {playlist.description && <p className={styles.description}>{playlist.description}</p>}
+                <div className={styles.player}>
+                  <PlaylistPlayer
+                    playlist={playlist}
+                    onPlay={(item) => setPlaying(item)}
+                    play={play}
+                  />
+                </div>
                 <ul className={styles.links}>
                   <li>
                     <Link href={`/api/rss/${playlist.id}`}>
@@ -59,24 +76,33 @@ export default function PlaylistDetail({ playlist }: PlaylistDetailProps) {
                     </Link>
                   </li>
                 </ul>
+                {playlist.items.map((item, index) => {
+                  return (
+                    <button
+                      key={item.id}
+                      className={classnames(
+                        styles.item,
+                        {
+                          [styles.active]: item === playing,
+                        },
+                      )}
+                      onClick={() => setPlay(index)}
+                    >
+                      <Row>
+                        <Col sm={2}>
+                          <img src={item.image} alt={`${item.title} image`} className={styles.image} />
+                        </Col>
+                        <Col sm={10}>
+                          <div className={styles.episodeTitle}>{item.title}</div>
+                          <div className={styles.description}>{item.description}</div>
+                          <div className={styles.duration}>{secondsToDuration(item.duration)}</div>
+                        </Col>
+                      </Row>
+                    </button>
+                  );
+                })}
               </Col>
             </Row>
-            <div className={styles.playlistItems}>
-              {playlist.items.map((item) => {
-                return (
-                  <Row key={item.id}>
-                    <Col sm={1}>
-                      <img src={item.image} alt={`${item.title} image`} className="img-fluid" width="100" />
-                    </Col>
-                    <Col sm={11}>
-                      <div className={styles.episodeTitle}>{item.title}</div>
-                      <div className={styles.description}>{item.description}</div>
-                      <div className={styles.duration}>{secondsToDuration(item.duration)}</div>
-                    </Col>
-                  </Row>
-                );
-              })}
-            </div>
           </Col>
         </Row>
       </Container>

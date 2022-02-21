@@ -9,7 +9,7 @@ function MyApp({
   Component, pageProps: { session, ...pageProps }
 }) {
   return (
-    <SessionProvider session={session}>
+    <SessionProvider session={session} refetchOnWindowFocus={false}>
       <ForceProfileSetup />
       <Header />
       <Component {...pageProps} />

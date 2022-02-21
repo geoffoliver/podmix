@@ -1,5 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
-import { useMemo } from 'react';
+// import { useMemo } from 'react';
 
 import Playlist from '@/lib/models/playlist';
 
@@ -9,9 +9,15 @@ type PlaylistImageProps = {
 
 import styles from './PlaylistImage.module.scss';
 
-const DEFAULT_PLAYLIST_IMAGE = '/playlist-placeholder.png';
+// const DEFAULT_PLAYLIST_IMAGE = '/playlist-placeholder.png';
 
 const PlaylistImage = ({ playlist }: PlaylistImageProps) => {
+  return (
+    <div className={styles.images}>
+      <img src={`/api/playlists/image/${playlist.id}`} alt={`Image for ${playlist.name}`} />
+    </div>
+  )
+  /*
   const images = useMemo(() => {
     if (!playlist.items || playlist.items.length === 0) {
       return [DEFAULT_PLAYLIST_IMAGE];
@@ -47,6 +53,7 @@ const PlaylistImage = ({ playlist }: PlaylistImageProps) => {
       ))}
     </div>
   );
+  */
 };
 
 export default PlaylistImage;
