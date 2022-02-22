@@ -58,8 +58,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             throw new Error('Error uploading file!');
           });
       } catch (ex) {
-        console.log('ERROR!!!!!!!!!!!!!!!');
-        console.log(ex);
         return reject(res.status(500).json({ error: ex.message }));
       }
     });

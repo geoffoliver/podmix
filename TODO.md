@@ -19,7 +19,7 @@
 - [x] Generate image for playlists
   - [x] RSS feed image
 - [x] Default profile picture
-- [ ] Search
+- [ ] Search (algolia)
   - [ ] Playlists
   - [ ] Artists
 - [ ] Artist detail page

@@ -38,10 +38,18 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     });
   }
 
-  const items = PlaylistItem.bulkBuild(req.body.items, { isNewRecord: false });
-  items.forEach((item, i) => {
-    item.set('position', i);
+  const saveItems = req.body.items;
+
+  saveItems.forEach((item: any, i: number) => {
+    item.position = i;
   });
+
+  const items = await PlaylistItem.bulkCreate(saveItems, {
+    updateOnDuplicate: ['position'],
+  });
+  // const items = PlaylistItem.bulkBuild(req.body.items, { isNewRecord: false });
+
+  // await PlaylistItem.update();
 
   await Promise.allSettled(items.map((i) => i.save()));
 

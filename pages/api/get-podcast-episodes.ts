@@ -8,14 +8,14 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
   const results = await itunes.lookupPodcast(req.body.id);
 
-  console.log(results);
-
   if (results.resultCount === 1) {
     const feedUrl = results.results[0].feedUrl;
 
     if (!feedUrl) {
       return res.status(400).json({ error: 'This podcast does not have a public feed URL'});
     }
+
+    // TODO: cache results
 
     const parser = new Parser();
     const feed = await parser.parseURL(feedUrl);

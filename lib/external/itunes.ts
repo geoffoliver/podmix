@@ -56,6 +56,7 @@ class iTunes {
   }
 
   private async fetch(url: string): Promise<iTunesData> {
+    // TODO: cache results
     const result = await axios.get(url);
     return result.data;
   }
