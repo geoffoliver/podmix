@@ -24,8 +24,12 @@
   - [ ] Artists
 - [ ] Artist detail page
 - [ ] Playlist detail page
-- [ ] Cache RSS and M3U files
+- [ ] Caching
+  - [ ] RSS and M3U files
+  - [ ] Parsed feeds
+  - [ ] iTunes results
+- [ ] Migrations
 
 # Maybe
 
-- [ ] Generate cover image for playlists
+- [ ] Monetize
