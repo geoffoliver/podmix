@@ -49,7 +49,7 @@ const Header = () => {
           <InstantSearch indexName={process.env.NEXT_PUBLIC_ALGOLIA_INDEX_NAME} searchClient={searchClient}>
             <SearchBox
               translations={{
-                placeholder: 'Search for playlists and podcasts',
+                placeholder: 'Search for playlists',
               }}
             />
             <Hits />

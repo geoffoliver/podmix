@@ -28,6 +28,7 @@
   - [ ] Artists
 - [ ] Artist detail page
 - [ ] Playlist detail page
+- [ ] Mobile nav
 - [ ] Migrations
 
 # Maybe
