@@ -4,7 +4,6 @@ import os from 'os';
 import { NextApiRequest, NextApiResponse } from 'next'
 import stream from 'stream';
 import axios from 'axios';
-import { v4 as uuid } from 'uuid';
 import gm from 'gm';
 import { promisify } from 'util';
 import crypto from 'crypto';
@@ -12,8 +11,6 @@ import crypto from 'crypto';
 import Playlist from '@/lib/models/playlist';
 import PlaylistItem from '@/lib/models/playlistItem';
 import Bunny from '@/lib/external/bunny';
-
-// const DEFAULT_PLAYLIST_IMAGE = path.resolve(process.cwd(), 'public', 'playlist-placeholder.png');
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const id = req.query.playlistId.toString();

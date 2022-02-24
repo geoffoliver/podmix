@@ -3,6 +3,7 @@ import { getSession } from 'next-auth/react';
 
 import Playlist from '@/lib/models/playlist';
 import Bunny from '@/lib/external/bunny';
+import cache from '@/lib/cache';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const session = await getSession({ req });
@@ -28,6 +29,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   }
 
   await playlist.destroy();
+
+  const rssCache = `playlist-rss-${playlist.id}`;
+  const m3uCache = `playlist-m3u-${playlist.id}`;
+
+  await cache.deleteCache(rssCache, m3uCache);
 
   return res.status(200).json({ playlist })
 }

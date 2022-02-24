@@ -4,6 +4,7 @@ import { getSession } from 'next-auth/react';
 import Playlist from '@/lib/models/playlist';
 import PlaylistItem from '@/lib/models/playlistItem';
 import Bunny from '@/lib/external/bunny';
+import cache from '@/lib/cache';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const session = await getSession({ req });
@@ -44,14 +45,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     item.position = i;
   });
 
-  const items = await PlaylistItem.bulkCreate(saveItems, {
+  await PlaylistItem.bulkCreate(saveItems, {
     updateOnDuplicate: ['position'],
   });
-  // const items = PlaylistItem.bulkBuild(req.body.items, { isNewRecord: false });
-
-  // await PlaylistItem.update();
-
-  await Promise.allSettled(items.map((i) => i.save()));
 
   if (playlist.image) {
     const bunny = new Bunny();
@@ -60,5 +56,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     playlist.set('image', null);
     await playlist.save();
   }
+
+  const rssCache = `playlist-rss-${playlist.id}`;
+  const m3uCache = `playlist-m3u-${playlist.id}`;
+
+  await cache.deleteCache(rssCache, m3uCache);
+
   return res.status(200).json({ playlist })
 }

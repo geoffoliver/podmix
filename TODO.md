@@ -19,15 +19,15 @@
 - [x] Generate image for playlists
   - [x] RSS feed image
 - [x] Default profile picture
+- [x] Caching
+  - [x] RSS and M3U files
+  - [x] Parsed feeds
+  - [x] iTunes results
 - [ ] Search (algolia)
   - [ ] Playlists
   - [ ] Artists
 - [ ] Artist detail page
 - [ ] Playlist detail page
-- [ ] Caching
-  - [ ] RSS and M3U files
-  - [ ] Parsed feeds
-  - [ ] iTunes results
 - [ ] Migrations
 
 # Maybe

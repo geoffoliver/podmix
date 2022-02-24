@@ -3,6 +3,9 @@ import { Feed } from 'feed';
 
 import Playlist from '@/lib/models/playlist';
 import PlaylistItem from '@/lib/models/playlistItem';
+import cache from '@/lib/cache';
+
+const CACHE_TIME = 60 * 60;
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const playlist = await Playlist.findByPk(req.query.playlistId.toString(), {
@@ -17,6 +20,16 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
   if (!playlist) {
     return res.status(404).json({ error: 'Invalid playlist' });
+  }
+
+  const cacheKey = `playlist-rss-${playlist.id}`;
+  const cached = await cache.getCache(cacheKey);
+  if (cached) {
+    return res
+      .setHeader('content-type', 'application/rss+xml')
+      .setHeader('content-disposition', `attachment; filename=${playlist.name}.xml`)
+      .status(200)
+      .end(cached);
   }
 
   const f = new Feed({
@@ -42,9 +55,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     });
   });
 
+  const rssFeed = f.rss2();
+
+  await cache.setCache(cacheKey, rssFeed, CACHE_TIME);
+
   return res
     .setHeader('content-type', 'application/rss+xml')
     .setHeader('content-disposition', `attachment; filename=${playlist.name}.xml`)
     .status(200)
-    .end(f.rss2());
+    .end(rssFeed);
 }

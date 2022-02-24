@@ -1,4 +1,7 @@
-import axios, { AxiosResponse } from 'axios';
+import axios from 'axios';
+import crypto from 'crypto';
+
+import cache from '@/lib/cache';
 
 export type iTunesResult = {
 	wrapperType: 'track' | 'collection' | 'artistFor';
@@ -42,6 +45,8 @@ export type iTunesData = {
   results: iTunesResult[];
 };
 
+const CACHE_TIME = 60 * 60;
+
 class iTunes {
   baseUrl = 'https://itunes.apple.com/';
 
@@ -56,8 +61,18 @@ class iTunes {
   }
 
   private async fetch(url: string): Promise<iTunesData> {
-    // TODO: cache results
+    const hash = crypto.createHash('md5').update(url).digest('hex');
+    const cacheKey = `itunes-${hash}`;
+
+    const cached = await cache.getCache(cacheKey);
+    if (cached) {
+      return cached;
+    }
+
     const result = await axios.get(url);
+
+    await cache.setCache(cacheKey, result.data, CACHE_TIME);
+
     return result.data;
   }
 }

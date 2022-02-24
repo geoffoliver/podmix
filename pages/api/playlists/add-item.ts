@@ -8,6 +8,7 @@ import Podcast from '@/lib/models/podcast';
 import { ItemWithiTunes } from '@/lib/types/podcast';
 import { durationToSeconds } from '@/lib/util';
 import Bunny from '@/lib/external/bunny';
+import cache from '@/lib/cache';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const session = await getSession({ req });
@@ -101,6 +102,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     position: req.body.position || totalItems,
     feedData:  feedItem,
   });
+
+  const rssCache = `playlist-rss-${playlist.id}`;
+  const m3uCache = `playlist-m3u-${playlist.id}`;
+
+  await cache.deleteCache(rssCache, m3uCache);
 
   if (playlist.image) {
     const bunny = new Bunny();

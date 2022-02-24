@@ -1,7 +1,11 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import Parser from 'rss-parser';
+import crypto from 'crypto';
 
+import cache from '@/lib/cache';
 import iTunes from '@/lib/external/itunes';
+
+const CACHE_TIME = 60 * 60;
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const itunes = new iTunes();
@@ -15,10 +19,18 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       return res.status(400).json({ error: 'This podcast does not have a public feed URL'});
     }
 
-    // TODO: cache results
+    const hash = crypto.createHash('md5').update(feedUrl).digest('hex');
+    const cacheKey = `feed-${hash}`;
+
+    const cached = await cache.getCache(cacheKey);
+    if (cached) {
+      return res.status(200).json(cached);
+    }
 
     const parser = new Parser();
     const feed = await parser.parseURL(feedUrl);
+
+    await cache.setCache(cacheKey, feed, CACHE_TIME);
 
     return res.status(200).json(feed);
   }

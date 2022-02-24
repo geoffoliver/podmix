@@ -1,13 +1,42 @@
 /* eslint-disable @next/next/no-img-element */
-import { useSession, signIn, signOut } from "next-auth/react"
-import Link from "next/link";
-import { Form, Button, Container, Nav, Navbar } from 'react-bootstrap';
+import { useEffect, useState } from 'react';
+import {
+  useSession,
+  signIn,
+  signOut,
+} from 'next-auth/react'
+import {
+  Button,
+  Container,
+  Nav,
+  Navbar,
+} from 'react-bootstrap';
+import {
+  InstantSearch,
+  Hits,
+  SearchBox,
+} from 'react-instantsearch-dom';
+import Link from 'next/link';
+import algoliasearch from 'algoliasearch/lite';
 
 import styles from './Header.module.scss';
-import Icon from "./Icon";
+import Icon from './Icon';
+
+import 'instantsearch.css/themes/algolia-min.css';
+
+const searchClient = algoliasearch(process.env.NEXT_PUBLIC_ALGOLIA_APP_ID, process.env.NEXT_PUBLIC_ALGOLIA_SEARCH_API_KEY);
 
 const Header = () => {
   const { data: session } = useSession()
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) {
+    return null;
+  }
 
   return (
     <Navbar variant="dark" expand="lg" className={styles.navbar}>
@@ -17,12 +46,14 @@ const Header = () => {
         </Link>
         <Navbar.Toggle aria-controls="navbar-nav" />
         <div className={styles.search}>
-          <Icon icon="search" />
-          <Form.Control
-            type="text"
-            size="sm"
-            placeholder="Search for playlists or podcasts"
-          />
+          <InstantSearch indexName={process.env.NEXT_PUBLIC_ALGOLIA_INDEX_NAME} searchClient={searchClient}>
+            <SearchBox
+              translations={{
+                placeholder: 'Search for playlists and podcasts',
+              }}
+            />
+            <Hits />
+          </InstantSearch>
         </div>
         <Navbar.Collapse id="navbar-nav" className="justify-content-end">
           <Nav>

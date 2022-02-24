@@ -7,7 +7,7 @@ const options: Options = {
   database: process.env.DB_NAME,
   port: process.env.DB_PORT ? parseInt(process.env.DB_PORT, 10) : 3306,
   dialect: 'mysql',
-  logging: process.env.NODE_ENV !== 'production',
+  logging: false, // process.env.NODE_ENV !== 'production',
 };
 
 type SequelizeConfig = {
