@@ -1,10 +1,12 @@
 import { Container, Row, Col } from 'react-bootstrap';
-import { Hits } from 'react-instantsearch-dom';
+import { connectHits, Hits } from 'react-instantsearch-dom';
 import Head from 'next/head'
 
 // import Playlist from '@/lib/models/playlist';
 // import PlaylistSummary from '@/components/PlaylistSummary';
-import SearchResult from '@/components/SearchResult';
+import SearchResults from '@/components/SearchResults';
+
+const CustomHits = connectHits(SearchResults);
 
 // import styles from '@/styles/index.module.scss';
 
@@ -26,7 +28,7 @@ export default function Home() {
       <Container>
         <Row>
           <Col>
-            <Hits hitComponent={SearchResult} />
+            <CustomHits />
           </Col>
         </Row>
       </Container>
