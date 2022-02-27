@@ -9,8 +9,14 @@ import { ItemWithiTunes } from '@/lib/types/podcast';
 import { durationToSeconds } from '@/lib/util';
 import Bunny from '@/lib/external/bunny';
 import cache from '@/lib/cache';
+import { searchIndex } from '@/lib/external/algolia';
+import PlaylistItem from '@/lib/models/playlistItem';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+  if (req.method !== 'POST') {
+    return res.status(400).json({ error: 'Invalid request' });
+  }
+
   const session = await getSession({ req });
 
   if (!session) {
@@ -52,25 +58,29 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     return res.status(400).json({ error: 'Invalid episode' });
   }
 
+  const values = {
+    name: podData.trackName,
+    image: podData.artworkUrl600,
+    iTunesArtistName: podData.artistName,
+    iTunesCollectionName: podData.collectionName,
+    iTunesTrackName: podData.trackName,
+    iTunesPrimaryGenreName: podData.primaryGenreName,
+    iTunesGenres: podData.genres,
+    iTunesData: podData,
+  };
+
   const [podcast] = await Podcast.findOrCreate({
     where: {
       name: podData.trackName,
     },
-    defaults: {
-      name: podData.trackName,
-      image: podData.artworkUrl600,
-      iTunesArtistName: podData.artistName,
-      iTunesCollectionName: podData.collectionName,
-      iTunesTrackName: podData.trackName,
-      iTunesPrimaryGenreName: podData.primaryGenreName,
-      iTunesGenres: podData.genres,
-      iTunesData: podData,
-    },
+    defaults: values,
   });
 
   if (!podcast) {
     return res.status(500).json({ error: 'Error locating podcast' });
   }
+
+  podcast.set(values);
 
   const totalItems = await playlist.countItems();
 
@@ -103,6 +113,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     feedData:  feedItem,
   });
 
+  await podcast.save();
+
   const rssCache = `playlist-rss-${playlist.id}`;
   const m3uCache = `playlist-m3u-${playlist.id}`;
 
@@ -115,6 +127,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     playlist.set('image', null);
     await playlist.save();
   }
+
+  await playlist.updateSearchIndex();
 
   return res.status(200).json({ item })
 }

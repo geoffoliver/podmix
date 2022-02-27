@@ -6,6 +6,10 @@ import Bunny from '@/lib/external/bunny';
 import cache from '@/lib/cache';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+  if (req.method !== 'POST') {
+    return res.status(400).json({ error: 'Invalid request' });
+  }
+
   const session = await getSession({ req });
 
   if (!session) {

@@ -49,10 +49,10 @@ const Header = () => {
           <InstantSearch indexName={process.env.NEXT_PUBLIC_ALGOLIA_INDEX_NAME} searchClient={searchClient}>
             <SearchBox
               translations={{
-                placeholder: 'Search for playlists',
+                placeholder: 'Search playlists, podcasts, and episodes',
               }}
             />
-            <Hits />
+            {/* <Hits /> */}
           </InstantSearch>
         </div>
         <Navbar.Collapse id="navbar-nav" className="justify-content-end">

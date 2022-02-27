@@ -7,6 +7,10 @@ import Bunny from '@/lib/external/bunny';
 import cache from '@/lib/cache';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+  if (req.method !== 'POST') {
+    return res.status(400).json({ error: 'Invalid request' });
+  }
+
   const session = await getSession({ req });
 
   if (!session) {
@@ -29,8 +33,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     description: req.body.description,
   });
 
-  await playlist.save();
-
   if (req.body.removed) {
     await PlaylistItem.destroy({
       where: {
@@ -52,10 +54,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   if (playlist.image) {
     const bunny = new Bunny();
     await bunny.delete(playlist.image);
-
+    playlist.image = null;
     playlist.set('image', null);
-    await playlist.save();
   }
+
+  await playlist.save();
 
   const rssCache = `playlist-rss-${playlist.id}`;
   const m3uCache = `playlist-m3u-${playlist.id}`;
