@@ -61,7 +61,7 @@ class iTunes {
   }
 
   private async fetch(url: string): Promise<iTunesData> {
-    const hash = crypto.createHash('md5').update(url).digest('hex');
+    const hash = crypto.createHash('md5').update(url.toLocaleLowerCase()).digest('hex');
     const cacheKey = `itunes-${hash}`;
 
     const cached = await cache.getCache(cacheKey);

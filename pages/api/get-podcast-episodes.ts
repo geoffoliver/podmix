@@ -19,7 +19,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       return res.status(400).json({ error: 'This podcast does not have a public feed URL'});
     }
 
-    const hash = crypto.createHash('md5').update(feedUrl).digest('hex');
+    const hash = crypto.createHash('md5').update(feedUrl.toLocaleLowerCase()).digest('hex');
     const cacheKey = `feed-${hash}`;
 
     const cached = await cache.getCache(cacheKey);
