@@ -147,6 +147,7 @@ class Playlist extends Model<InferAttributes<Playlist>, InferCreationAttributes<
   async updateSearchIndex(): Promise<HookReturn> {
     await this.reload({
       include: [
+        'user',
         {
           model: PlaylistItem,
           as: 'items',
@@ -189,18 +190,17 @@ class Playlist extends Model<InferAttributes<Playlist>, InferCreationAttributes<
       await this.generateImage();
     }
 
-    const result = await searchIndex.saveObject({
+    await searchIndex.saveObject({
       objectID: this.id,
       name: this.name,
       image: this.image,
+      author: this.user.name,
       description: this.description,
       genres: Array.from(genres),
       shows: Array.from(shows),
       episodes: Array.from(episodes),
       duration,
     });
-
-    console.log(result);
   }
 }
 
