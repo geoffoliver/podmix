@@ -29,10 +29,12 @@ export default function Home() {
         <Row>
           <Col>
             <div className={styles.hero}>
-              <div className="my-5 p-4">
-                <h1>Podcast Playlists for Everyone</h1>
-                <p className="lead">Create, listen to, and share podcast playlists!</p>
-              </div>
+              <h1>
+                <span>Podmix</span>
+              </h1>
+              <p className="lead">
+                <span>Create and share podcast playlists!</span>
+              </p>
             </div>
           </Col>
         </Row>

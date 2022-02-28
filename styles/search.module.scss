@@ -1,10 +1,28 @@
 @import './bootstrap-files.scss';
 
 .refinement {
-  padding: 15px 0;
+  padding: 0;
+  border: 1px solid $gray-200;
 
   h2 {
     font-size: $font-size-base;
+    border-bottom: 1px solid $gray-200;
+    background: $gray-100;
+    padding: 12px 10px;
+    line-height: 1;
+    margin-bottom: 0;
+  }
+
+  + .refinement {
+    margin-top: 2rem;
+  }
+}
+
+.refinements {
+  padding: 10px;
+
+  > div + div {
+    padding-top: 8px;
   }
 }
 

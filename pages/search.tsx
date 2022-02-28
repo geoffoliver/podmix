@@ -47,14 +47,18 @@ const Results = ({ searching, allSearchResults, searchState }: ResultsProps) => 
       )}
       {allSearchResults && allSearchResults.nbHits > 0 && (
         <Row>
-          <Col md={3}>
+          <Col md={3} className="pt-3">
             <div className={styles.refinement}>
               <h2>Genres</h2>
-              <CustomRefinements attribute="genres" />
+              <div className={styles.refinements}>
+                <CustomRefinements attribute="genres" />
+              </div>
             </div>
             <div className={styles.refinement}>
               <h2>Shows</h2>
-              <CustomRefinements attribute="shows" />
+              <div className={styles.refinements}>
+                <CustomRefinements attribute="shows" />
+              </div>
             </div>
           </Col>
           <Col md={9}>

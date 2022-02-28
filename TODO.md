@@ -23,14 +23,14 @@
   - [x] RSS and M3U files
   - [x] Parsed feeds
   - [x] iTunes results
-- [ ] Search (algolia)
-  - [ ] Playlists
-  - [ ] Artists
-- [ ] Artist detail page
+- [x] Search
 - [ ] Playlist detail page
 - [ ] Mobile nav
 - [ ] Migrations
+- [ ] Playlist builder instructions
+- [ ] Sharing meta tags
 
 # Maybe
 
-- [ ] Monetize
+- [ ] Monetize?
+- [ ] Artist detail page
