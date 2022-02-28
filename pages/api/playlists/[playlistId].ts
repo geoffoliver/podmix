@@ -1,8 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 
-import Playlist from '@/lib/models/playlist';
-import PlaylistItem from '@/lib/models/playlistItem';
-import User from '@/lib/models/user';
+import { Playlist, PlaylistItem, User } from '@/lib/models';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const id = req.query.playlistId.toString();

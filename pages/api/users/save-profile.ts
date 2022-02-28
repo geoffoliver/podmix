@@ -1,8 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { getSession } from 'next-auth/react';
-import axios from 'axios';
 
-import User from '@/lib/models/user';
+import { User } from '@/lib/models';
 import Bunny from '@/lib/external/bunny';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {

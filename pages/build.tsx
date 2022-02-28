@@ -7,7 +7,7 @@ import { HTML5Backend } from 'react-dnd-html5-backend';
 import Playlists from '@/components/Playlists';
 import PodcastBrowser from '@/components/PodcastBrowser';
 import PlaylistEditor from '@/components/PlaylistEditor';
-import Playlist from '@/lib/models/playlist';
+import { Playlist } from '@/lib/models';
 import PodcastsContext from '@/lib/context/podcasts';
 import { getSession, signIn } from 'next-auth/react';
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next';

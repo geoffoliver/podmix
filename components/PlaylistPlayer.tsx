@@ -1,8 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { ButtonGroup, Button } from 'react-bootstrap';
 
-import PlaylistItem from '@/lib/models/playlistItem';
-import Playlist from '@/lib/models/playlist';
+import { PlaylistItem, Playlist } from '@/lib/models';
 import Icon from '@/components/Icon';
 
 import styles from '@/styles/PlaylistPlayer.module.scss';

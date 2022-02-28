@@ -3,9 +3,8 @@ import { useRef } from 'react';
 import { useDrag, useDrop } from 'react-dnd';
 import { Button } from 'react-bootstrap';
 import { Identifier, XYCoord } from 'dnd-core';
-import classnames from 'classnames';
 
-import PlaylistItem from "@/lib/models/playlistItem";
+import { PlaylistItem } from '@/lib/models';
 import { PLAYLIST_ENTRY } from '@/lib/types/playlist';
 
 import Icon from './Icon';

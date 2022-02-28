@@ -1,11 +1,11 @@
 import { useMemo } from 'react';
 import { useSession } from 'next-auth/react';
 import { Container, Row, Col } from 'react-bootstrap';
-import Playlist from '@/lib/models/playlist';
 import Head from 'next/head'
 import useSWR from 'swr';
 import axios from 'axios';
 
+import { Playlist } from '@/lib/models';
 import PlaylistSummary from '@/components/PlaylistSummary';
 
 import styles from '@/styles/index.module.scss';

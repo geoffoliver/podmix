@@ -5,8 +5,7 @@ import GoogleProvider from 'next-auth/providers/google'
 import EmailProvider from 'next-auth/providers/email'
 import SequelizeAdapter from '@next-auth/sequelize-adapter';
 
-import sequelize from '@/lib/models/index';
-import User from '@/lib/models/user';
+import sequelize, { User } from '@/lib/models';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const adapter = SequelizeAdapter(sequelize, {

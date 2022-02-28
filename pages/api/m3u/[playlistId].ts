@@ -1,9 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { M3uPlaylist, M3uMedia } from 'm3u-parser-generator';
 
-import Playlist from '@/lib/models/playlist';
-import PlaylistItem from '@/lib/models/playlistItem';
-import Podcast from '@/lib/models/podcast';
+import { Playlist, PlaylistItem, Podcast } from '@/lib/models';
 import cache from '@/lib/cache';
 
 const CACHE_TIME = 60 * 60;

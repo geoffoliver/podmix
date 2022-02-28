@@ -1,6 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 
-import Playlist from '@/lib/models/playlist';
+import { Playlist } from '@/lib/models';
 
 type PlaylistImageProps = {
   playlist: Playlist;

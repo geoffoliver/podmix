@@ -7,9 +7,7 @@ import { GetStaticProps } from 'next';
 import dynamic from 'next/dynamic';
 import classnames from 'classnames';
 
-import Playlist from '@/lib/models/playlist';
-import PlaylistItem from '@/lib/models/playlistItem';
-import User from '@/lib/models/user';
+import { Playlist, PlaylistItem, User } from '@/lib/models';
 
 import Icon from '@/components/Icon';
 import PlaylistImage from '@/components/PlaylistImage';

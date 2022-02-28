@@ -4,7 +4,7 @@ import formidable from 'formidable';
 import { v4 as uuid } from 'uuid';
 import sharp from 'sharp';
 
-import User from '@/lib/models/user';
+import { User } from '@/lib/models';
 import Bunny from '@/lib/external/bunny';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {

@@ -1,8 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { getSession } from 'next-auth/react';
 
-import Playlist from '@/lib/models/playlist';
-import PlaylistItem from '@/lib/models/playlistItem';
+import { Playlist, PlaylistItem } from '@/lib/models';
 import Bunny from '@/lib/external/bunny';
 import cache from '@/lib/cache';
 

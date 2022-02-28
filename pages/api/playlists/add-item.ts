@@ -2,15 +2,12 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 import { getSession } from 'next-auth/react';
 import Parser from 'rss-parser';
 
-import Playlist from '@/lib/models/playlist';
+import { Playlist, Podcast } from '@/lib/models';
 import iTunes from '@/lib/external/itunes';
-import Podcast from '@/lib/models/podcast';
 import { ItemWithiTunes } from '@/lib/types/podcast';
 import { durationToSeconds } from '@/lib/util';
 import Bunny from '@/lib/external/bunny';
 import cache from '@/lib/cache';
-import { searchIndex } from '@/lib/external/algolia';
-import PlaylistItem from '@/lib/models/playlistItem';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method !== 'POST') {

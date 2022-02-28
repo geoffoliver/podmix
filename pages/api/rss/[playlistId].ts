@@ -1,8 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { Feed } from 'feed';
 
-import Playlist from '@/lib/models/playlist';
-import PlaylistItem from '@/lib/models/playlistItem';
+import { Playlist, PlaylistItem } from '@/lib/models';
 import cache from '@/lib/cache';
 
 const CACHE_TIME = 60 * 60;

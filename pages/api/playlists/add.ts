@@ -1,8 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { getSession } from 'next-auth/react';
 
-import Playlist from '@/lib/models/playlist';
-import { searchIndex } from '@/lib/external/algolia';
+import { Playlist } from '@/lib/models';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method !== 'POST') {
