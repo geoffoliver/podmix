@@ -83,6 +83,10 @@ class Playlist extends Model<InferAttributes<Playlist>, InferCreationAttributes<
       order: [['position', 'ASC']]
     });
 
+    if (items.length === 0) {
+      return;
+    }
+
     items.some((item) => {
       if (!img.includes(item.image)) {
         img.push(item.image);
@@ -158,15 +162,19 @@ class Playlist extends Model<InferAttributes<Playlist>, InferCreationAttributes<
             return resolve(url);
           });
       } else {
-        await Promise.all(filePaths.map((f) => {
-          return sharp(fs.readFileSync(f)).resize(width / 2, height /2, { fit: 'outside' }).toFile(f);
+        const res = await Promise.all(filePaths.map((f) => {
+          return sharp(fs.readFileSync(f))
+            .resize(Math.round(width / 2), Math.round(height / 2), { fit: 'outside' })
+            .webp({ quality: 100 })
+            .toFile(`${f}_small.webp`);
         }));
+
         sharp({ create: { width, height, channels, background: '#000' } })
           .composite([
-            { input: filePaths[0], top: 0, left: 0 },
-            { input: filePaths[1], top: 0, left: 256 },
-            { input: filePaths[2], top: 256, left: 0 },
-            { input: filePaths[3], top: 256, left: 256 },
+            { input: `${filePaths[0]}_small.webp`, top: 0, left: 0 },
+            { input: `${filePaths[1]}_small.webp`, top: 0, left: 256 },
+            { input: `${filePaths[2]}_small.webp`, top: 256, left: 0 },
+            { input: `${filePaths[3]}_small.webp`, top: 256, left: 256 },
           ])
           .webp({ quality: 90 })
           .toFile(tmpfile, async (err: any, info: any) => {
@@ -182,7 +190,9 @@ class Playlist extends Model<InferAttributes<Playlist>, InferCreationAttributes<
 
             this.image = url;
             this.set('image', url);
-            await this.save();
+            await this.save({
+              hooks: false,
+            });
 
             return resolve(url);
           });
@@ -239,8 +249,6 @@ class Playlist extends Model<InferAttributes<Playlist>, InferCreationAttributes<
       await this.generateImage();
     }
 
-    console.log(this.user);
-
     await searchIndex.saveObject({
       objectID: this.id,
       name: this.name,
@@ -292,7 +300,11 @@ Playlist.addHook('afterDestroy', async (inst: Playlist) => {
     await bunny.delete(inst.image);
   }
 
-  await searchIndex.deleteObject(inst.id);
+  try {
+    await searchIndex.deleteObject(inst.id);
+  } catch (ex) {
+    console.error('An error occurred deleting the object from the search index', ex.message);
+  }
 });
 
 // #endregion

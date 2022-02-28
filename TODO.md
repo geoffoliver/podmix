@@ -29,8 +29,10 @@
 - [ ] Migrations
 - [ ] Playlist builder instructions
 - [ ] Sharing meta tags
+- [ ] Defer playlist image generation
 
 # Maybe
 
-- [ ] Monetize?
+- [ ] Monetize
 - [ ] Artist detail page
+- [ ] Linify descriptions

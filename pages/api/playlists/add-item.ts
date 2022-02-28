@@ -1,6 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { getSession } from 'next-auth/react';
 import Parser from 'rss-parser';
+import crypto from 'crypto';
 
 import { Playlist, Podcast } from '@/lib/models';
 import iTunes from '@/lib/external/itunes';
@@ -44,8 +45,19 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     return res.status(400).json({ error: 'Podcast is missing data' });
   }
 
-  const parser = new Parser();
-  const feed = await parser.parseURL(podData.feedUrl);
+  const hash = crypto.createHash('md5').update(podData.feedUrl.toLocaleLowerCase()).digest('hex');
+  const cacheKey = `feed-${hash}`;
+
+  let feed: any;
+
+  const cached = await cache.getCache(cacheKey);
+  if (cached) {
+    feed = cached;
+  } else {
+    const parser = new Parser();
+    feed = await parser.parseURL(podData.feedUrl);
+    await cache.setCache(cacheKey, feed, 60 * 60);
+  }
 
   const feedItem: ItemWithiTunes = feed.items.find((item) => {
     return item.enclosure?.url === req.body.mediaUrl;
@@ -124,8 +136,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     playlist.set('image', null);
     await playlist.save();
   }
-
-  await playlist.updateSearchIndex();
 
   return res.status(200).json({ item })
 }

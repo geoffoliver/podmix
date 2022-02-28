@@ -38,17 +38,22 @@ class Bunny {
       `https://${process.env.BUNNY_STORAGE_REGION}.storage.bunnycdn.com/${process.env.BUNNY_STORAGE_ZONE}`,
     );
 
-    const deleted = await axios.delete(
-      bunnyFile,
-      {
-        headers: {
-          'AccessKey': process.env.BUNNY_API_KEY,
-          'Content-Type': 'application/octet-stream',
+    try {
+      const deleted = await axios.delete(
+        bunnyFile,
+        {
+          headers: {
+            'AccessKey': process.env.BUNNY_API_KEY,
+            'Content-Type': 'application/octet-stream',
+          },
         },
-      },
-    );
+      );
 
-    return deleted.status === 200;
+      return deleted.status === 200;
+    } catch (ex) {
+      console.log('Error deleting file from Bunny', ex.message);
+      return false;
+    }
   }
 }
 

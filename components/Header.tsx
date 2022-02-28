@@ -40,6 +40,7 @@ const Header = () => {
     }));
   }, []);
 
+  /*
   const autoSubmit = useCallback((e: SyntheticEvent<HTMLInputElement, Event>) => {
     clearTimeout(timeout.current);
 
@@ -50,6 +51,7 @@ const Header = () => {
       }));
     }, DEBOUNCE_TIME);
   }, []);
+  */
 
   if (!mounted) {
     return null;
@@ -66,7 +68,7 @@ const Header = () => {
           <SearchBox
             searchAsYouType={false}
             onSubmit={handleSubmit}
-            onChange={autoSubmit}
+            // onChange={autoSubmit}
             translations={{
               placeholder: 'Search playlists, podcasts, and episodes',
             }}

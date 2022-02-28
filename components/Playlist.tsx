@@ -7,6 +7,7 @@ import classnames from 'classnames';
 import { PlaylistEntry } from "@/lib/types/playlist";
 import { ItemWithiTunes, PODCAST_EPISODE } from '@/lib/types/podcast';
 import PodcastsContext from '@/lib/context/podcasts';
+import Icon from '@/components/Icon';
 
 import styles from '@/styles/Playlist.module.scss';
 
@@ -64,7 +65,7 @@ const Playlist = ({ list, onEdit }: PlaylistProps) => {
       action
     >
       {list.name}
-      {saving && <>...</>}
+      {saving && <Icon icon="spinner" spin fixedWidth />}
     </ListGroupItem>
   );
 };

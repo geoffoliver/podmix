@@ -27,11 +27,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     return res.status(404).json({ error: 'Invalid playlist' });
   }
 
-  if (playlist.image) {
-    const bunny = new Bunny();
-    await bunny.delete(playlist.image);
-  }
-
   await playlist.destroy();
 
   const rssCache = `playlist-rss-${playlist.id}`;
