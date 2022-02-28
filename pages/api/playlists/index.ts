@@ -6,11 +6,9 @@ import { WhereOptions } from 'sequelize/types';
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   let playlists: Playlist[] = [];
 
-  const limit = 100;
+  const limit = 30;
   let where: WhereOptions<Playlist> = undefined;
   let offset = 0;
-
-  // TODO: populate `where`
 
   if (req.query.page) {
     let pageNum = Number(req.query.page);

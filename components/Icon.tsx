@@ -17,6 +17,10 @@ import {
   faSpinner,
   faShuffle,
   faSearch,
+  faPlus,
+  faMinus,
+  faChevronUp,
+  faChevronDown,
 } from '@fortawesome/free-solid-svg-icons';
 import { faFacebook, faGoogle } from '@fortawesome/free-brands-svg-icons';
 import { FontAwesomeIconProps } from '@fortawesome/react-fontawesome';
@@ -39,6 +43,10 @@ library.add(
   faSearch,
   faFacebook,
   faGoogle,
+  faPlus,
+  faMinus,
+  faChevronUp,
+  faChevronDown,
 );
 
 const Icon = (props: FontAwesomeIconProps) => {

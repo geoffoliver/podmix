@@ -1,7 +1,8 @@
-import { useCallback, useMemo } from 'react';
-import { Badge, Form } from 'react-bootstrap';
+import { useCallback, useMemo, useState } from 'react';
+import { Button, Form } from 'react-bootstrap';
 
 import { RefinementItem } from "@/lib/types/search";
+import Icon from '@/components/Icon';
 
 import styles from '@/styles/Refinements.module.scss';
 
@@ -14,7 +15,12 @@ type RefinementsProps = {
   createURL: Function;
 };
 
+const defaultLimit = 5;
+const maxLimit = 50;
+
 const Refinements = ({ items, refine, currentRefinement }: RefinementsProps) => {
+  const [limit, setLimit] = useState(defaultLimit);
+
   const doRefine = useCallback((e) => {
     let vals = currentRefinement;
 
@@ -28,8 +34,8 @@ const Refinements = ({ items, refine, currentRefinement }: RefinementsProps) => 
   }, [refine, currentRefinement]);
 
   const sortedItems = useMemo(() => {
-    return items.sort((a, b) => a.label.localeCompare(b.label));
-  }, [items]);
+    return items.sort((a, b) => a.label.localeCompare(b.label)).slice(0, limit);
+  }, [items, limit]);
 
   return (
     <>
@@ -58,6 +64,21 @@ const Refinements = ({ items, refine, currentRefinement }: RefinementsProps) => 
           </div>
         );
       })}
+      {(items.length > limit || limit === maxLimit) && (
+        <div className={styles.showMoreLess}>
+          <Button variant="link" size="sm" className="p-0" onClick={() => setLimit(limit > defaultLimit ? defaultLimit : maxLimit)}>
+            {limit > defaultLimit ? (
+              <>
+                <Icon icon="minus" className="me-1" fixedWidth /> Show Less
+              </>
+            ): (
+              <>
+                <Icon icon="plus" className="me-1" fixedWidth /> Show More
+              </>
+            )}
+          </Button>
+        </div>
+      )}
     </>
   )
 };

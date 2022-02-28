@@ -1,5 +1,4 @@
 import { useMemo } from 'react';
-import { useSession } from 'next-auth/react';
 import { Container, Row, Col } from 'react-bootstrap';
 import Head from 'next/head'
 import useSWR from 'swr';
@@ -11,7 +10,6 @@ import PlaylistSummary from '@/components/PlaylistSummary';
 import styles from '@/styles/index.module.scss';
 
 export default function Home() {
-  const { data: session } = useSession();
   const { data, error, isValidating } = useSWR('/api/playlists', axios, {
     revalidateOnFocus: false,
   });
