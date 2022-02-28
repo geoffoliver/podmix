@@ -83,7 +83,7 @@ function MyApp({
         <Container>
           <Row>
             <Col>
-              &copy; {new Date().getFullYear()} Podmix
+              &copy; {new Date().getFullYear()} Podmix &amp; <a href="https://www.plan8studios.com" target="_blank" rel="noreferrer">Plan8 Studios</a>
             </Col>
           </Row>
         </Container>

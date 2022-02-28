@@ -6,4 +6,8 @@
   border-top: 1px solid $gray-100;
   font-size: $font-size-sm;
   color: $text-muted;
+
+  a {
+    color: $text-muted;
+  }
 }
