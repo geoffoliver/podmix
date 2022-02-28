@@ -1,5 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
-import { useEffect, useState } from 'react';
+import { SyntheticEvent, useCallback, useEffect, useRef, useState } from 'react';
 import {
   useSession,
   signIn,
@@ -14,16 +14,41 @@ import {
 import { SearchBox } from 'react-instantsearch-dom';
 import Link from 'next/link';
 
-import styles from './Header.module.scss';
+import styles from '@/styles/Header.module.scss';
 import Icon from './Icon';
 
+const DEBOUNCE_TIME = 400;
 
 const Header = () => {
   const { data: session } = useSession()
   const [mounted, setMounted] = useState(false);
+  const timeout = useRef(null);
 
   useEffect(() => {
     setMounted(true);
+  }, []);
+
+  const handleSubmit = useCallback((e: SyntheticEvent<HTMLFormElement, Event>) => {
+    e.preventDefault();
+    const searchField = Array.from(e.currentTarget.elements).find((el: HTMLInputElement) => el.type === 'search');
+    if (!searchField) {
+      return;
+    }
+    searchField.dispatchEvent(new Event('search', {
+      bubbles: true,
+      composed: true,
+    }));
+  }, []);
+
+  const autoSubmit = useCallback((e: SyntheticEvent<HTMLInputElement, Event>) => {
+    clearTimeout(timeout.current);
+
+    timeout.current = setTimeout(() => {
+      e.target.dispatchEvent(new Event('search', {
+        bubbles: true,
+        composed: true,
+      }));
+    }, DEBOUNCE_TIME);
   }, []);
 
   if (!mounted) {
@@ -39,6 +64,9 @@ const Header = () => {
         <Navbar.Toggle aria-controls="navbar-nav" />
         <div className={styles.search}>
           <SearchBox
+            searchAsYouType={false}
+            onSubmit={handleSubmit}
+            onChange={autoSubmit}
             translations={{
               placeholder: 'Search playlists, podcasts, and episodes',
             }}
@@ -68,7 +96,14 @@ const Header = () => {
                   </Nav.Link>
                 </>
               ) : (
-              <Button type="button" variant="primary" onClick={() => signIn()}>Login</Button>
+              <Button
+                type="button"
+                variant="info"
+                onClick={() => signIn()}
+                className={styles.login}
+              >
+                Login/Register
+              </Button>
               )
             }
           </Nav>

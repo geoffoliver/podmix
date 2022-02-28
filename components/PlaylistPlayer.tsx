@@ -5,7 +5,7 @@ import PlaylistItem from '@/lib/models/playlistItem';
 import Playlist from '@/lib/models/playlist';
 import Icon from '@/components/Icon';
 
-import styles from './PlaylistPlayer.module.scss';
+import styles from '@/styles/PlaylistPlayer.module.scss';
 import { secondsToDuration } from '@/lib/util';
 
 type PlaylistProps = {

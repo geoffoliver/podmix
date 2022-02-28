@@ -4,8 +4,8 @@ import { Button, Form, InputGroup } from 'react-bootstrap';
 import Parser from 'rss-parser';
 
 import { ItemWithiTunes } from '@/lib/types/podcast';
+import styles from '@/styles/Episodes.module.scss';
 import Episode from './Episode';
-import styles from './Episodes.module.scss';
 
 type EpisodesProps = {
   feed: Parser.Output<any>;

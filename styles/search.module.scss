@@ -1,0 +1,23 @@
+@import './bootstrap-files.scss';
+
+.refinement {
+  padding: 15px 0;
+
+  h2 {
+    font-size: $font-size-base;
+  }
+}
+
+.loading,
+.noResults {
+  font-size: $h3-font-size;
+  color: $text-muted;
+  text-align: center;
+  padding-top: 2rem;
+}
+
+.loading {
+  svg {
+    margin-right: 10px;
+  }
+}

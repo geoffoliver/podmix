@@ -5,7 +5,7 @@ import Truncate from 'react-truncate';
 
 import Playlist from '@/lib/models/playlist';
 
-import styles from './PlaylistSummary.module.scss';
+import styles from '@/styles/PlaylistSummary.module.scss';
 import PlaylistImage from './PlaylistImage';
 
 type PlaylistSummaryProps = {

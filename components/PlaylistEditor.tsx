@@ -11,7 +11,7 @@ import { HTML5Backend } from 'react-dnd-html5-backend';
 import Playlist from "@/lib/models/playlist";
 import PlaylistItem from "@/lib/models/playlistItem";
 
-import styles from './PlaylistEditor.module.scss';
+import styles from '@/styles/PlaylistEditor.module.scss';
 import PlaylistItemComponent from './PlaylistItem';
 import Icon from './Icon';
 

@@ -1,7 +1,4 @@
-@import '../styles/bootstrap-theme.scss';
-@import '~bootstrap/scss/functions';
-@import '~bootstrap/scss/variables';
-@import '~bootstrap/scss/mixins';
+@import '../styles/bootstrap-files.scss';
 
 .navbar {
   background: #000;
@@ -68,4 +65,8 @@
       border: 1px solid $gray-200;
     }
   }
+}
+
+.login {
+  border-radius: 1.5rem;
 }

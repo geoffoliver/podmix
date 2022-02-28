@@ -6,7 +6,7 @@ import Truncate from 'react-truncate';
 import { ItemWithiTunes, PODCAST_EPISODE } from '@/lib/types/podcast';
 import { durationToSeconds, secondsToDuration } from '@/lib/util';
 
-import styles from './Episode.module.scss';
+import styles from '@/styles/Episode.module.scss';
 
 export type EpisodeProps = {
   item: ItemWithiTunes;

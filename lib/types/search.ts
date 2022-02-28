@@ -9,3 +9,10 @@ export type SearchResult = {
   episodes: string[];
   duration: number;
 };
+
+export type RefinementItem = {
+  label: string;
+  value: string[];
+  count: number;
+  isRefined: boolean;
+}

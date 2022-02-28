@@ -22,6 +22,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
   return await NextAuth(req, res, {
     pages: {
+      signIn: '/auth/login',
       signOut: '/'
     },
     providers: [

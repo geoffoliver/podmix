@@ -8,7 +8,7 @@ import { PlaylistEntry } from "@/lib/types/playlist";
 import { ItemWithiTunes, PODCAST_EPISODE } from '@/lib/types/podcast';
 import PodcastsContext from '@/lib/context/podcasts';
 
-import styles from './Playlist.module.scss';
+import styles from '@/styles/Playlist.module.scss';
 
 type PlaylistProps = {
   list: PlaylistEntry;

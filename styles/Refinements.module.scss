@@ -1,0 +1,13 @@
+@import './bootstrap-files';
+
+.labelContainer {
+  display: flex;
+  align-items: flex-start;
+}
+
+.count {
+  color: $text-muted;
+  font-size: $font-size-sm;
+  margin-left: 5px;
+  padding-top: 2px;
+}

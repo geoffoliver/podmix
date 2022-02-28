@@ -6,7 +6,7 @@ import classnames from 'classnames';
 import PodcastsContext from '@/lib/context/podcasts';
 import { iTunesResult } from '@/lib/external/itunes';
 
-import styles from './Podcast.module.scss';
+import styles from '@/styles/Podcast.module.scss';
 
 export type PodcastProps = {
   podcast: iTunesResult;

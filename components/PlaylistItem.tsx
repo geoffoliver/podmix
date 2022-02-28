@@ -9,7 +9,7 @@ import PlaylistItem from "@/lib/models/playlistItem";
 import { PLAYLIST_ENTRY } from '@/lib/types/playlist';
 
 import Icon from './Icon';
-import styles from './PlaylistItem.module.scss';
+import styles from '@/styles/PlaylistItem.module.scss';
 
 type PlaylistItemProps = {
   item: PlaylistItem;

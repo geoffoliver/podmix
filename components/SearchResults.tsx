@@ -1,6 +1,7 @@
-import { Row, Col } from 'react-bootstrap';
-
 import { SearchResult } from '@/lib/types/search';
+import styles from '@/styles/SearchResults.module.scss';
+import { Pagination } from 'react-bootstrap';
+
 import SearchResultComponent from './SearchResult';
 
 type SearchResultsParams = {
@@ -9,13 +10,14 @@ type SearchResultsParams = {
 
 const SearchResults = ({ hits }: SearchResultsParams) => {
   return (
-    <Row>
-      {hits.map((hit) => (
-        <Col key={hit.objectID}>
-          <SearchResultComponent hit={hit} />
-        </Col>
-      ))}
-    </Row>
+    <div className={styles.searchResults}>
+      <div>
+        {hits.map((hit) => (
+          <SearchResultComponent key={hit.objectID} hit={hit} />
+        ))}
+      </div>
+      <Pagination />
+    </div>
   )
 };
 

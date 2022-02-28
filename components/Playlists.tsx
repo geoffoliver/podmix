@@ -6,7 +6,7 @@ import useSWR from 'swr';
 
 import Playlist from '@/components/Playlist';
 
-import styles from './Playlists.module.scss';
+import styles from '@/styles/Playlists.module.scss';
 
 type PlaylistsProps = {
   onEdit: Function;

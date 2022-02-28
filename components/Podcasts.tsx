@@ -5,7 +5,7 @@ import { Button, Form, InputGroup } from 'react-bootstrap';
 import { iTunesResult } from '@/lib/external/itunes';
 import Podcast from './Podcast';
 
-import styles from './Podcasts.module.scss';
+import styles from '@/styles/Podcasts.module.scss';
 
 type PodcastsProps = {
   onClick: Function;
