@@ -73,10 +73,6 @@
   display: flex;
   text-align: left;
   border-top: 1px solid $gray-300;
-
-  &:last-child {
-    border-bottom: 1px solid $gray-300;
-  }
 }
 
 .image {

@@ -8,9 +8,13 @@ import AppContext from '@/lib/context/app';
 import Header from '@/components/Header';
 import ForceProfileSetup from '@/components/ForceProfileSetup';
 
-import '../styles/globals.scss'
-import 'instantsearch.css/themes/algolia-min.css';
 import { useRouter } from "next/router";
+import { Col, Container, Row } from "react-bootstrap";
+import styles from '@/styles/app.module.scss';
+
+import 'instantsearch.css/themes/algolia-min.css';
+import '@/styles/globals.scss'
+
 
 const searchClient = algoliasearch(process.env.NEXT_PUBLIC_ALGOLIA_APP_ID, process.env.NEXT_PUBLIC_ALGOLIA_SEARCH_API_KEY);
 
@@ -22,7 +26,6 @@ function MyApp({
   const router = useRouter();
   const query = router.asPath.includes('?') ? router.asPath.split('?').pop() : '';
   const [search, setSearch] = useState(qs.parse(query));
-  // const timeout = useRef(null);
 
   const submitSearch = useCallback((e) => {
     router.push(`/search${createURL({ query: e.target.value, page: 1 })}`);
@@ -76,6 +79,15 @@ function MyApp({
           <Component {...pageProps} />
         </InstantSearch>
       </AppContext.Provider>
+      <div className={styles.footer}>
+        <Container>
+          <Row>
+            <Col>
+              &copy; {new Date().getFullYear()} Podmix
+            </Col>
+          </Row>
+        </Container>
+      </div>
     </SessionProvider>
   );
 }
