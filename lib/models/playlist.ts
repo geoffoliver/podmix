@@ -1,4 +1,3 @@
-import path from 'path';
 import fs from 'fs';
 import os from 'os';
 import stream from 'stream';
@@ -22,12 +21,13 @@ import {
   HasManyRemoveAssociationsMixin,
   HasManySetAssociationsMixin,
   Association,
+  BelongsToGetAssociationMixin,
 } from 'sequelize';
 import { HookReturn } from 'sequelize/types/hooks';
 import { searchIndex } from '../external/algolia';
 import Bunny from '../external/bunny';
-import gm from 'gm';
 import axios from 'axios';
+import sharp from 'sharp';
 
 import sequelize from './index';
 import PlaylistItem from './playlistItem';
@@ -51,6 +51,7 @@ class Playlist extends Model<InferAttributes<Playlist>, InferCreationAttributes<
   declare hasItems: HasManyHasAssociationsMixin<PlaylistItem, string>;
   declare countItems: HasManyCountAssociationsMixin;
   declare createItem: HasManyCreateAssociationMixin<PlaylistItem, 'playlistId'>;
+  declare getUser: BelongsToGetAssociationMixin<User>
 
   declare items: NonAttribute<PlaylistItem[]>;
   declare user: NonAttribute<User>;
@@ -113,41 +114,70 @@ class Playlist extends Model<InferAttributes<Playlist>, InferCreationAttributes<
 
     const filePaths: string[] = await Promise.all(promises);
 
-    return new Promise((resolve, reject) => {
+    return new Promise(async (resolve, reject) => {
       const now = new Date().getTime().toString();
-      const filename = `${this.id}.${now}.jpg`;
+      const filename = `${this.id}.${now}.webp`;
       const tmpfile = `${os.tmpdir()}/${filename}`;
+      const width = 512;
+      const height = 512;
+      const channels = 3;
 
-      gm(filePaths[0])
-        .geometry('512x512+0+0')
-        .montage(filePaths[1])
-        .montage(filePaths[2])
-        .montage(filePaths[3])
-        .tile('2x2')
-        .write(tmpfile, async (err) => {
-          const bunny = new Bunny();
-          const url = await bunny.upload(
-            tmpfile,
-            `playlist-images/${filename}`,
-          );
+      if (filePaths.length === 1) {
+        sharp(filePaths[0])
+          .resize(width, height, { fit: 'outside' })
+          .webp({ quality: 90 })
+          .toFile(tmpfile, async (err: any, info: any) => {
+            if (err) {
+              return reject(err);
+            }
+            const bunny = new Bunny();
+            const url = await bunny.upload(
+              tmpfile,
+              `playlist-images/${filename}`,
+            );
 
-          this.image = url;
-          this.set('image', url);
-          await this.save();
+            this.image = url;
+            this.set('image', url);
+            await this.save();
 
-          if (err) {
-            return reject(err);
-          }
+            return resolve(url);
+          });
+      } else {
+        await Promise.all(filePaths.map((f) => {
+          return sharp(fs.readFileSync(f)).resize(width / 2, height /2, { fit: 'outside' }).toFile(f);
+        }));
+        sharp({ create: { width, height, channels, background: '#000' } })
+          .composite([
+            { input: filePaths[0], top: 0, left: 0 },
+            { input: filePaths[1], top: 0, left: 256 },
+            { input: filePaths[2], top: 256, left: 0 },
+            { input: filePaths[3], top: 256, left: 256 },
+          ])
+          .webp({ quality: 90 })
+          .toFile(tmpfile, async (err: any, info: any) => {
+            if (err) {
+              return reject(err);
+            }
 
-          return resolve(url);
-        });
+            const bunny = new Bunny();
+            const url = await bunny.upload(
+              tmpfile,
+              `playlist-images/${filename}`,
+            );
+
+            this.image = url;
+            this.set('image', url);
+            await this.save();
+
+            return resolve(url);
+          });
+      }
     });
   }
 
   async updateSearchIndex(): Promise<HookReturn> {
     await this.reload({
       include: [
-        'user',
         {
           model: PlaylistItem,
           as: 'items',
@@ -194,7 +224,7 @@ class Playlist extends Model<InferAttributes<Playlist>, InferCreationAttributes<
       objectID: this.id,
       name: this.name,
       image: this.image,
-      author: this.user.name,
+      // author: user.name,
       description: this.description,
       genres: Array.from(genres),
       shows: Array.from(shows),

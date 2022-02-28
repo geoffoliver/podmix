@@ -1,10 +1,8 @@
-import fs from 'fs';
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { getSession } from 'next-auth/react';
 import formidable from 'formidable';
-import axios from 'axios';
 import { v4 as uuid } from 'uuid';
-import gm from 'gm';
+import sharp from 'sharp';
 
 import User from '@/lib/models/user';
 import Bunny from '@/lib/external/bunny';
@@ -37,10 +35,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       const f = Array.isArray(file) ? file[0] : file;
 
       try {
-        gm(f.file.filepath)
-          .resize(256, 256, '!')
-          .noProfile()
-          .write(f.file.filepath, async (err) => {
+        sharp(f.file.filepath)
+          .resize(256, 256, { fit: 'outside' })
+          .toFile(`${f.file.filepath}.webp`, async (err: any, info: any) => {
             if (err) {
               throw err;
             }
