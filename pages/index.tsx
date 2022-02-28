@@ -33,7 +33,7 @@ export default function Home() {
                 <span>Podmix</span>
               </h1>
               <p className="lead">
-                <span>Create and share podcast playlists!</span>
+                <span>Create &amp; share podcast playlists</span>
               </p>
             </div>
           </Col>
