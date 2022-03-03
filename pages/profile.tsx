@@ -72,7 +72,7 @@ const Profile = () => {
 
   const uppy = useMemo(() => {
     if (typeof window === 'undefined') {
-      return {};
+      return null;
     }
 
     const up = new Uppy({
@@ -183,13 +183,13 @@ const Profile = () => {
             </div>
           </Col>
         </Row>
-        <DashboardModal
+        {uppy && <DashboardModal
           uppy={uppy}
           open={showUpload}
           onRequestClose={() => setShowUpload(false)}
           plugins={['Webcam', 'ImageEditor']}
           autoOpenFileEditor
-        />
+        />}
       </Container>
     </>
   );

@@ -80,7 +80,8 @@ class Playlist extends Model<InferAttributes<Playlist>, InferCreationAttributes<
     const img: string[] = [];
 
     const items = await this.getItems({
-      order: [['position', 'ASC']]
+      order: [['position', 'ASC']],
+      attributes: ['image'],
     });
 
     if (items.length === 0) {
@@ -155,26 +156,31 @@ class Playlist extends Model<InferAttributes<Playlist>, InferCreationAttributes<
               `playlist-images/${filename}`,
             );
 
-            this.image = url;
             this.set('image', url);
+
             await this.save();
+
+            fs.unlinkSync(tmpfile);
 
             return resolve(url);
           });
       } else {
-        const res = await Promise.all(filePaths.map((f) => {
+        await Promise.all(filePaths.slice().map((f, i) => {
+          filePaths[i] = `${f}_small.webp`;
           return sharp(fs.readFileSync(f))
             .resize(Math.round(width / 2), Math.round(height / 2), { fit: 'outside' })
             .webp({ quality: 100 })
-            .toFile(`${f}_small.webp`);
+            .toFile(filePaths[i]); /*, () => {
+              fs.unlinkSync(f);
+            }); */
         }));
 
         sharp({ create: { width, height, channels, background: '#000' } })
           .composite([
-            { input: `${filePaths[0]}_small.webp`, top: 0, left: 0 },
-            { input: `${filePaths[1]}_small.webp`, top: 0, left: 256 },
-            { input: `${filePaths[2]}_small.webp`, top: 256, left: 0 },
-            { input: `${filePaths[3]}_small.webp`, top: 256, left: 256 },
+            { input: filePaths[0], top: 0, left: 0 },
+            { input: filePaths[1], top: 0, left: 256 },
+            { input: filePaths[2], top: 256, left: 0 },
+            { input: filePaths[3], top: 256, left: 256 },
           ])
           .webp({ quality: 90 })
           .toFile(tmpfile, async (err: any, info: any) => {
@@ -188,11 +194,12 @@ class Playlist extends Model<InferAttributes<Playlist>, InferCreationAttributes<
               `playlist-images/${filename}`,
             );
 
-            this.image = url;
             this.set('image', url);
             await this.save({
               hooks: false,
             });
+
+            fs.unlinkSync(tmpfile);
 
             return resolve(url);
           });

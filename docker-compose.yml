@@ -1,0 +1,38 @@
+version: '3'
+services:
+  podmix-app:
+    build: ./
+    ports:
+      - "3000:3000"
+    depends_on:
+      - mysql
+      - redis
+      - rabbit
+    volumes:
+      - .:/app
+      - nodemodules:/app/node_modules
+  mysql:
+    image: "mysql:8-oracle"
+    command: --default-authentication-plugin=mysql_native_password
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: podmix
+    volumes:
+      - ./mysql:/var/lib/mysql
+  redis:
+    image: "redis:alpine"
+    ports:
+      - "6379:6379"
+    volumes:
+      - ./redis:/data
+  rabbit:
+    image: "rabbitmq:3-management"
+    ports:
+      - "15672:15672"
+      - "5672:5672"
+    volumes:
+      - ./rabbitmq:/var/lib/rabbitmq
+volumes:
+  nodemodules: {}

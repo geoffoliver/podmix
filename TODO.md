@@ -25,11 +25,19 @@
   - [x] iTunes results
 - [x] Search
 - [ ] Playlist detail page
+  - [ ] Play button on episodes rather than whole row being a button
+  - [ ] Copy links to clipboard
 - [ ] Mobile nav
 - [ ] Migrations
 - [ ] Playlist builder instructions
 - [ ] Sharing meta tags
+- [ ] Dockerize
+   - [ ] Databasae
+   - [ ] Redis
+   - [ ] Playlist image generation (https://github.com/guidesmiths/rascal)
 - [ ] Defer playlist image generation
+- [ ] Search results
+- [ ] Virtualize lists in playlist builder
 
 # Maybe
 
