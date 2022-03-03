@@ -4,18 +4,12 @@ Podcast playlists. Yipee.
 
 ## Getting Started
 
-First, install dependencies:
+First, configure your `.env.local` file like [.env.sample](.env.sample)
+
+Now run the development server:
 
 ```bash
-yarn install
-```
-
-Next, configure your `.env.local` file like [.env.sample](.env.sample)
-
-Finally, run the development server:
-
-```bash
-yarn dev
+docker compose up
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
