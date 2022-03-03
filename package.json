@@ -32,7 +32,6 @@
     "instantsearch.css": "^7.4.5",
     "ioredis": "^4.28.5",
     "ioredis-cache": "^1.2.3",
-    "jq": "^1.7.2",
     "luxon": "^2.3.0",
     "m3u-parser-generator": "^1.0.2",
     "mysql2": "^2.3.3",
