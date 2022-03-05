@@ -51,7 +51,7 @@ class Bunny {
 
       return deleted.status === 200;
     } catch (ex) {
-      console.log('Error deleting file from Bunny', ex.message);
+      console.error('Error deleting file from Bunny', ex.message);
       return false;
     }
   }
