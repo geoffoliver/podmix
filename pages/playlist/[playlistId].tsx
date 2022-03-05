@@ -1,13 +1,16 @@
 /* eslint-disable @next/next/no-img-element */
-import { useCallback, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useSession } from 'next-auth/react';
 import Head from 'next/head';
 import Link from 'next/link';
 import { Button, Container, Row, Col } from 'react-bootstrap';
 import { GetStaticProps } from 'next';
 import dynamic from 'next/dynamic';
 import classnames from 'classnames';
+import useSWR from 'swr';
+import axios, { AxiosResponse } from 'axios';
 
-import { Playlist, PlaylistItem, User } from '@/lib/models';
+import { Favorite, Playlist, PlaylistItem, User } from '@/lib/models';
 
 import Icon from '@/components/Icon';
 import PlaylistImage from '@/components/PlaylistImage';
@@ -24,9 +27,57 @@ type PlaylistDetailProps = {
 };
 
 export default function PlaylistDetail({ playlist }: PlaylistDetailProps) {
+  const session = useSession();
   const [playing, setPlaying] = useState(null);
   const [play, setPlay] = useState(0);
+  const [favoriting, setFavoriting] = useState(false);
+  const [favorites, setFavorites] = useState<Favorite[]>([]);
+  const { data } = useSWR(session ? '/api/favorites' : null, axios);
   const player = useRef(null);
+
+  useEffect(() => {
+    console.log(data);
+    if (data && data.data && data.data.favorites) {
+      setFavorites(data.data.favorites);
+    } else {
+      setFavorites([]);
+    }
+  }, [data]);
+
+  const favPlaylistIds = useMemo(() => {
+      return favorites.map((f) => f.playlistId);
+  }, [favorites]);
+
+  const isFavorite = useMemo(() => {
+    if (!playlist) {
+      return false;
+    }
+    return favPlaylistIds.includes(playlist.id);
+  }, [favPlaylistIds, playlist]);
+
+  const toggleFavorite = useCallback(async () => {
+    if (!session) {
+      return;
+    }
+
+    setFavoriting(true);
+    try {
+      let result: AxiosResponse<{ favorites: Favorite[] }>;
+
+      if (isFavorite) {
+        const fav = favorites.find((f) => f.playlistId === playlist.id);
+        result = await axios.delete(`/api/favorites/${fav.id}`)
+      } else {
+        result = await axios.post('/api/favorites/add', { playlist: playlist.id });
+      }
+
+      setFavorites(result.data.favorites);
+    } catch (ex) {
+      alert(ex.message || 'There was an error saving the favorite');
+    } finally {
+      setFavoriting(false);
+    }
+  }, [session, isFavorite, favorites, playlist.id]);
 
   if (!playlist) {
     return null;
@@ -74,6 +125,19 @@ export default function PlaylistDetail({ playlist }: PlaylistDetailProps) {
                       </a>
                     </Link>
                   </li>
+                  {session && (
+                    <li>
+                      <Button variant="link" onClick={toggleFavorite} disabled={favoriting}>
+                        <Icon
+                          icon={favoriting ? 'spinner' : 'heart'}
+                          className={classnames('me-2', {[styles.isFavorite]: isFavorite })}
+                          spin={favoriting}
+                          fixedWidth
+                        />
+                        {isFavorite ? 'Remove' : 'Add'} Favorite
+                      </Button>
+                    </li>
+                  )}
                 </ul>
                 {playlist.items.map((item, index) => {
                   return (
@@ -116,6 +180,38 @@ export default function PlaylistDetail({ playlist }: PlaylistDetailProps) {
     </>
   );
 };
+/*
+export const getServerSideProps: GetServerSideProps = async ({ params }) => {
+  const playlist = await Playlist.findByPk(params.playlistId.toString(), {
+    include: [
+      {
+        model: PlaylistItem,
+        as: 'items',
+      },
+      {
+        model: User,
+        as: 'user',
+      }
+    ],
+    order: [['items', 'position', 'ASC']]
+  });
+
+  // not sure why we need to stringify and parse this, but if
+  // we don't, then next will complain that we're trying to pass
+  // something in that can't be serialized in JSON (dates), but
+  // this seems to work just fine, so :shrug:
+  // specific error:
+  // Error serializing `.playlist.createdAt` returned from `getStaticProps` in "/playlist/[playlistId]".
+  // Reason: `object` ("[object Date]") cannot be serialized as JSON. Please only return JSON serializable data types.
+  const asJson = JSON.parse(JSON.stringify(playlist.toJSON()));
+
+  return {
+    props: {
+      playlist: asJson,
+    },
+  };
+};
+*/
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
   const playlist = await Playlist.findByPk(params.playlistId.toString(), {

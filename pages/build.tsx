@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useState } from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
 import Head from 'next/head'
 import { DndProvider } from 'react-dnd';
@@ -9,16 +9,18 @@ import PodcastBrowser from '@/components/PodcastBrowser';
 import PlaylistEditor from '@/components/PlaylistEditor';
 import { Playlist } from '@/lib/models';
 import PodcastsContext from '@/lib/context/podcasts';
-import { getSession, signIn } from 'next-auth/react';
-import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
+import { useSession } from 'next-auth/react';
 import { iTunesResult } from '@/lib/external/itunes';
 
 import styles from '@/styles/build.module.scss';
 
-export default function Build({ loggedIn }: InferGetServerSidePropsType<typeof getServerSideProps>) {
+export default function Build() {
   const [showEdit, setShowEdit] = useState(false);
   const [playlist, setPlaylist] = useState<Playlist>(null);
   const [podcast, setLocalPodcast] = useState<iTunesResult>(null);
+  useSession({
+    required: true,
+  });
 
   const editPlaylist = useCallback((list) => {
     setPlaylist(list);
@@ -28,16 +30,6 @@ export default function Build({ loggedIn }: InferGetServerSidePropsType<typeof g
   const setPodcast = useCallback((p: iTunesResult) => {
     setLocalPodcast(p);
   }, []);
-
-  useEffect(() => {
-    if (!loggedIn) {
-      signIn();
-    }
-  }, [loggedIn]);
-
-  if (!loggedIn) {
-    return null;
-  }
 
   return (
     <>
@@ -71,13 +63,3 @@ export default function Build({ loggedIn }: InferGetServerSidePropsType<typeof g
     </>
   );
 }
-
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  const session = await getSession(context);
-
-  return {
-    props: {
-      loggedIn: !!session,
-    },
-  };
-};

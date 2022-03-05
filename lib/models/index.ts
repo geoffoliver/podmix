@@ -482,6 +482,48 @@ Podcast.init({
 });
 
 // #endregion
+
+// #region Favorites
+
+class Favorite extends Model<InferAttributes<Favorite>, InferCreationAttributes<Favorite>> {
+  declare id: CreationOptional<string>;
+  playlistId: string;
+  userId: string;
+
+  declare createdAt: CreationOptional<Date>;
+  declare updatedAt: CreationOptional<Date>;
+
+  declare playlist: NonAttribute<Playlist>;
+
+  declare static associations: {
+    playlist: Association<Favorite, Playlist>;
+  }
+}
+
+Favorite.init({
+  id: {
+    type: DataTypes.UUID,
+    allowNull: false,
+    primaryKey: true,
+    defaultValue: DataTypes.UUIDV4,
+  },
+  userId: {
+    type: DataTypes.UUID,
+    allowNull: false,
+  },
+  playlistId: {
+    type: DataTypes.UUID,
+    allowNull: false,
+  },
+  createdAt: DataTypes.DATE,
+  updatedAt: DataTypes.DATE,
+}, {
+  sequelize,
+  tableName: 'favorites',
+});
+
+// #endregion
+
 // #region User
 
 class User extends Model<InferAttributes<User>, InferCreationAttributes<User>> {
@@ -494,10 +536,14 @@ class User extends Model<InferAttributes<User>, InferCreationAttributes<User>> {
   declare createdAt: CreationOptional<Date>;
   declare updatedAt: CreationOptional<Date>;
 
+  declare getFavorites: HasManyGetAssociationsMixin<Favorite>;
+
   declare playlists: NonAttribute<Playlist[]>;
+  declare favorites: NonAttribute<Favorite[]>;
 
   declare static associations: {
     playlists: Association<User, Playlist>;
+    favorites: Association<User, Favorite>;
   }
 }
 
@@ -513,17 +559,25 @@ User.init({
 // #endregion
 // #region Relationships
 
-User.hasMany(Playlist, { as: 'playlists', foreignKey: 'userId' });
+User.hasMany(Playlist, { as: 'playlists', foreignKey: 'userId', onDelete: 'cascade' });
+User.hasMany(Favorite, { as: 'favorites', foreignKey: 'userId', onDelete: 'cascade' });
+
 Playlist.belongsTo(User, { as: 'user', foreignKey: 'userId' });
+Playlist.hasMany(PlaylistItem, { as: 'items', foreignKey: 'playlistId', onDelete: 'cascade' });
+Playlist.hasMany(Favorite, { as: 'favorites', foreignKey: 'playlistId', onDelete: 'cascade' })
 
 Podcast.hasMany(PlaylistItem, { as: 'items', foreignKey: 'podcastId' });
+
 PlaylistItem.belongsTo(Podcast, { as: 'podcast', foreignKey: 'podcastId' });
-Playlist.hasMany(PlaylistItem, { foreignKey: 'playlistId', as: 'items' });
 PlaylistItem.belongsTo(Playlist, { foreignKey: 'playlistId', as: 'Playlist' });
+
+Favorite.belongsTo(User, { as: 'user', foreignKey: 'userId' });
+Favorite.belongsTo(Playlist, { as: 'playlist', foreignKey: 'playlistId' });
 
 // #endregion
 
 export {
+  Favorite,
   Playlist,
   PlaylistItem,
   Podcast,

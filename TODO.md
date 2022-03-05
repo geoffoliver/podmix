@@ -29,10 +29,11 @@
    - [x] Redis
    - [x] Playlist image generation (https://docs.quirrel.dev/deploying/#how-to-deploy-your-own-server)
 - [x] Virtualize lists in playlist builder
+- [x] Playlist bookmarks
 - [ ] Playlist detail page
   - [ ] Play button on episodes rather than whole row being a button
   - [ ] Copy links to clipboard
-- [ ] Playlist bookmarks
+  - [x] Bookmark playlist
 - [ ] Mobile nav
 - [ ] Migrations
 - [ ] Playlist builder instructions

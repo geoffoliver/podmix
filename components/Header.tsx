@@ -79,6 +79,11 @@ const Header = () => {
             {session
               ? (
                 <>
+                  <Link href="/favorites" passHref>
+                    <Nav.Link href="/favorites">
+                      Favorites
+                    </Nav.Link>
+                  </Link>
                   <Link href="/build" passHref>
                     <Nav.Link href="/build">
                       My Playlists
