@@ -2,6 +2,8 @@
 import { useCallback, useState } from 'react';
 import { Button, Form, InputGroup } from 'react-bootstrap';
 import Parser from 'rss-parser';
+import { FixedSizeList } from 'react-window';
+import AutoSizer from 'react-virtualized-auto-sizer';
 
 import { ItemWithiTunes } from '@/lib/types/podcast';
 import styles from '@/styles/Episodes.module.scss';
@@ -35,6 +37,17 @@ const Episodes = ({ feed, loading }: EpisodesProps) => {
     }));
   }, [feed?.items, filter]);
 
+  const Row = ({ index, style }) => {
+    return (
+      <div style={style}>
+        <Episode
+          item={filtered[index]}
+          feedImage={feed.image ? feed.image.url : feed.itunes?.image}
+        />
+      </div>
+    );
+  };
+
   return (
     <>
       {feed && <form onSubmit={filterEpisodes}>
@@ -51,13 +64,20 @@ const Episodes = ({ feed, loading }: EpisodesProps) => {
       <div className={styles.episodes}>
         {loading
           ? <div>Loading...</div>
-          : filtered.map((ep, i) => (
-              <Episode
-                key={`${ep.guid}-${i}`}
-                item={ep}
-                feedImage={feed.image ? feed.image.url : feed.itunes?.image}
-              />
-            ))
+          : (
+            <AutoSizer>
+              {({ height, width }) => (
+                <FixedSizeList
+                  height={height}
+                  width={width}
+                  itemCount={filtered.length}
+                  itemSize={108}
+                >
+                  {Row}
+                </FixedSizeList>
+              )}
+            </AutoSizer>
+          )
         }
       </div>
     </>

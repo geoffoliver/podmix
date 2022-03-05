@@ -28,6 +28,7 @@
    - [x] Databasae
    - [x] Redis
    - [x] Playlist image generation (https://docs.quirrel.dev/deploying/#how-to-deploy-your-own-server)
+- [x] Virtualize lists in playlist builder
 - [ ] Playlist detail page
   - [ ] Play button on episodes rather than whole row being a button
   - [ ] Copy links to clipboard
@@ -38,7 +39,6 @@
 - [ ] Sharing meta tags
 - [ ] Defer playlist image generation
 - [ ] Search results
-- [ ] Virtualize lists in playlist builder
 
 # Maybe
 

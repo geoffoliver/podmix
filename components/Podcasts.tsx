@@ -1,6 +1,8 @@
 import { useCallback, useState } from 'react';
 import axios from 'axios';
 import { Button, Form, InputGroup } from 'react-bootstrap';
+import { FixedSizeList } from 'react-window';
+import AutoSizer from 'react-virtualized-auto-sizer';
 
 import { iTunesResult } from '@/lib/external/itunes';
 import Podcast from './Podcast';
@@ -29,6 +31,16 @@ const Podcasts = ({ onClick }: PodcastsProps) => {
     setResults(resp.data.results || [])
   }, [query]);
 
+  const Row = ({ index, style }) => {
+    return (
+      <div style={style}>
+        <Podcast
+          podcast={results[index]}
+          onClick={onClick}
+        />
+      </div>
+    );
+  };
 
   return (
     <>
@@ -46,13 +58,20 @@ const Podcasts = ({ onClick }: PodcastsProps) => {
       <div className={styles.podcasts}>
         {searching
           ? <>Searching...</>
-          : results.map((result: iTunesResult) => (
-            <Podcast
-              key={result.collectionId}
-              podcast={result}
-              onClick={onClick}
-            />
-          ))
+          : (
+            <AutoSizer>
+              {({ height, width }) => (
+                <FixedSizeList
+                  height={height}
+                  width={width}
+                  itemCount={results.length}
+                  itemSize={90}
+                >
+                  {Row}
+                </FixedSizeList>
+              )}
+            </AutoSizer>
+          )
         }
         {!searching && searched && results.length === 0 && (
           <div className="text-muted text-center p-3">
