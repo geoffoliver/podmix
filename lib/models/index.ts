@@ -300,8 +300,12 @@ Playlist.addHook('afterSave', async (inst: Playlist) => {
 
 Playlist.addHook('afterDestroy', async (inst: Playlist) => {
   if (inst.image) {
-    const bunny = new Bunny();
-    await bunny.delete(inst.image);
+    try {
+      const bunny = new Bunny();
+      await bunny.delete(inst.image);
+    } catch (ex) {
+      console.error('An error occurred deleting the playlist image', ex.message);
+    }
   }
 
   try {

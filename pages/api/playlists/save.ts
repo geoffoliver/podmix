@@ -4,6 +4,7 @@ import { getSession } from 'next-auth/react';
 import { Playlist, PlaylistItem } from '@/lib/models';
 import Bunny from '@/lib/external/bunny';
 import cache from '@/lib/cache';
+import GenerateImage from '@/pages/api/playlists/generate-image';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method !== 'POST') {
@@ -53,8 +54,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   if (playlist.image) {
     const bunny = new Bunny();
     await bunny.delete(playlist.image);
+
     playlist.image = null;
     playlist.set('image', null);
+
+    await GenerateImage.enqueue({
+      playlistId: playlist.id,
+    });
   }
 
   await playlist.save();
