@@ -1,17 +1,19 @@
 version: '3'
 services:
-  podmix-app:
+  app:
+    container_name: podmix
     build: ./
     ports:
       - "3000:3000"
     depends_on:
       - mysql
       - redis
-      - rabbit
+      - quirrel
     volumes:
       - .:/app
       - nodemodules:/app/node_modules
   mysql:
+    container_name: mysql
     image: "mysql:8-oracle"
     command: --default-authentication-plugin=mysql_native_password
     ports:
@@ -22,17 +24,20 @@ services:
     volumes:
       - ./mysql:/var/lib/mysql
   redis:
+    container_name: redis
     image: "redis:alpine"
     ports:
       - "6379:6379"
     volumes:
       - ./redis:/data
-  rabbit:
-    image: "rabbitmq:3-management"
+  quirrel:
+    container_name: quirrel
+    image: "ghcr.io/quirrel-dev/quirrel:sha-8750d2b"
     ports:
-      - "15672:15672"
-      - "5672:5672"
-    volumes:
-      - ./rabbitmq:/var/lib/rabbitmq
+      - "9181:9181"
+    environment:
+      REDIS_URL: "redis://redis:6379"
+      PASSPHRASES: Super cool passphrase for quirrel
+      LOG_LEVEL: info
 volumes:
   nodemodules: {}

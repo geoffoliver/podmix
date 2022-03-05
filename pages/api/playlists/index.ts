@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 
-import { Playlist, User } from '@/lib/models';
+import { Playlist, PlaylistItem, User } from '@/lib/models';
 import { WhereOptions } from 'sequelize/types';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
@@ -26,9 +26,17 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         model: User,
         as: 'user',
       },
+      {
+        model: PlaylistItem,
+        as: 'items',
+        required: true,
+        attributes: [],
+      },
     ],
     order: [['createdAt', 'DESC']],
   });
+
+  console.log(JSON.stringify(playlists, null, 2));
 
   return res.status(200).json({ playlists })
 }

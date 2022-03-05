@@ -1,9 +1,9 @@
 /* eslint-disable @next/next/no-img-element */
-import { useCallback, useState } from 'react';
+import { useState } from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
 import { Container, Row, Col } from 'react-bootstrap';
-import { GetServerSideProps, GetStaticProps } from 'next';
+import { GetStaticProps } from 'next';
 import dynamic from 'next/dynamic';
 import classnames from 'classnames';
 
@@ -108,37 +108,6 @@ export default function PlaylistDetail({ playlist }: PlaylistDetailProps) {
   );
 };
 
-export const getServerSideProps: GetServerSideProps = async ({ params }) => {
-  const playlist = await Playlist.findByPk(params.playlistId.toString(), {
-    include: [
-      {
-        model: PlaylistItem,
-        as: 'items',
-      },
-      {
-        model: User,
-        as: 'user',
-      }
-    ],
-    order: [['items', 'position', 'ASC']]
-  });
-
-  // not sure why we need to stringify and parse this, but if
-  // we don't, then next will complain that we're trying to pass
-  // something in that can't be serialized in JSON (dates), but
-  // this seems to work just fine, so :shrug:
-  // specific error:
-  // Error serializing `.playlist.createdAt` returned from `getStaticProps` in "/playlist/[playlistId]".
-  // Reason: `object` ("[object Date]") cannot be serialized as JSON. Please only return JSON serializable data types.
-  const asJson = JSON.parse(JSON.stringify(playlist.toJSON()));
-
-  return {
-    props: {
-      playlist: asJson,
-    },
-  };
-}
-/*
 export const getStaticProps: GetStaticProps = async ({ params }) => {
   const playlist = await Playlist.findByPk(params.playlistId.toString(), {
     include: [
@@ -186,4 +155,3 @@ export async function getStaticPaths() {
   // on-demand if the path doesn't exist.
   return { paths, fallback: 'blocking' }
 }
-*/

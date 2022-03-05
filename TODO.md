@@ -24,6 +24,10 @@
   - [x] Parsed feeds
   - [x] iTunes results
 - [x] Search
+- [x] Dockerize
+   - [x] Databasae
+   - [x] Redis
+   - [x] Playlist image generation (https://docs.quirrel.dev/deploying/#how-to-deploy-your-own-server)
 - [ ] Playlist detail page
   - [ ] Play button on episodes rather than whole row being a button
   - [ ] Copy links to clipboard
@@ -31,10 +35,6 @@
 - [ ] Migrations
 - [ ] Playlist builder instructions
 - [ ] Sharing meta tags
-- [ ] Dockerize
-   - [ ] Databasae
-   - [ ] Redis
-   - [ ] Playlist image generation (https://github.com/guidesmiths/rascal)
 - [ ] Defer playlist image generation
 - [ ] Search results
 - [ ] Virtualize lists in playlist builder

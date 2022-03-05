@@ -1,12 +1,12 @@
 /* eslint-disable @next/next/no-img-element */
 import { useMemo } from 'react';
 import { DragPreviewImage, useDrag } from 'react-dnd';
-import Truncate from 'react-truncate';
 
 import { ItemWithiTunes, PODCAST_EPISODE } from '@/lib/types/podcast';
 import { durationToSeconds, secondsToDuration } from '@/lib/util';
 
 import styles from '@/styles/Episode.module.scss';
+import { Truncate } from './ui/Truncate';
 
 export type EpisodeProps = {
   item: ItemWithiTunes;

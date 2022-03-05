@@ -9,6 +9,7 @@ import { ItemWithiTunes } from '@/lib/types/podcast';
 import { durationToSeconds } from '@/lib/util';
 import Bunny from '@/lib/external/bunny';
 import cache from '@/lib/cache';
+import GenerateImage from '@/pages/api/playlists/generate-image';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method !== 'POST') {
@@ -134,6 +135,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     await bunny.delete(playlist.image);
 
     playlist.set('image', null);
+
+    await GenerateImage.enqueue({
+      playlistId: playlist.id,
+    });
+
     await playlist.save();
   }
 

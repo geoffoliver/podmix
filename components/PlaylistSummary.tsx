@@ -1,12 +1,12 @@
 /* eslint-disable @next/next/no-img-element */
 import { useMemo } from 'react';
 import Link from 'next/link';
-import Truncate from 'react-truncate';
 
 import { Playlist } from '@/lib/models';
 
 import styles from '@/styles/PlaylistSummary.module.scss';
 import PlaylistImage from './PlaylistImage';
+import { Truncate } from './ui/Truncate';
 
 type PlaylistSummaryProps = {
   playlist: Playlist;

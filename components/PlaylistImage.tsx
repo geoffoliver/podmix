@@ -11,6 +11,7 @@ const PlaylistImage = ({ playlist }: PlaylistImageProps) => {
     <img
       src={`/api/playlists/image/${playlist.id}`}
       alt={`Image for ${playlist.name}`}
+      loading='lazy'
       className="img-fluid"
     />
   );

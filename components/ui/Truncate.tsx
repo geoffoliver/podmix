@@ -1,0 +1,91 @@
+// stolen from https://github.com/tsung-ju/react-truncate-lines
+// because the NPM module didn't have any actual code in it
+import React, { Children, useEffect, useRef } from "react";
+
+export interface TruncateLinesProps
+  extends React.HTMLAttributes<HTMLSpanElement> {
+  lines?: number;
+  ellipsis?: React.ReactNode;
+}
+
+export function Truncate({
+  lines = 1,
+  ellipsis = "…",
+  children,
+  ...rest
+}: TruncateLinesProps) {
+  const rootSpanRef = useRef<HTMLSpanElement>(null);
+  const ellipsisSpanRef = useRef<HTMLSpanElement>(null);
+  const text = onlyText(children);
+
+  useEffect(() => {
+    const rootSpan = rootSpanRef.current!;
+    const ellipsisSpan = ellipsisSpanRef.current!;
+    const textNode = rootSpan.firstChild!;
+
+    fixWebKitClientRects(rootSpan);
+
+    ellipsisSpan.style.display = "none";
+    textNode.nodeValue = text;
+    if (rootSpan.getClientRects().length <= lines) return;
+
+    ellipsisSpan.style.display = "inline-block";
+    const newLength = lastIndexWhere(0, text.length, (length) => {
+      textNode.nodeValue = text.slice(0, length);
+      return length === 0 || rootSpan.getClientRects().length <= lines;
+    });
+    textNode.nodeValue = text.slice(0, newLength);
+  }, [lines, ellipsis, text]);
+
+  return (
+    <span ref={rootSpanRef} {...rest}>
+      {text}
+      <span ref={ellipsisSpanRef} style={{ display: "none" }}>
+        {ellipsis}
+      </span>
+    </span>
+  );
+}
+
+function lastIndexWhere(
+  start: number,
+  end: number,
+  predicate: (index: number) => boolean
+): number {
+  // invariant: predicate(start) === true && predicate(end + 1) === false
+  while (start < end) {
+    const mid = start + ((end - start) >> 1);
+    // start <= mid < end
+    if (predicate(mid + 1)) {
+      start = mid + 1;
+    } else {
+      end = mid;
+    }
+  }
+  return start;
+}
+
+function onlyText(children: React.ReactNode): string {
+  let result = "";
+  Children.forEach(children, (child) => {
+    if (typeof child === "number" || typeof child === "string") {
+      result += child.toString();
+    } else {
+      throw new TypeError("Unexpected child type");
+    }
+  });
+  return result;
+}
+
+function fixWebKitClientRects(element: HTMLElement) {
+  const s = element.style;
+  const styleValue = s.getPropertyValue("outline-style");
+  const stylePriority = s.getPropertyPriority("outline-style");
+  const widthValue = s.getPropertyValue("outline-width");
+  const widthPriority = s.getPropertyPriority("outline-width");
+  s.setProperty("outline-style", "solid", "important");
+  s.setProperty("outline-width", "1px", "important");
+  element.getClientRects();
+  s.setProperty("outline-style", styleValue, stylePriority);
+  s.setProperty("outline-width", widthValue, widthPriority);
+}

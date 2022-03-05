@@ -28,6 +28,7 @@ import stream from 'stream';
 import { promisify } from 'util';
 import { models } from '@next-auth/sequelize-adapter';
 import sharp from 'sharp';
+import UpdateSearchIndex from '@/pages/api/playlists/update-search-index'
 
 import { searchIndex } from '@/lib/external/algolia';
 import Bunny from '@/lib/external/bunny';
@@ -76,7 +77,7 @@ class Playlist extends Model<InferAttributes<Playlist>, InferCreationAttributes<
     user: Association<Playlist, User>;
   }
 
-  async generateImage(): Promise<string> {
+  async generateImage(): Promise<void> {
     const img: string[] = [];
 
     const items = await this.getItems({
@@ -162,7 +163,7 @@ class Playlist extends Model<InferAttributes<Playlist>, InferCreationAttributes<
 
             fs.unlinkSync(tmpfile);
 
-            return resolve(url);
+            return resolve();
           });
       } else {
         await Promise.all(filePaths.slice().map((f, i) => {
@@ -170,9 +171,7 @@ class Playlist extends Model<InferAttributes<Playlist>, InferCreationAttributes<
           return sharp(fs.readFileSync(f))
             .resize(Math.round(width / 2), Math.round(height / 2), { fit: 'outside' })
             .webp({ quality: 100 })
-            .toFile(filePaths[i]); /*, () => {
-              fs.unlinkSync(f);
-            }); */
+            .toFile(filePaths[i]);
         }));
 
         sharp({ create: { width, height, channels, background: '#000' } })
@@ -201,7 +200,7 @@ class Playlist extends Model<InferAttributes<Playlist>, InferCreationAttributes<
 
             fs.unlinkSync(tmpfile);
 
-            return resolve(url);
+            return resolve();
           });
       }
     });
@@ -252,14 +251,10 @@ class Playlist extends Model<InferAttributes<Playlist>, InferCreationAttributes<
       }
     });
 
-    if (!this.image) {
-      await this.generateImage();
-    }
-
     await searchIndex.saveObject({
       objectID: this.id,
       name: this.name,
-      image: this.image,
+      image: `${process.env.PUBLIC_URL}/playlists/image/${this.id}`,
       author: this.user.name,
       description: this.description,
       genres: Array.from(genres),
@@ -298,7 +293,9 @@ Playlist.init({
 });
 
 Playlist.addHook('afterSave', async (inst: Playlist) => {
-  return inst.updateSearchIndex();
+  await UpdateSearchIndex.enqueue({
+    playlistId: inst.id,
+  });
 });
 
 Playlist.addHook('afterDestroy', async (inst: Playlist) => {
@@ -390,7 +387,7 @@ PlaylistItem.init({
     allowNull: false,
   },
   url: {
-    type: DataTypes.STRING,
+    type: DataTypes.TEXT,
     allowNull: false,
   },
   filesize: {
