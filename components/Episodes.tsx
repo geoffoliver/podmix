@@ -39,7 +39,7 @@ const Episodes = ({ feed, loading }: EpisodesProps) => {
 
   const Row = ({ index, style }) => {
     return (
-      <div style={style}>
+      <div style={style} className={styles.episode}>
         <Episode
           item={filtered[index]}
           feedImage={feed.image ? feed.image.url : feed.itunes?.image}

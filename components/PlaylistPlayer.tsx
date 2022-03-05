@@ -191,91 +191,91 @@ const PlaylistPlayer = ({ playlist, onPlay, play }: PlaylistProps) => {
 
   return (
     <>
-    <div className={styles.player}>
-      <div className={styles.title}>
-        <h5>{current?.title}</h5>
-        <div className={styles.times}>
-          {secondsToDuration(progress)} / {secondsToDuration(duration)}
+      <div className={styles.player}>
+        <div className={styles.title}>
+          <h5>{current?.title}</h5>
+          <div className={styles.times}>
+            {secondsToDuration(progress)} / {secondsToDuration(duration)}
+          </div>
+        </div>
+        <div className={styles.controls}>
+          <div className={styles.buttons}>
+            <ButtonGroup>
+              <Button
+                type="button"
+                title="Previous"
+                variant="dark"
+                onClick={prev}
+                disabled={!canPlay || playIndex === 0}
+              >
+                <Icon
+                  fixedWidth
+                  icon="backward-step"
+                />
+              </Button>
+              <Button
+                type="button"
+                variant="dark"
+                onClick={togglePlayback}
+                title={playing ? 'Play' : 'Pause'}
+                disabled={!canPlay}
+              >
+                <Icon
+                  fixedWidth
+                  spin={loading}
+                  icon={
+                    loading ? 'spinner' : (playing ? 'pause' : 'play')
+                  }
+                />
+              </Button>
+              <Button
+                type="button"
+                variant="dark"
+                title="Next"
+                onClick={() => next(false)}
+                disabled={!canPlay || playIndex === maxIndex}
+              >
+                <Icon
+                  fixedWidth
+                  icon="forward-step"
+                />
+              </Button>
+            </ButtonGroup>
+          </div>
+          <div className={styles.progress}>
+            <input type="range" value={progress} onChange={changeProgress} min={0} max={duration} step={1} />
+          </div>
+          <div className={styles.volume}>
+            <Button variant="link" className="p-0" onClick={toggleMute} title={volume ? 'Mute' : 'Unmute'}>
+              <Icon
+                icon={volumeIcon}
+                fixedWidth
+              />
+            </Button>
+            <input type="range" value={volume} onChange={changeVolume} min={0} max={1} step={0.01} />
+          </div>
         </div>
       </div>
-      <div className={styles.controls}>
-        <div className={styles.buttons}>
-          <ButtonGroup>
-            <Button
-              type="button"
-              title="Previous"
-              variant="dark"
-              onClick={prev}
-              disabled={!canPlay || playIndex === 0}
-            >
-              <Icon
-                fixedWidth
-                icon="backward-step"
-              />
-            </Button>
-            <Button
-              type="button"
-              variant="dark"
-              onClick={togglePlayback}
-              title={playing ? 'Play' : 'Pause'}
-              disabled={!canPlay}
-            >
-              <Icon
-                fixedWidth
-                spin={loading}
-                icon={
-                  loading ? 'spinner' : (playing ? 'pause' : 'play')
-                }
-              />
-            </Button>
-            <Button
-              type="button"
-              variant="dark"
-              title="Next"
-              onClick={() => next(false)}
-              disabled={!canPlay || playIndex === maxIndex}
-            >
-              <Icon
-                fixedWidth
-                icon="forward-step"
-              />
-            </Button>
-          </ButtonGroup>
-        </div>
-        <div className={styles.progress}>
-          <input type="range" value={progress} onChange={changeProgress} min={0} max={duration} step={1} />
-        </div>
-        <div className={styles.volume}>
-          <Button variant="link" className="p-0" onClick={toggleMute} title={volume ? 'Mute' : 'Unmute'}>
-            <Icon
-              icon={volumeIcon}
-              fixedWidth
+      {current && (
+        <div className={styles.actualPlayer}>
+          <audio
+            controls
+            ref={player}
+            onLoadStart={handleLoadStart}
+            onCanPlay={handleCanPlay}
+            onTimeUpdate={handleProgressChange}
+            onPause={handlePause}
+            onPlay={handlePlay}
+            onVolumeChange={handleVolumeChange}
+            onDurationChange={handleDurationChange}
+            onEnded={handleEnded}
+          >
+            <source
+              src={current.url}
             />
-          </Button>
-          <input type="range" value={volume} onChange={changeVolume} min={0} max={1} step={0.01} />
+          </audio>
         </div>
-      </div>
-    </div>
-    {current && (
-      <div className={styles.actualPlayer}>
-        <audio
-          controls
-          ref={player}
-          onLoadStart={handleLoadStart}
-          onCanPlay={handleCanPlay}
-          onTimeUpdate={handleProgressChange}
-          onPause={handlePause}
-          onPlay={handlePlay}
-          onVolumeChange={handleVolumeChange}
-          onDurationChange={handleDurationChange}
-          onEnded={handleEnded}
-        >
-          <source
-            src={current.url}
-          />
-        </audio>
-      </div>
-    )}
+      )}
     </>
   )
 };

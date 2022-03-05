@@ -1,4 +1,10 @@
+@import './bootstrap-files.scss';
+
 .episodes {
   height: calc(100vh - 190px);
   margin-top: 1rem;
+}
+
+.episode + .episode {
+  border-top: 1px solid $gray-200;
 }

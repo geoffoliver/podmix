@@ -39,6 +39,7 @@
 - [ ] Sharing meta tags
 - [ ] Defer playlist image generation
 - [ ] Search results
+- [ ] Playlist builder instructions
 
 # Maybe
 

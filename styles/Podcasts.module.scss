@@ -1,4 +1,10 @@
+@import './bootstrap-files.scss';
+
 .podcasts {
   height: calc(100vh - 190px);
   margin-top: 1rem;
+}
+
+.show + .show {
+  border-top: 1px solid $gray-200;
 }

@@ -1,8 +1,8 @@
 /* eslint-disable @next/next/no-img-element */
-import { useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
-import { Container, Row, Col } from 'react-bootstrap';
+import { Button, Container, Row, Col } from 'react-bootstrap';
 import { GetStaticProps } from 'next';
 import dynamic from 'next/dynamic';
 import classnames from 'classnames';
@@ -26,6 +26,7 @@ type PlaylistDetailProps = {
 export default function PlaylistDetail({ playlist }: PlaylistDetailProps) {
   const [playing, setPlaying] = useState(null);
   const [play, setPlay] = useState(0);
+  const player = useRef(null);
 
   if (!playlist) {
     return null;
@@ -76,7 +77,7 @@ export default function PlaylistDetail({ playlist }: PlaylistDetailProps) {
                 </ul>
                 {playlist.items.map((item, index) => {
                   return (
-                    <button
+                    <div
                       key={item.id}
                       className={classnames(
                         styles.item,
@@ -84,11 +85,19 @@ export default function PlaylistDetail({ playlist }: PlaylistDetailProps) {
                           [styles.active]: item === playing,
                         },
                       )}
-                      onClick={() => setPlay(index)}
                     >
                       <Row>
                         <Col sm={2}>
-                          <img src={item.image} alt={`${item.title} image`} className={styles.image} />
+                          <div className={styles.itemImage}>
+                            <img src={item.image} alt={`${item.title} image`} className={styles.image} />
+                            <Button
+                              variant="dark"
+                              onClick={() => setPlay(index)}
+                              title="Play"
+                            >
+                              <Icon icon='play' />
+                            </Button>
+                          </div>
                         </Col>
                         <Col sm={10}>
                           <div className={styles.episodeTitle}>{item.title}</div>
@@ -96,7 +105,7 @@ export default function PlaylistDetail({ playlist }: PlaylistDetailProps) {
                           <div className={styles.duration}>{secondsToDuration(item.duration)}</div>
                         </Col>
                       </Row>
-                    </button>
+                    </div>
                   );
                 })}
               </Col>

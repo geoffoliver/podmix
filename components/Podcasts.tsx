@@ -33,7 +33,7 @@ const Podcasts = ({ onClick }: PodcastsProps) => {
 
   const Row = ({ index, style }) => {
     return (
-      <div style={style}>
+      <div style={style} className={styles.show}>
         <Podcast
           podcast={results[index]}
           onClick={onClick}

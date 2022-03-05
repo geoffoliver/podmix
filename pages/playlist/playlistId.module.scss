@@ -10,6 +10,7 @@
   top: 0;
   background: #fff;
   padding-top: 10px;
+  z-index: 100;
 }
 
 .description {
@@ -53,6 +54,17 @@
       padding-top: 1.5rem;
       border-top: 1px solid $gray-200;
     }
+  }
+}
+
+.itemImage {
+  position: relative;
+  z-index: 1;
+
+  button {
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
   }
 }
 
