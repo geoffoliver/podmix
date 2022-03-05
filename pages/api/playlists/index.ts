@@ -36,7 +36,5 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     order: [['createdAt', 'DESC']],
   });
 
-  console.log(JSON.stringify(playlists, null, 2));
-
   return res.status(200).json({ playlists })
 }
