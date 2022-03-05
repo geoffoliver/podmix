@@ -31,6 +31,7 @@
 - [ ] Playlist detail page
   - [ ] Play button on episodes rather than whole row being a button
   - [ ] Copy links to clipboard
+- [ ] Playlist bookmarks
 - [ ] Mobile nav
 - [ ] Migrations
 - [ ] Playlist builder instructions
