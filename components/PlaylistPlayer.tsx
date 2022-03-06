@@ -242,7 +242,7 @@ const PlaylistPlayer = () => {
                   type="button"
                   variant="dark"
                   title="Next"
-                  onClick={() => next(false)}
+                  onClick={next}
                   disabled={!canPlay || playIndex === maxIndex}
                 >
                   <Icon
