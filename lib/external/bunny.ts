@@ -13,7 +13,7 @@ class Bunny {
           headers: {
             'AccessKey': process.env.BUNNY_API_KEY,
             'Content-Type': 'application/octet-stream',
-          }
+          },
         }
       );
 

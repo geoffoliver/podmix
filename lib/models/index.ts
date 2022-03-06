@@ -21,7 +21,7 @@ import {
   InferCreationAttributes,
   Model,
   NonAttribute,
-  Sequelize
+  Sequelize,
 } from 'sequelize';
 import { HookReturn } from 'sequelize/types/hooks';
 import stream from 'stream';
@@ -108,7 +108,7 @@ class Playlist extends Model<InferAttributes<Playlist>, InferCreationAttributes<
       if (image.slice(0, 1) === '/') {
         promises.push(Promise.resolve(image));
       } else {
-        promises.push(new Promise(async (resolve, reject) => {
+        promises.push(new Promise(async (resolve) => {
           const finished = promisify(stream.finished);
           const hash = crypto.createHash('md5').update(image).digest('hex');
           const tmpfile = os.tmpdir() + hash;
@@ -121,7 +121,7 @@ class Playlist extends Model<InferAttributes<Playlist>, InferCreationAttributes<
           const result = await axios({
             url: image,
             method: 'GET',
-            responseType: 'stream'
+            responseType: 'stream',
           });
 
           result.data.pipe(writer);
@@ -147,7 +147,7 @@ class Playlist extends Model<InferAttributes<Playlist>, InferCreationAttributes<
         sharp(filePaths[0])
           .resize(width, height, { fit: 'outside' })
           .webp({ quality: 90 })
-          .toFile(tmpfile, async (err: any, info: any) => {
+          .toFile(tmpfile, async (err: any) => {
             if (err) {
               return reject(err);
             }
@@ -182,7 +182,7 @@ class Playlist extends Model<InferAttributes<Playlist>, InferCreationAttributes<
             { input: filePaths[3], top: 256, left: 256 },
           ])
           .webp({ quality: 90 })
-          .toFile(tmpfile, async (err: any, info: any) => {
+          .toFile(tmpfile, async (err: any) => {
             if (err) {
               return reject(err);
             }
@@ -224,8 +224,8 @@ class Playlist extends Model<InferAttributes<Playlist>, InferCreationAttributes<
               model: Podcast,
               as: 'podcast',
               attributes: [
-                'name', 'iTunesGenres'
-              ]
+                'name', 'iTunesGenres',
+              ],
             },
           ],
         },

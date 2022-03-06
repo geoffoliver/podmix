@@ -1,5 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useSession } from 'next-auth/react';
 import Head from 'next/head';
 import Link from 'next/link';
@@ -288,9 +288,9 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
       {
         model: User,
         as: 'user',
-      }
+      },
     ],
-    order: [['items', 'position', 'ASC']]
+    order: [['items', 'position', 'ASC']],
   });
 
   // not sure why we need to stringify and parse this, but if

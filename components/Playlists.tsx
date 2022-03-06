@@ -1,6 +1,6 @@
 import { PlaylistEntry } from '@/lib/types/playlist';
 import { useCallback, useEffect, useState } from 'react';
-import { Button, ListGroup, ListGroupItem } from 'react-bootstrap';
+import { Button, ListGroup } from 'react-bootstrap';
 import axios from 'axios';
 import useSWR from 'swr';
 
@@ -23,7 +23,7 @@ const Playlists = ({ onEdit }: PlaylistsProps) => {
     }
 
     const result = await axios.post('/api/playlists/add', {
-      name
+      name,
     });
 
     setLists([result.data.playlist, ...lists]);

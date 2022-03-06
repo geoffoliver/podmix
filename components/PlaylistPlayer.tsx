@@ -175,7 +175,7 @@ const PlaylistPlayer = () => {
     }
   }, [playIndex, playing, setForcePlay, setPlayIndex]);
 
-  const next = useCallback((forcePlay = false) => {
+  const next = useCallback(() => {
     setPlayIndex(playIndex + 1);
     try {
       if (playing) {

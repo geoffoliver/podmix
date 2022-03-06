@@ -18,7 +18,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   const playlist = await Playlist.findOne({
     where: {
       userId: session.user.id,
-      id: req.body.id
+      id: req.body.id,
     },
   });
 

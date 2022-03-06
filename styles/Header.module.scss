@@ -8,10 +8,17 @@
   }
 }
 
+.topNav {
+  display: flex;
+  width: 100%;
+  align-items: center;
+}
+
 .search {
   padding: 0 15px;
   width: 100%;
   display: flex;
+  flex-grow: 1;
 
   :global(.ais-SearchBox) {
     width: 100%;
@@ -52,14 +59,13 @@
   }
 }
 
-.userIcon {
-  margin-left: 5px;
-
+.profileLink {
   &:global(.nav-link) {
     padding-bottom: 0;
     padding-top: 4px;
 
     img {
+      margin-left: 5px;
       width: 31px;
       border-radius: 50%;
       border: 1px solid $gray-200;
@@ -69,4 +75,37 @@
 
 .login {
   border-radius: 1.5rem;
+}
+
+@include media-breakpoint-up(lg) {
+  .userIcon {
+    margin-left: 0;
+  }
+
+  .userName,
+  .logout {
+    display: none;
+  }
+}
+
+@include media-breakpoint-down(lg) {
+  .name {
+    display: none;
+  }
+
+  .topNav {
+    :global(.navbar-collapse) {
+      display: block;
+      flex-direction: column;
+    }
+  }
+
+  .userIcon,
+  .logoutIcon {
+    display: none;
+  }
+
+  .login {
+    margin: 1rem 0 0.5rem;
+  }
 }

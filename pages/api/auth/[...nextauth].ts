@@ -22,16 +22,16 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   return await NextAuth(req, res, {
     pages: {
       signIn: '/auth/login',
-      signOut: '/'
+      signOut: '/',
     },
     providers: [
       FacebookProvider({
         clientId: process.env.FACEBOOK_ID,
-        clientSecret: process.env.FACEBOOK_SECRET
+        clientSecret: process.env.FACEBOOK_SECRET,
       }),
       GoogleProvider({
         clientId: process.env.GOOGLE_ID,
-        clientSecret: process.env.GOOGLE_SECRET
+        clientSecret: process.env.GOOGLE_SECRET,
       }),
       EmailProvider({
         server: {
@@ -39,14 +39,14 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           port: process.env.EMAIL_SERVER_PORT,
           auth: {
             user: process.env.EMAIL_SERVER_USER,
-            pass: process.env.EMAIL_SERVER_PASSWORD
-          }
+            pass: process.env.EMAIL_SERVER_PASSWORD,
+          },
         },
-        from: process.env.EMAIL_FROM
+        from: process.env.EMAIL_FROM,
       }),
     ],
     callbacks: {
-      async session({ session, token, user }) {
+      async session({ session, user }) {
         session.user.id = user.id;
         return session;
       },

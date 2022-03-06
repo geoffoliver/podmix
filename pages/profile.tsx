@@ -1,6 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { useSession, getSession } from 'next-auth/react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useSession } from 'next-auth/react';
 import { Button, Form, Container, Row, Col } from 'react-bootstrap';
 import Head from 'next/head';
 import Uppy from '@uppy/core';
@@ -107,7 +107,7 @@ const Profile = () => {
         cropSquare: false,
         cropWidescreen: false,
         cropWidescreenVertical: false,
-      }
+      },
     });
 
     up.on('upload-success', (result, response) => {

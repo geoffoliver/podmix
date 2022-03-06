@@ -1,5 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
-import { SyntheticEvent, useCallback, useEffect, useRef, useState } from 'react';
+import { SyntheticEvent, useCallback, useEffect, useState } from 'react';
 import {
   useSession,
   signIn,
@@ -17,12 +17,12 @@ import Link from 'next/link';
 import styles from '@/styles/Header.module.scss';
 import Icon from './Icon';
 
-const DEBOUNCE_TIME = 400;
+// const DEBOUNCE_TIME = 400;
 
 const Header = () => {
   const { data: session } = useSession()
   const [mounted, setMounted] = useState(false);
-  const timeout = useRef(null);
+  // const timeout = useRef(null);
 
   useEffect(() => {
     setMounted(true);
@@ -60,19 +60,24 @@ const Header = () => {
   return (
     <Navbar variant="dark" expand="lg" className={styles.navbar}>
       <Container>
-        <Link href="/" passHref>
-          <Navbar.Brand href="/"><Icon icon="shuffle" fixedWidth /> Podmix</Navbar.Brand>
-        </Link>
-        <Navbar.Toggle aria-controls="navbar-nav" />
-        <div className={styles.search}>
-          <SearchBox
-            searchAsYouType={false}
-            onSubmit={handleSubmit}
-            // onChange={autoSubmit}
-            translations={{
-              placeholder: 'Search playlists, podcasts, and episodes',
-            }}
-          />
+        <div className={styles.topNav}>
+          <Link href="/" passHref>
+            <Navbar.Brand href="/">
+              <Icon icon="shuffle" fixedWidth />
+              <span className={styles.name}>Podmix</span>
+            </Navbar.Brand>
+          </Link>
+          <div className={styles.search}>
+            <SearchBox
+              searchAsYouType={false}
+              onSubmit={handleSubmit}
+              // onChange={autoSubmit}
+              translations={{
+                placeholder: 'Search playlists, podcasts, and episodes',
+              }}
+            />
+          </div>
+          <Navbar.Toggle aria-controls="navbar-nav" />
         </div>
         <Navbar.Collapse id="navbar-nav" className="justify-content-end">
           <Nav>
@@ -86,20 +91,22 @@ const Header = () => {
                   </Link>
                   <Link href="/build" passHref>
                     <Nav.Link href="/build">
-                      My Playlists
+                      Playlists
                     </Nav.Link>
                   </Link>
                   <Link href="/profile" passHref>
-                    <Nav.Link href="/profile" className={styles.userIcon}>
+                    <Nav.Link href="/profile" className={styles.profileLink} title="Profile">
                       <img
                         src={session.user.image || '/default-user-image.png'}
                         className={styles.userIcon}
-                        alt={session.user.name || session.user.email}
+                        alt={`${session.user.name || session.user.email} user image`}
                       />
+                      <div className={styles.userName}>Profile</div>
                     </Nav.Link>
                   </Link>
                   <Nav.Link onClick={() => signOut({ callbackUrl: '/' })} title="Logout">
-                    <Icon icon="sign-out" />
+                    <Icon icon="sign-out" className={styles.logoutIcon} />
+                    <div className={styles.logout}>Logout</div>
                   </Nav.Link>
                 </>
               ) : (

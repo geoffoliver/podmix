@@ -1,7 +1,7 @@
 import { useState, useMemo, useEffect } from 'react';
 import { GetServerSideProps } from 'next';
 import { SignInErrorTypes } from 'next-auth/core/pages/signin';
-import { ClientSafeProvider, getCsrfToken, getProviders, getSession, LiteralUnion, signIn, useSession } from 'next-auth/react';
+import { ClientSafeProvider, getCsrfToken, getProviders, LiteralUnion, signIn, useSession } from 'next-auth/react';
 import { Container, Row, Col, Form, Button, Alert } from 'react-bootstrap';
 import { BuiltInProviderType } from 'next-auth/providers';
 import Head from 'next/head';
@@ -111,7 +111,7 @@ export default function Login(props: LoginProps) {
                     <Button
                       variant="outline-primary"
                       onClick={() => signIn('google', {
-                        callbackUrl: '/'
+                        callbackUrl: '/',
                       })}
                     >
                       <Icon icon={["fab", "google"]} className="me-2" fixedWidth />

@@ -14,7 +14,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     where: {
       userId: session.user.id,
     },
-    order: [['createdAt', 'DESC']]
+    order: [['createdAt', 'DESC']],
   });
 
   return res.status(200).json({ playlists })

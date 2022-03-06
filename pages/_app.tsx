@@ -3,7 +3,7 @@ import { SessionProvider } from 'next-auth/react';
 import { InstantSearch } from 'react-instantsearch-dom';
 import algoliasearch from 'algoliasearch/lite';
 import qs from 'qs';
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 
 import AppContext from '@/lib/context/app';
 import Header from '@/components/Header';
@@ -23,7 +23,7 @@ const searchClient = algoliasearch(process.env.NEXT_PUBLIC_ALGOLIA_APP_ID, proce
 const createURL = (state: any) => `?${qs.stringify(state)}`;
 
 function MyApp({
-  Component, pageProps: { session, ...pageProps }
+  Component, pageProps: { session, ...pageProps },
 }) {
   const router = useRouter();
   const query = router.asPath.includes('?') ? router.asPath.split('?').pop() : '';

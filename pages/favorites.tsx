@@ -63,7 +63,7 @@ export default function Favorites() {
               </div>
             )}
             {isValidating && favorites.length === 0 && <Icon icon="spinner" spin fixedWidth />}
-            {favorites.length === 0 && (
+            {!isValidating && favorites.length === 0 && (
               <Alert variant="info">
                 <Alert.Heading>No Favorites</Alert.Heading>
                 <p className="mb-0">

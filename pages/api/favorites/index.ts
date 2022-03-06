@@ -25,10 +25,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           {
             model: User,
             as: 'user',
-          }
-        ]
-      }
-    ]
+          },
+        ],
+      },
+    ],
   });
 
   return res.status(200).json({ favorites })

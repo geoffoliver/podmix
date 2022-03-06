@@ -36,7 +36,7 @@ const Playlist = ({ list, onEdit }: PlaylistProps) => {
     setFlashing(true);
     flashTimeout = setTimeout(() => {
       setFlashing(false);
-    }, 750);
+    }, 400);
   }, [context.podcast, list.id]);
 
   const [{ isOver, canDrop }, drop] = useDrop({
@@ -65,7 +65,7 @@ const Playlist = ({ list, onEdit }: PlaylistProps) => {
       action
     >
       {list.name}
-      {saving && <Icon icon="spinner" spin fixedWidth />}
+      {saving && <Icon icon="spinner" className="ms-2" spin fixedWidth />}
     </ListGroupItem>
   );
 };

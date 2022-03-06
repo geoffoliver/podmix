@@ -34,7 +34,7 @@
   - [x] Play button on episodes rather than whole row being a button
   - [x] Copy links to clipboard
   - [x] Favorite playlist
-- [ ] Mobile nav
+- [x] Mobile nav
 - [ ] Migrations
 - [ ] Playlist builder instructions
 - [ ] Sharing meta tags

@@ -36,7 +36,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   if (req.body.removed) {
     await PlaylistItem.destroy({
       where: {
-        id: req.body.removed.map((i: PlaylistItem) => i.id)
+        id: req.body.removed.map((i: PlaylistItem) => i.id),
       },
     });
   }

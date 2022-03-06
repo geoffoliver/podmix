@@ -12,7 +12,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       {
         model: PlaylistItem,
         as: 'items',
-      }
+      },
     ],
     order: [['items', 'position', 'ASC']],
   });

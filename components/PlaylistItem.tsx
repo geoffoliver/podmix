@@ -14,7 +14,7 @@ type PlaylistItemProps = {
   item: PlaylistItem;
   index: number;
   onRemove: Function;
-  onMove: (dragIndex: number, hoverIndex: number) => void;
+  onMove: (_dragIndex: number, _hoverIndex: number) => void;
 };
 
 interface DragItem {
@@ -25,7 +25,7 @@ interface DragItem {
 
 const PlaylistItemComponent = ({ item, index, onRemove, onMove }: PlaylistItemProps) => {
   const ref = useRef<HTMLDivElement>(null)
-  const [{ handlerId }, drop] = useDrop<
+  const [, drop] = useDrop<
     DragItem,
     void,
     { handlerId: Identifier | null }
@@ -91,7 +91,7 @@ const PlaylistItemComponent = ({ item, index, onRemove, onMove }: PlaylistItemPr
     item: () => {
       return {
         id: item.id,
-        index
+        index,
       }
     },
     collect: (monitor: any) => ({

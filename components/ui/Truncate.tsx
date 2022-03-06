@@ -52,7 +52,7 @@ export function Truncate({
 function lastIndexWhere(
   start: number,
   end: number,
-  predicate: (index: number) => boolean
+  predicate: (_index: number) => boolean
 ): number {
   // invariant: predicate(start) === true && predicate(end + 1) === false
   while (start < end) {

@@ -85,8 +85,8 @@ const Search = () => {
 
 export default Search;
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  // do this only so we can get the query on the server side aqnd populate the
+export const getServerSideProps: GetServerSideProps = async (_context) => {
+  // do this only so we can get the query on the server side and populate the
   // search box so react doesn't complain that the server and client don't match
   return {
     props: {},

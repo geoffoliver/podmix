@@ -25,7 +25,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     maxFileSize: 0.5 * 1024 * 1024,
     filter: ({ mimetype }) => {
       return mimetype.includes('image');
-    }
+    },
   });
 
   return new Promise((resolve, reject) => {
@@ -37,7 +37,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       try {
         sharp(f.file.filepath)
           .resize(256, 256, { fit: 'outside' })
-          .toFile(`${f.file.filepath}.webp`, async (err: any, info: any) => {
+          .toFile(`${f.file.filepath}.webp`, async (err: any) => {
             if (err) {
               throw err;
             }

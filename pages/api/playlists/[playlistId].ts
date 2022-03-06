@@ -16,7 +16,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         as: 'user',
       },
     ],
-    order: [['items', 'position', 'ASC']]
+    order: [['items', 'position', 'ASC']],
   });
 
   if (!playlist) {
