@@ -1,13 +1,25 @@
 @import '../styles/bootstrap-files.scss';
 
+.playlistsContainer {
+  height: 100%;
+  background: $gray-200;
+}
+
 .header {
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  border-bottom: 1px solid $gray-200;
+  border-bottom: 1px solid $gray-300;
   margin-bottom: 10px;
-  padding: 0 0 10px;
+  padding: 1rem 10px;
+
+  h4 {
+    font-size: $font-size-base;
+    margin: 0;
+    text-transform: uppercase;
+    color: $gray-600;
+  }
 }
 
 .noPlaylists {
@@ -27,6 +39,5 @@
 }
 
 .playlists {
-  max-height: 82vh;
   overflow: auto;
 }

@@ -36,10 +36,10 @@ const Playlists = ({ onEdit }: PlaylistsProps) => {
   }, [data]);
 
   return (
-    <div>
+    <div className={styles.playlistsContainer}>
       <div className={styles.header}>
-        <div><strong>My Playlists</strong></div>
-        <Button onClick={addList} size="sm" variant="link">Add</Button>
+        <h4>My Playlists</h4>
+        <Button onClick={addList} size="sm" variant="outline-primary">Add</Button>
       </div>
       {error && <div>{JSON.stringify(error)}</div>}
       {isValidating && lists.length === 0 && <div>Loading...</div>}

@@ -69,6 +69,7 @@ const PlaylistEditor = ({ playlist, show, onHide }: PlaylistEditorProps) => {
 
       onHide();
       mutate('/api/playlists/mine');
+      toast.success('Playlist saved');
     } catch (ex) {
       toast.error(ex.message || 'Error saving playlist');
     } finally {

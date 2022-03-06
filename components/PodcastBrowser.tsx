@@ -9,6 +9,8 @@ import Podcasts from '@/components/Podcasts';
 import PodcastsContext from '@/lib/context/podcasts';
 import { iTunesResult } from '@/lib/external/itunes';
 
+import styles from '@/styles/PodcastBrowser.module.scss';
+
 const PodcastBrowser = () => {
   const [loadingFeed, setLoadingFeed] = useState(false);
   const [feed, setFeed] = useState<Parser.Output<any>>(null);
@@ -30,7 +32,7 @@ const PodcastBrowser = () => {
   }, [context]);
 
   return (
-    <Row>
+    <Row className={styles.browser}>
       <Col md={(feed || loadingFeed) ? 5 : 12}>
         <Podcasts onClick={getEpisodes} />
       </Col>

@@ -10,6 +10,7 @@ import PodcastsContext from '@/lib/context/podcasts';
 import Icon from '@/components/Icon';
 
 import styles from '@/styles/Playlist.module.scss';
+import { toast } from 'react-toastify';
 
 type PlaylistProps = {
   list: PlaylistEntry;
@@ -32,8 +33,11 @@ const Playlist = ({ list, onEdit }: PlaylistProps) => {
       collectionId: context.podcast.collectionId,
     });
 
+    toast.success('Item added to playlist');
+
     setSaving(false);
     setFlashing(true);
+
     flashTimeout = setTimeout(() => {
       setFlashing(false);
     }, 400);

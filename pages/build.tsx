@@ -11,7 +11,7 @@ import { Playlist } from '@/lib/models';
 import PodcastsContext from '@/lib/context/podcasts';
 import { iTunesResult } from '@/lib/external/itunes';
 
-import styles from '@/styles/build.module.scss';
+// import styles from '@/styles/build.module.scss';
 import Head from '@/components/Head';
 
 export default function Build() {
@@ -60,18 +60,16 @@ export default function Build() {
       <Head title="Build Playlists" />
       <DndProvider backend={HTML5Backend}>
         <PodcastsContext.Provider value={{ podcast, setPodcast }}>
-          <div className={styles.playlistBuilder}>
-            <Container>
-              <Row>
-                <Col sm={3}>
-                  <Playlists onEdit={editPlaylist} />
-                </Col>
-                <Col sm={9}>
-                  <PodcastBrowser />
-                </Col>
-              </Row>
-            </Container>
-          </div>
+          <Container>
+            <Row>
+              <Col sm={3}>
+                <Playlists onEdit={editPlaylist} />
+              </Col>
+              <Col sm={9}>
+                <PodcastBrowser />
+              </Col>
+            </Row>
+          </Container>
         </PodcastsContext.Provider>
       </DndProvider>
       {playlist && (
