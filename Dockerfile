@@ -8,6 +8,8 @@ ADD . /app
 
 RUN yarn install
 
+RUN yarn migrate up
+
 EXPOSE 3000
 
 CMD ["yarn", "dev"]
