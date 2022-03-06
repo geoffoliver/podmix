@@ -38,7 +38,6 @@
 - [x] Sharing meta tags
 - [x] Playlist builder instructions
 - [x] Custom 404 page
-- [ ] Search results
 - [ ] Migrations
 
 # Maybe
