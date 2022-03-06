@@ -17,11 +17,11 @@ const errors: Record<SignInErrorTypes, string> = {
   OAuthCreateAccount: 'Try signing in with a different account.',
   EmailCreateAccount: 'Try signing in with a different account.',
   Callback: 'Try signing in with a different account.',
-  OAuthAccountNotLinked: 'To confirm your identity, sign in with the same account you used originally.',
+  OAuthAccountNotLinked: 'To confirm your identity, login with the same account you used originally.',
   EmailSignin: 'The e-mail could not be sent.',
-  CredentialsSignin: 'Sign in failed. Check the details you provided are correct.',
-  SessionRequired: 'Please sign in to access this page.',
-  default: 'Unable to sign in.',
+  CredentialsSignin: 'Login failed. Check the details you provided are correct.',
+  SessionRequired: 'Please login to access this page.',
+  default: 'Unable to login.',
 };
 
 type LoginProps = {
@@ -50,24 +50,6 @@ export default function Login(props: LoginProps) {
     }
   }, [router, session]);
 
-  /*
-  const providersToRender = useMemo(() => {
-    return Object.values(providers).filter((provider) => {
-      if (provider.type === 'oauth' || provider.type === 'email') {
-        // Always render oauth and email type providers
-        return true;
-      }
-
-      if (provider.type === 'credentials' && provider.credentials) {
-        // Only render credentials type provider if credentials are defined
-        return true;
-      }
-
-      // Don't render other provider types
-      return false;
-    });
-  }, [providers]);
-  */
   const error = useMemo(() => {
     return errorType && (errors[errorType] ?? errors.default);
   } , [errorType]);
@@ -79,8 +61,9 @@ export default function Login(props: LoginProps) {
         <Row>
           <Col md={{ offset: 3, span: 6 }} className="pt-4">
             <h1>Login / Register</h1>
-            <p className="lead">
-              Login or create an account with the form below.
+            <p>
+              If you&apos;re registering a new account, enter your email address and we&apos;ll
+              send you a link to login. Alternatively, use one of the external accounts we support.
             </p>
             {error && (
               <Alert variant="danger">
@@ -92,34 +75,6 @@ export default function Login(props: LoginProps) {
             )}
             <div className={styles.login}>
               <Row>
-                <Col sm={6}>
-                  <Form.Label>Social Account</Form.Label>
-                  <div className="mb-3">
-                    <Button
-                      variant="outline-primary"
-                      onClick={() => signIn('facebook', {
-                        callbackUrl: '/',
-                      })}
-                    >
-                      <Icon icon={['fab', 'facebook']} className="me-2" fixedWidth />
-                      Sign in with Facebook
-                    </Button>
-                  </div>
-                  <div>
-                    <Button
-                      variant="outline-primary"
-                      onClick={() => signIn('google', {
-                        callbackUrl: '/',
-                      })}
-                    >
-                      <Icon icon={['fab', 'google']} className="me-2" fixedWidth />
-                      Sign in with Google
-                    </Button>
-                  </div>
-                  <div className="text-center small text-muted pt-4">
-                    Use a social network account to login.
-                  </div>
-                </Col>
                 <Col sm={6}>
                   <form action={providers.email.signinUrl} method="POST">
                     <input type="hidden" name="csrfToken" value={csrfToken} />
@@ -136,14 +91,48 @@ export default function Login(props: LoginProps) {
                       />
                     </Form.Group>
                     <div className="d-grid">
-                      <Button variant="primary" type="submit">Sign in with Email</Button>
+                      <Button variant="primary" type="submit">Login with Email</Button>
                     </div>
                     <div className="text-center small text-muted pt-4">
                       We&apos;ll send you a link to login - no password!
                     </div>
                   </form>
                 </Col>
+                <Col sm={6}>
+                  <Form.Label>External Accounts</Form.Label>
+                  <div className="mb-3">
+                    <Button
+                      variant="outline-primary"
+                      onClick={() => signIn('facebook', {
+                        callbackUrl: '/',
+                      })}
+                    >
+                      <Icon icon={['fab', 'facebook']} className="me-2" fixedWidth />
+                      Login with Facebook
+                    </Button>
+                  </div>
+                  <div>
+                    <Button
+                      variant="outline-primary"
+                      onClick={() => signIn('google', {
+                        callbackUrl: '/',
+                      })}
+                    >
+                      <Icon icon={['fab', 'google']} className="me-2" fixedWidth />
+                      Login with Google
+                    </Button>
+                  </div>
+                  <div className="text-center small text-muted pt-4">
+                    Use an external account to login.
+                  </div>
+                </Col>
               </Row>
+              <Alert variant="info" className="mt-4">
+                <Alert.Heading as="h5">Why should I create an account?</Alert.Heading>
+                <p className="m-0">
+                  An account allows you to create your own playlists and save your favorite playlists.
+                </p>
+              </Alert>
             </div>
           </Col>
         </Row>

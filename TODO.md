@@ -39,8 +39,8 @@
 - [x] Playlist builder instructions
 - [x] Custom 404 page
 - [x] Migrations (https://www.npmjs.com/package/umzug)
-- [ ] Tests (https://nextjs.org/docs/testing#jest-and-react-testing-library)
 - [ ] Docker deploy stuff
+- [ ] Tests (https://nextjs.org/docs/testing#jest-and-react-testing-library)
 
 # Maybe
 

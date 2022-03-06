@@ -16,6 +16,7 @@ import styles from '@/styles/app.module.scss';
 import 'react-toastify/dist/ReactToastify.css';
 import 'instantsearch.css/themes/algolia-min.css';
 import '@/styles/globals.scss';
+import Icon from '@/components/Icon';
 
 
 const searchClient = algoliasearch(process.env.NEXT_PUBLIC_ALGOLIA_APP_ID, process.env.NEXT_PUBLIC_ALGOLIA_SEARCH_API_KEY);
@@ -84,8 +85,12 @@ function MyApp({
       <div className={styles.footer}>
         <Container>
           <Row>
-            <Col>
+            <Col className="text-center">
               &copy; {new Date().getFullYear()} Podmix &amp; <a href="https://www.plan8studios.com" target="_blank" rel="noreferrer">Plan8 Studios</a>
+              {' '}&middot;{' '}
+              <a href="https://twitter.com/podmix.me" target="_blank" rel="noreferrer">
+                <Icon icon={['fab', 'twitter']} className="me-2" fixedWidth />
+              </a>
             </Col>
           </Row>
         </Container>

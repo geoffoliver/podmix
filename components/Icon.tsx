@@ -25,8 +25,9 @@ import {
   faHeartCrack,
   faDownload,
   faClipboard,
+  faInfoCircle,
 } from '@fortawesome/free-solid-svg-icons';
-import { faFacebook, faGoogle } from '@fortawesome/free-brands-svg-icons';
+import { faTwitter, faFacebook, faGoogle } from '@fortawesome/free-brands-svg-icons';
 import { FontAwesomeIconProps } from '@fortawesome/react-fontawesome';
 
 library.add(
@@ -55,6 +56,8 @@ library.add(
   faHeartCrack,
   faDownload,
   faClipboard,
+  faTwitter,
+  faInfoCircle
 );
 
 const Icon = (props: FontAwesomeIconProps) => {
