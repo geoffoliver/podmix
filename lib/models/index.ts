@@ -482,7 +482,6 @@ Podcast.init({
 });
 
 // #endregion
-
 // #region Favorites
 
 class Favorite extends Model<InferAttributes<Favorite>, InferCreationAttributes<Favorite>> {
@@ -523,7 +522,6 @@ Favorite.init({
 });
 
 // #endregion
-
 // #region User
 
 class User extends Model<InferAttributes<User>, InferCreationAttributes<User>> {
