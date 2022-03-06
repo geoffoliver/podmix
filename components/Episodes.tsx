@@ -5,8 +5,10 @@ import Parser from 'rss-parser';
 import { FixedSizeList } from 'react-window';
 import AutoSizer from 'react-virtualized-auto-sizer';
 
+import Icon from '@/components/Icon';
 import { ItemWithiTunes } from '@/lib/types/podcast';
 import styles from '@/styles/Episodes.module.scss';
+
 import Episode from './Episode';
 
 type EpisodesProps = {
@@ -62,23 +64,25 @@ const Episodes = ({ feed, loading }: EpisodesProps) => {
         </InputGroup>
       </form>}
       <div className={styles.episodes}>
-        {loading
-          ? <div>Loading...</div>
-          : (
-            <AutoSizer>
-              {({ height, width }) => (
-                <FixedSizeList
-                  height={height}
-                  width={width}
-                  itemCount={filtered.length}
-                  itemSize={108}
-                >
-                  {Row}
-                </FixedSizeList>
-              )}
-            </AutoSizer>
-          )
-        }
+        {loading ? (
+          <div className="py-3 text-center">
+            <Icon icon="spinner" className="me-2" spin fixedWidth />
+            Loading Feed...
+          </div>
+        ) : (
+          <AutoSizer>
+            {({ height, width }) => (
+              <FixedSizeList
+                height={height}
+                width={width}
+                itemCount={filtered.length}
+                itemSize={108}
+              >
+                {Row}
+              </FixedSizeList>
+            )}
+          </AutoSizer>
+        )}
       </div>
     </>
   );

@@ -254,7 +254,7 @@ class Playlist extends Model<InferAttributes<Playlist>, InferCreationAttributes<
     await searchIndex.saveObject({
       objectID: this.id,
       name: this.name,
-      image: `${process.env.NEXT_PUBLIC_PUBLIC_URL}/api/playlists/image/${this.id}`,
+      image: `${process.env.PUBLIC_URL}/api/playlists/image/${this.id}`,
       author: this.user.name,
       description: this.description,
       genres: Array.from(genres),

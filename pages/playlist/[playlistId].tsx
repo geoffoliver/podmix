@@ -44,8 +44,6 @@ export default function PlaylistDetail({ playlist: playlistProp, frontendUrl }: 
   const [volume, setVolume] = useState(0);
   const [forcePlay, setForcePlay] = useState(false);
 
-  console.log(frontendUrl);
-
   useEffect(() => {
     if (data && data.data && data.data.favorites) {
       setFavorites(data.data.favorites);
@@ -232,7 +230,7 @@ export default function PlaylistDetail({ playlist: playlistProp, frontendUrl }: 
                             </div>
                           </Col>
                           <Col sm={8} md={9} lg={10}>
-                            <div className={styles.episodeTitle}>{item.title}</div>
+                            <div className={styles.episodeTitle}>{item.artist} - {item.title}</div>
                             <div className={styles.episodeDescription}>{item.description}</div>
                             <div className={styles.episodeDuration}>{secondsToDuration(item.duration)}</div>
                           </Col>

@@ -18,7 +18,6 @@ type HomeProps = {
 };
 
 export default function Home({ playlists, frontendUrl }: HomeProps) {
-  console.log(frontendUrl);
   return (
     <>
       <Head>

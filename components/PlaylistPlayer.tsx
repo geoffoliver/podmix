@@ -47,9 +47,9 @@ const PlaylistPlayer = () => {
   }, [playlist, setPlayIndex]);
 
   useEffect(() => {
-    if (playing && player.current.paused) {
+    if (playing && player.current && player.current.paused) {
       player.current.play();
-    } else if (!playing && !player.current.paused) {
+    } else if (!playing && player.current && !player.current.paused) {
       player.current.pause();
     }
   }, [playing]);
@@ -138,7 +138,7 @@ const PlaylistPlayer = () => {
     setForcePlay(true);
 
     player.current.load();
-  }, [playIndex, playlist.items.length, setForcePlay, setPlayIndex, setPlaying]);
+  }, [playIndex, playlist, setForcePlay, setPlayIndex, setPlaying]);
 
   const changeVolume = useCallback((e) => {
     setVolume(e.target.value);
@@ -193,7 +193,7 @@ const PlaylistPlayer = () => {
       <div className={styles.player}>
         <Row>
           <Col sm={4} md={3} lg={2}>
-            <img src={current.image} alt={`Image for ${current.title}`} className="img-fluid" />
+            <img src={current?.image} alt={`Image for ${current?.title}`} className="img-fluid" />
           </Col>
           <Col sm={8} md={9} lg={10}>
             <div className={styles.title}>

@@ -36,10 +36,9 @@
   - [x] Favorite playlist
 - [x] Mobile nav
 - [x] Sharing meta tags
-- [ ] Playlist builder instructions
-- [ ] Custom 404 page
+- [x] Playlist builder instructions
+- [x] Custom 404 page
 - [ ] Search results
-- [ ] Playlist builder instructions
 - [ ] Migrations
 
 # Maybe

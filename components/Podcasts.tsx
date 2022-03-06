@@ -5,6 +5,8 @@ import { FixedSizeList } from 'react-window';
 import AutoSizer from 'react-virtualized-auto-sizer';
 
 import { iTunesResult } from '@/lib/external/itunes';
+import Icon from '@/components/Icon';
+
 import Podcast from './Podcast';
 
 import styles from '@/styles/Podcasts.module.scss';
@@ -57,8 +59,12 @@ const Podcasts = ({ onClick }: PodcastsProps) => {
       </form>
       <div className={styles.podcasts}>
         {searching
-          ? <>Searching...</>
-          : (
+          ? (
+            <div className="py-3 text-center">
+              <Icon icon="spinner" className="me-2" spin fixedWidth />
+              Searching Podcasts...
+            </div>
+          ) : (
             <AutoSizer>
               {({ height, width }) => (
                 <FixedSizeList

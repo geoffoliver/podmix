@@ -47,9 +47,14 @@ const Playlists = ({ onEdit }: PlaylistsProps) => {
         <div className={styles.noPlaylists}>
           <h6>You don&apos;t have any playlists!</h6>
           <p>
-            Click the &ldquo;Add&rdquo; link above to create your first
-            playlist. Then you can add episodes to it by draging and dropping
-            them on the playlist.
+            Create your first playlist using the &ldquo;Add&rdquo; button below,
+            or the &ldquo;Add&rdquo; link above. Then you can add episodes to it
+            by draging and dropping them on the playlist.
+          </p>
+          <p>
+            <Button variant="outline-primary" size="sm" onClick={addList}>
+              Add Playlist
+            </Button>
           </p>
         </div>
       )}
