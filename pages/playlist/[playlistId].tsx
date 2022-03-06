@@ -219,7 +219,7 @@ export default function PlaylistDetail({ playlist: playlistProp, frontendUrl }: 
                         <Row>
                           <Col sm={4} md={3} lg={2}>
                             <div className={styles.itemImage}>
-                              <img src={item.image} alt={`${item.title} image`} className={styles.image} />
+                              <img src={item.image} alt={`${item.title} image`} className={styles.image} loading="lazy" />
                               <Button
                                 variant="dark"
                                 onClick={() => playItem(index)}

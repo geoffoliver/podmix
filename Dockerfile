@@ -1,6 +1,6 @@
 FROM node:16
 
-RUN apt-get update || : && apt-get install python -y
+# RUN apt-get update || : && apt-get install python -y
 
 WORKDIR /app
 
