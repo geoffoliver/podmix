@@ -88,6 +88,7 @@ const PlaylistEditor = ({ playlist, show, onHide }: PlaylistEditorProps) => {
     try {
       await axios.post('/api/playlists/delete', { id: list.id });
       mutate('/api/playlists/mine');
+      toast.success('Playlist deleted');
       onHide();
     } catch (ex) {
       toast.error(ex.message || 'Error deleting playlist');

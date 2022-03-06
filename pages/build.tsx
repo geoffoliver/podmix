@@ -94,7 +94,7 @@ export default function Build() {
           <hr />
           <ol className="my-4">
             <li className="mb-4">
-              <strong>Create a playlist using the &ldquo;Add&rdquo; link or button in the &ldquo;My Playlists&rdquo; section.</strong>
+              <strong>Create a playlist using the &ldquo;Add&rdquo; button in the &ldquo;My Playlists&rdquo; section.</strong>
               <div className="small text-muted">
                 You&apos;ll be prompted to enter a name for the playlist. Do that and hit &ldquo;Enter&rdquo; or click
                 the &ldquo;OK&rdquo; button.

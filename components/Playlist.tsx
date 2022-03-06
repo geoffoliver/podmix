@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import { useContext, useCallback, useState, useEffect } from 'react';
 import { ListGroupItem } from 'react-bootstrap';
 import { useDrop } from 'react-dnd';
@@ -68,6 +69,7 @@ const Playlist = ({ list, onEdit }: PlaylistProps) => {
       ref={drop}
       action
     >
+      <img src={`/api/playlists/image/${list.id}`} alt={`Image for ${list.name}`} className={styles.playlistImage} />
       {list.name}
       {saving && <Icon icon="spinner" className="ms-2" spin fixedWidth />}
     </ListGroupItem>
