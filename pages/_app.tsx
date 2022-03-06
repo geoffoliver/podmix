@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback } from 'react';
 import { SessionProvider } from 'next-auth/react';
 import { InstantSearch } from 'react-instantsearch-dom';
 import algoliasearch from 'algoliasearch/lite';
@@ -9,8 +9,8 @@ import AppContext from '@/lib/context/app';
 import Header from '@/components/Header';
 import ForceProfileSetup from '@/components/ForceProfileSetup';
 
-import { useRouter } from "next/router";
-import { Col, Container, Row } from "react-bootstrap";
+import { useRouter } from 'next/router';
+import { Col, Container, Row } from 'react-bootstrap';
 import styles from '@/styles/app.module.scss';
 
 import 'react-toastify/dist/ReactToastify.css';

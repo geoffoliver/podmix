@@ -1,4 +1,4 @@
-import { iTunesResult } from "@/lib/external/itunes";
+import { iTunesResult } from '@/lib/external/itunes';
 
 export const PLAYLIST_ENTRY = 'PlaylistEntry';
 

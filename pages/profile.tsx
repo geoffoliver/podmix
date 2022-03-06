@@ -3,7 +3,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useSession } from 'next-auth/react';
 import { Button, Form, Container, Row, Col } from 'react-bootstrap';
 import { DashboardModal } from '@uppy/react';
-import { DefaultSession } from "next-auth";
+import { DefaultSession } from 'next-auth';
 import { useRouter } from 'next/router';
 import Uppy from '@uppy/core';
 import XHRUpload from '@uppy/xhr-upload';
@@ -21,7 +21,7 @@ import Head from '@/components/Head';
 
 import styles from '@/styles/profile.module.scss';
 
-type UserProfile = DefaultSession["user"] & {
+type UserProfile = DefaultSession['user'] & {
   id: string
 };
 

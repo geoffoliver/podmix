@@ -1,7 +1,7 @@
 import { useCallback, useMemo, useState } from 'react';
 import { Button, Form } from 'react-bootstrap';
 
-import { RefinementItem } from "@/lib/types/search";
+import { RefinementItem } from '@/lib/types/search';
 import Icon from '@/components/Icon';
 
 import styles from '@/styles/Refinements.module.scss';

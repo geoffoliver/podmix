@@ -4,7 +4,7 @@ import { useDrop } from 'react-dnd';
 import axios from 'axios';
 import classnames from 'classnames';
 
-import { PlaylistEntry } from "@/lib/types/playlist";
+import { PlaylistEntry } from '@/lib/types/playlist';
 import { ItemWithiTunes, PODCAST_EPISODE } from '@/lib/types/podcast';
 import PodcastsContext from '@/lib/context/podcasts';
 import Icon from '@/components/Icon';

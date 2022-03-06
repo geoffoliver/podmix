@@ -101,7 +101,7 @@ export default function Login(props: LoginProps) {
                         callbackUrl: '/',
                       })}
                     >
-                      <Icon icon={["fab", "facebook"]} className="me-2" fixedWidth />
+                      <Icon icon={['fab', 'facebook']} className="me-2" fixedWidth />
                       Sign in with Facebook
                     </Button>
                   </div>
@@ -112,7 +112,7 @@ export default function Login(props: LoginProps) {
                         callbackUrl: '/',
                       })}
                     >
-                      <Icon icon={["fab", "google"]} className="me-2" fixedWidth />
+                      <Icon icon={['fab', 'google']} className="me-2" fixedWidth />
                       Sign in with Google
                     </Button>
                   </div>

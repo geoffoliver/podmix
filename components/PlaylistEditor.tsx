@@ -9,7 +9,7 @@ import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { toast } from 'react-toastify';
 
-import { Playlist, PlaylistItem } from "@/lib/models";
+import { Playlist, PlaylistItem } from '@/lib/models';
 
 import styles from '@/styles/PlaylistEditor.module.scss';
 import PlaylistItemComponent from './PlaylistItem';

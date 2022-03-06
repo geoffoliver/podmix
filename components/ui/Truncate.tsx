@@ -1,6 +1,6 @@
 // stolen from https://github.com/tsung-ju/react-truncate-lines
 // because the NPM module didn't have any actual code in it
-import React, { Children, useEffect, useRef } from "react";
+import React, { Children, useEffect, useRef } from 'react';
 
 export interface TruncateLinesProps
   extends React.HTMLAttributes<HTMLSpanElement> {
@@ -10,7 +10,7 @@ export interface TruncateLinesProps
 
 export function Truncate({
   lines = 1,
-  ellipsis = "…",
+  ellipsis = '…',
   children,
   ...rest
 }: TruncateLinesProps) {
@@ -25,13 +25,13 @@ export function Truncate({
 
     fixWebKitClientRects(rootSpan);
 
-    ellipsisSpan.style.display = "none";
+    ellipsisSpan.style.display = 'none';
     textNode.nodeValue = text;
     if (lines === -1 || rootSpan.getClientRects().length <= lines) {
       return;
     }
 
-    ellipsisSpan.style.display = "inline-block";
+    ellipsisSpan.style.display = 'inline-block';
     const newLength = lastIndexWhere(0, text.length, (length) => {
       textNode.nodeValue = text.slice(0, length);
       return length === 0 || rootSpan.getClientRects().length <= lines;
@@ -42,7 +42,7 @@ export function Truncate({
   return (
     <span ref={rootSpanRef} {...rest}>
       {text}
-      <span ref={ellipsisSpanRef} style={{ display: "none" }}>
+      <span ref={ellipsisSpanRef} style={{ display: 'none' }}>
         {ellipsis}
       </span>
     </span>
@@ -68,12 +68,12 @@ function lastIndexWhere(
 }
 
 function onlyText(children: React.ReactNode): string {
-  let result = "";
+  let result = '';
   Children.forEach(children, (child) => {
-    if (typeof child === "number" || typeof child === "string") {
+    if (typeof child === 'number' || typeof child === 'string') {
       result += child.toString();
     } else {
-      throw new TypeError("Unexpected child type");
+      throw new TypeError('Unexpected child type');
     }
   });
   return result;
@@ -81,13 +81,13 @@ function onlyText(children: React.ReactNode): string {
 
 function fixWebKitClientRects(element: HTMLElement) {
   const s = element.style;
-  const styleValue = s.getPropertyValue("outline-style");
-  const stylePriority = s.getPropertyPriority("outline-style");
-  const widthValue = s.getPropertyValue("outline-width");
-  const widthPriority = s.getPropertyPriority("outline-width");
-  s.setProperty("outline-style", "solid", "important");
-  s.setProperty("outline-width", "1px", "important");
+  const styleValue = s.getPropertyValue('outline-style');
+  const stylePriority = s.getPropertyPriority('outline-style');
+  const widthValue = s.getPropertyValue('outline-width');
+  const widthPriority = s.getPropertyPriority('outline-width');
+  s.setProperty('outline-style', 'solid', 'important');
+  s.setProperty('outline-width', '1px', 'important');
   element.getClientRects();
-  s.setProperty("outline-style", styleValue, stylePriority);
-  s.setProperty("outline-width", widthValue, widthPriority);
+  s.setProperty('outline-style', styleValue, stylePriority);
+  s.setProperty('outline-width', widthValue, widthPriority);
 }
