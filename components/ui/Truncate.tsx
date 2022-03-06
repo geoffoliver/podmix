@@ -27,7 +27,9 @@ export function Truncate({
 
     ellipsisSpan.style.display = "none";
     textNode.nodeValue = text;
-    if (rootSpan.getClientRects().length <= lines) return;
+    if (lines === -1 || rootSpan.getClientRects().length <= lines) {
+      return;
+    }
 
     ellipsisSpan.style.display = "inline-block";
     const newLength = lastIndexWhere(0, text.length, (length) => {

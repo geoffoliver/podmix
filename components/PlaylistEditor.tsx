@@ -7,6 +7,7 @@ import axios from 'axios';
 import update from 'immutability-helper'
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
+import { toast } from 'react-toastify';
 
 import { Playlist, PlaylistItem } from "@/lib/models";
 
@@ -69,7 +70,7 @@ const PlaylistEditor = ({ playlist, show, onHide }: PlaylistEditorProps) => {
       onHide();
       mutate('/api/playlists/mine');
     } catch (ex) {
-      alert(ex.message || 'Error saving playlist');
+      toast.error(ex.message || 'Error saving playlist');
     } finally {
       setSaving(false);
     }
@@ -88,7 +89,7 @@ const PlaylistEditor = ({ playlist, show, onHide }: PlaylistEditorProps) => {
       mutate('/api/playlists/mine');
       onHide();
     } catch (ex) {
-      alert(ex.message || 'Error deleting playlist');
+      toast.error(ex.message || 'Error deleting playlist');
     } finally {
       setDeleting(false);
     }

@@ -23,6 +23,8 @@ import {
   faChevronDown,
   faHeart,
   faHeartCrack,
+  faDownload,
+  faClipboard,
 } from '@fortawesome/free-solid-svg-icons';
 import { faFacebook, faGoogle } from '@fortawesome/free-brands-svg-icons';
 import { FontAwesomeIconProps } from '@fortawesome/react-fontawesome';
@@ -51,6 +53,8 @@ library.add(
   faChevronDown,
   faHeart,
   faHeartCrack,
+  faDownload,
+  faClipboard,
 );
 
 const Icon = (props: FontAwesomeIconProps) => {

@@ -45,7 +45,7 @@ export default function Login(props: LoginProps) {
   const [email, setEmail] = useState('');
 
   useEffect(() => {
-    if (session) {
+    if (session.status === 'authenticated') {
       router.replace('/');
     }
   }, [router, session]);

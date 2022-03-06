@@ -3,6 +3,7 @@ import { SessionProvider } from 'next-auth/react';
 import { InstantSearch } from 'react-instantsearch-dom';
 import algoliasearch from 'algoliasearch/lite';
 import qs from 'qs';
+import { ToastContainer, toast } from 'react-toastify';
 
 import AppContext from '@/lib/context/app';
 import Header from '@/components/Header';
@@ -12,6 +13,7 @@ import { useRouter } from "next/router";
 import { Col, Container, Row } from "react-bootstrap";
 import styles from '@/styles/app.module.scss';
 
+import 'react-toastify/dist/ReactToastify.css';
 import 'instantsearch.css/themes/algolia-min.css';
 import '@/styles/globals.scss'
 
@@ -88,6 +90,7 @@ function MyApp({
           </Row>
         </Container>
       </div>
+      <ToastContainer />
     </SessionProvider>
   );
 }

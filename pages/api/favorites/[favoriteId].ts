@@ -6,8 +6,6 @@ import { Favorite, User } from '@/lib/models';
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const session = await getSession({ req });
 
-  console.log(req.query);
-
   if (!session) {
     return res.status(401).json({ error: 'Unauthorized' });
   }

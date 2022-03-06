@@ -2,6 +2,7 @@ import { useCallback, useContext, useState } from 'react';
 import { Row, Col } from 'react-bootstrap';
 import axios from 'axios';
 import Parser from 'rss-parser';
+import { toast } from 'react-toastify';
 
 import EpisodesComponent from '@/components/Episodes';
 import Podcasts from '@/components/Podcasts';
@@ -22,7 +23,7 @@ const PodcastBrowser = () => {
       });
       setFeed(resp.data);
     } catch (ex) {
-      alert(ex.response?.data?.error || 'Error getting episodes');
+      toast.error(ex.response?.data?.error || 'Error getting episodes');
     } finally {
       setLoadingFeed(false);
     }

@@ -1,28 +1,42 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { ButtonGroup, Button } from 'react-bootstrap';
+/* eslint-disable @next/next/no-img-element */
+import { useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
+import { Row, Col, Button } from 'react-bootstrap';
 
-import { PlaylistItem, Playlist } from '@/lib/models';
 import Icon from '@/components/Icon';
 
 import styles from '@/styles/PlaylistPlayer.module.scss';
 import { secondsToDuration } from '@/lib/util';
+import PlaylistDetailContext from '@/lib/context/playlistDetail';
+import classNames from 'classnames';
+import { Truncate } from './ui/Truncate';
 
-type PlaylistProps = {
-  playlist: Playlist;
-  onPlay: (item: PlaylistItem) => any;
-  play: number;
-};
-
-const PlaylistPlayer = ({ playlist, onPlay, play }: PlaylistProps) => {
+const PlaylistPlayer = () => {
   const [loading, setLoading] = useState(false);
   const [canPlay, setCanPlay] = useState(false);
-  const [playing, setPlaying] = useState(false);
-  const [playIndex, setPlayIndex] = useState(-1);
-  const [progress, setProgress] = useState(0);
-  const [duration, setDuration] = useState(0);
-  const [volume, setVolume] = useState(0);
-  const [forcePlay, setForcePlay] = useState(false);
+  const [showFullDescription, setShowFullDescription] = useState(false);
+  const [mounted, setMounted] = useState(false);
   const player = useRef<HTMLAudioElement>(null);
+  const context = useContext(PlaylistDetailContext);
+
+  const {
+    playlist,
+    playIndex,
+    setPlayIndex,
+    playing,
+    setPlaying,
+    duration,
+    setDuration,
+    progress,
+    setProgress,
+    volume,
+    setVolume,
+    forcePlay,
+    setForcePlay,
+  } = context;
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   useEffect(() => {
     if (!playlist || !playlist.items || playlist.items.length === 0) {
@@ -30,28 +44,15 @@ const PlaylistPlayer = ({ playlist, onPlay, play }: PlaylistProps) => {
     }
 
     setPlayIndex(0);
-  }, [playlist]);
+  }, [playlist, setPlayIndex]);
 
   useEffect(() => {
-    onPlay(playlist.items[playIndex] || null);
-  }, [playlist, playIndex, onPlay]);
-
-  useEffect(() => {
-    if (!player.current) {
-      return;
+    if (playing && player.current.paused) {
+      player.current.play();
+    } else if (!playing && !player.current.paused) {
+      player.current.pause();
     }
-    setPlayIndex(play);
-    if (play > -1) {
-      try {
-        player.current.load();
-        if (playing) {
-          player.current.play();
-        }
-      } catch (ex) {
-        console.log(ex);
-      }
-    }
-  }, [play, playing]);
+  }, [playing]);
 
   const current = useMemo(() => {
     if (playIndex > -1 && playlist && playlist.items && playlist.items.length > 0) {
@@ -77,7 +78,7 @@ const PlaylistPlayer = ({ playlist, onPlay, play }: PlaylistProps) => {
     return 'volume-high'
   }, [volume]);
 
-  const handleCanPlay = useCallback((e) => {
+  const handleCanPlay = useCallback(() => {
     setVolume(player.current.volume);
     setLoading(false);
     setCanPlay(true);
@@ -86,18 +87,18 @@ const PlaylistPlayer = ({ playlist, onPlay, play }: PlaylistProps) => {
       player.current.play();
       setForcePlay(false);
     }
-  }, [forcePlay]);
+  }, [forcePlay, setForcePlay, setVolume]);
 
-  const handleLoadStart = useCallback((e) => {
+  const handleLoadStart = useCallback(() => {
     setLoading(true);
     setCanPlay(false);
   }, []);
 
-  const handleProgressChange = useCallback((e) => {
+  const handleProgressChange = useCallback(() => {
     setProgress(player.current.currentTime);
-  }, []);
+  }, [setProgress]);
 
-  const handlePause = useCallback((e) => {
+  const handlePause = useCallback(() => {
     if (player.current.seeking) {
       return;
     }
@@ -105,24 +106,24 @@ const PlaylistPlayer = ({ playlist, onPlay, play }: PlaylistProps) => {
       return;
     }
     setPlaying(false);
-  }, []);
+  }, [setPlaying]);
 
   const handlePlay = useCallback(() => {
     if (player.current.seeking) {
       return;
     }
     setPlaying(true);
-  }, []);
+  }, [setPlaying]);
 
   const handleVolumeChange = useCallback(() => {
     setVolume(player.current.volume);
-  }, []);
+  }, [setVolume]);
 
   const handleDurationChange = useCallback(() => {
     setDuration(player.current.duration);
-  }, []);
+  }, [setDuration]);
 
-  const handleEnded = useCallback((e) => {
+  const handleEnded = useCallback(() => {
     if (player.current.seeking) {
       return;
     }
@@ -137,12 +138,12 @@ const PlaylistPlayer = ({ playlist, onPlay, play }: PlaylistProps) => {
     setForcePlay(true);
 
     player.current.load();
-  }, [playIndex, playlist.items.length]);
+  }, [playIndex, playlist.items.length, setForcePlay, setPlayIndex, setPlaying]);
 
   const changeVolume = useCallback((e) => {
     setVolume(e.target.value);
     player.current.volume = e.target.value;
-  }, []);
+  }, [setVolume]);
 
   const changeProgress = useCallback((e) => {
     player.current.currentTime = e.target.value;
@@ -155,7 +156,7 @@ const PlaylistPlayer = ({ playlist, onPlay, play }: PlaylistProps) => {
       player.current.pause();
     }
     setPlaying(!player.current.paused);
-  }, []);
+  }, [setPlaying]);
 
   const toggleMute = useCallback(() => {
     player.current.volume = player.current.volume ? 0 : 1;
@@ -164,97 +165,129 @@ const PlaylistPlayer = ({ playlist, onPlay, play }: PlaylistProps) => {
   const prev = useCallback(() => {
     setPlayIndex(playIndex - 1);
     try {
-      player.current.load();
       if (playing) {
-        player.current.play();
-      }
-    } catch (ex) {
-      console.log(ex);
-    }
-  }, [playIndex, playing]);
-
-  const next = useCallback((forcePlay = false) => {
-    const nextIndex = playIndex + 1;
-
-    setPlayIndex(nextIndex);
-
-    try {
-      if (playing || forcePlay) {
         setForcePlay(true);
       }
 
       player.current.load();
     } catch (ex) {
-      console.log(ex);
+      console.error(ex);
     }
-  }, [playIndex, playing]);
+  }, [playIndex, playing, setForcePlay, setPlayIndex]);
+
+  const next = useCallback((forcePlay = false) => {
+    setPlayIndex(playIndex + 1);
+    try {
+      if (playing) {
+        setForcePlay(true);
+      }
+
+      player.current.load();
+    } catch (ex) {
+      console.error(ex);
+    }
+  }, [playIndex, playing, setForcePlay, setPlayIndex]);
 
   return (
     <>
       <div className={styles.player}>
-        <div className={styles.title}>
-          <h5>{current?.title}</h5>
-          <div className={styles.times}>
-            {secondsToDuration(progress)} / {secondsToDuration(duration)}
-          </div>
-        </div>
-        <div className={styles.controls}>
-          <div className={styles.buttons}>
-            <ButtonGroup>
-              <Button
-                type="button"
-                title="Previous"
-                variant="dark"
-                onClick={prev}
-                disabled={!canPlay || playIndex === 0}
-              >
-                <Icon
-                  fixedWidth
-                  icon="backward-step"
-                />
-              </Button>
-              <Button
-                type="button"
-                variant="dark"
-                onClick={togglePlayback}
-                title={playing ? 'Play' : 'Pause'}
-                disabled={!canPlay}
-              >
-                <Icon
-                  fixedWidth
-                  spin={loading}
-                  icon={
-                    loading ? 'spinner' : (playing ? 'pause' : 'play')
-                  }
-                />
-              </Button>
-              <Button
-                type="button"
-                variant="dark"
-                title="Next"
-                onClick={() => next(false)}
-                disabled={!canPlay || playIndex === maxIndex}
-              >
-                <Icon
-                  fixedWidth
-                  icon="forward-step"
-                />
-              </Button>
-            </ButtonGroup>
-          </div>
-          <div className={styles.progress}>
-            <input type="range" value={progress} onChange={changeProgress} min={0} max={duration} step={1} />
-          </div>
-          <div className={styles.volume}>
-            <Button variant="link" className="p-0" onClick={toggleMute} title={volume ? 'Mute' : 'Unmute'}>
-              <Icon
-                icon={volumeIcon}
-                fixedWidth
-              />
-            </Button>
-            <input type="range" value={volume} onChange={changeVolume} min={0} max={1} step={0.01} />
-          </div>
-        </div>
+        <Row>
+          <Col sm={4} md={3} lg={2}>
+            <img src={current.image} alt={`Image for ${current.title}`} className="img-fluid" />
+          </Col>
+          <Col sm={8} md={9} lg={10}>
+            <div className={styles.title}>
+              <h5>
+                {current?.title}
+                <div className={styles.showName}>
+                  {current?.artist}
+                </div>
+              </h5>
+              <div className={styles.times}>
+                {secondsToDuration(progress)} / {secondsToDuration(duration)}
+              </div>
+            </div>
+            <div className={styles.controls}>
+              <div className={styles.buttons}>
+                <Button
+                  type="button"
+                  title="Previous"
+                  variant="dark"
+                  onClick={prev}
+                  disabled={!canPlay || playIndex === 0}
+                >
+                  <Icon
+                    fixedWidth
+                    icon="backward-step"
+                  />
+                </Button>
+                <Button
+                  type="button"
+                  variant="dark"
+                  onClick={togglePlayback}
+                  title={playing ? 'Play' : 'Pause'}
+                  disabled={!canPlay}
+                  className={styles.playButton}
+                >
+                  <Icon
+                    fixedWidth
+                    spin={loading}
+                    size="2x"
+                    icon={
+                      loading ? 'spinner' : (playing ? 'pause' : 'play')
+                    }
+                  />
+                </Button>
+                <Button
+                  type="button"
+                  variant="dark"
+                  title="Next"
+                  onClick={() => next(false)}
+                  disabled={!canPlay || playIndex === maxIndex}
+                >
+                  <Icon
+                    fixedWidth
+                    icon="forward-step"
+                  />
+                </Button>
+              </div>
+              <div className={styles.progress}>
+                <input type="range" value={progress} onChange={changeProgress} min={0} max={duration} step={1} />
+              </div>
+              <div className={styles.volume}>
+                <Button variant="link" className="p-0" onClick={toggleMute} title={volume ? 'Mute' : 'Unmute'}>
+                  <Icon
+                    icon={volumeIcon}
+                    fixedWidth
+                  />
+                </Button>
+                <input type="range" value={volume} onChange={changeVolume} min={0} max={1} step={0.01} />
+              </div>
+            </div>
+            {current?.description && (
+              <div className={styles.descriptionContainer}>
+                <div className={classNames(styles.description, { [styles.expanded]: showFullDescription })}>
+                  <Truncate lines={(showFullDescription || !mounted) ? -1 : 1}>
+                    {current?.description}
+                  </Truncate>
+                </div>
+                <Button
+                  variant="link"
+                  size="sm"
+                  className="p-0"
+                  onClick={() => setShowFullDescription(!showFullDescription)}
+                >
+                  <Icon
+                    icon={showFullDescription ? 'chevron-up' : 'chevron-down'}
+                    className="me-2"
+                    fixedWidth
+                  />
+                  {showFullDescription ? 'Hide' : 'Show More'}
+                </Button>
+              </div>
+            )}
+          </Col>
+        </Row>
       </div>
       {current && (
         <div className={styles.actualPlayer}>
@@ -269,6 +302,7 @@ const PlaylistPlayer = ({ playlist, onPlay, play }: PlaylistProps) => {
             onVolumeChange={handleVolumeChange}
             onDurationChange={handleDurationChange}
             onEnded={handleEnded}
+            key={current.url}
           >
             <source
               src={current.url}

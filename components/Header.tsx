@@ -105,7 +105,7 @@ const Header = () => {
               ) : (
               <Button
                 type="button"
-                variant="info"
+                variant="primary"
                 onClick={() => signIn()}
                 className={styles.login}
               >

@@ -3,32 +3,99 @@
 .player {
   background: $gray-200;
   border: 1px solid $gray-300;
-  padding: 20px;
+  padding: 25px;
   border-radius: $border-radius;
   position: relative;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
 }
 
 .title {
-  padding-bottom: 15px;
+  padding-bottom: 10px;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
-  padding-bottom: 15px;
 
   h5 {
     margin: 0;
   }
+
+  .showName {
+    font-size: $font-size-sm;
+    color: $text-muted;
+  }
+
+  @include media-breakpoint-down(sm) {
+    padding-top: 15px;
+  }
+}
+
+.times {
+  color: $text-muted;
+  font-weight: bold;
+  font-size: $font-size-sm;
 }
 
 .controls {
+  display: flex;
+  align-items: center;
+
   > div + div {
     margin-left: 15px;
   }
 }
 
-.controls {
-  display: flex;
-  align-items: center;
+.descriptionContainer {
+  padding-top: 10px;
+
+  .description {
+    font-size: $font-size-sm;
+    white-space: pre-wrap;
+    padding-bottom: 5px;
+
+    &.expanded {
+      height: auto;
+    }
+  }
+}
+
+.buttons {
+  white-space: nowrap;
+
+  button {
+    position: relative;
+    z-index: 10;
+
+    &:first-child {
+      padding-right: 25px;
+      margin-right: -20px;
+    }
+
+    &:last-child {
+      padding-left: 25px;
+      margin-left: -20px;
+    }
+
+    &[disabled] {
+      opacity: 1;
+      background: $gray-600;
+      border-color: $gray-600;
+    }
+  }
+
+  .playButton {
+    z-index: 20;
+    border-radius: 50%;
+    width: 4.5rem;
+    height: 4.5rem;
+    border: 3px solid $gray-200;
+    box-shadow: none;
+
+    &[disabled] {
+      border-color: $gray-200;
+    }
+  }
 }
 
 .progress {

@@ -9,6 +9,8 @@ import dynamic from 'next/dynamic';
 import classnames from 'classnames';
 import useSWR from 'swr';
 import axios, { AxiosResponse } from 'axios';
+import clipboard from 'clipboardy';
+import { toast } from 'react-toastify';
 
 import { Favorite, Playlist, PlaylistItem, User } from '@/lib/models';
 
@@ -17,6 +19,7 @@ import PlaylistImage from '@/components/PlaylistImage';
 import { secondsToDuration } from '@/lib/util';
 
 import styles from './playlistId.module.scss';
+import PlaylistDetailContext from '@/lib/context/playlistDetail';
 
 const PlaylistPlayer = dynamic(() => import('@/components/PlaylistPlayer'), {
   ssr: false,
@@ -26,23 +29,33 @@ type PlaylistDetailProps = {
   playlist: Playlist;
 };
 
-export default function PlaylistDetail({ playlist }: PlaylistDetailProps) {
+export default function PlaylistDetail({ playlist: playlistProp }: PlaylistDetailProps) {
   const session = useSession();
-  const [playing, setPlaying] = useState(null);
-  const [play, setPlay] = useState(0);
+  const { data } = useSWR(session.status === 'authenticated' ? '/api/favorites' : null, axios);
   const [favoriting, setFavoriting] = useState(false);
   const [favorites, setFavorites] = useState<Favorite[]>([]);
-  const { data } = useSWR(session ? '/api/favorites' : null, axios);
-  const player = useRef(null);
+  const [playlist, setPlaylist] = useState<Playlist | null>(null);
+  const [playing, setPlaying] = useState(false);
+  const [playIndex, setPlayIndex] = useState(-1);
+  const [progress, setProgress] = useState(0);
+  const [duration, setDuration] = useState(0);
+  const [volume, setVolume] = useState(0);
+  const [forcePlay, setForcePlay] = useState(false);
 
   useEffect(() => {
-    console.log(data);
     if (data && data.data && data.data.favorites) {
       setFavorites(data.data.favorites);
     } else {
       setFavorites([]);
     }
   }, [data]);
+
+  useEffect(() => {
+    setPlaylist(playlistProp);
+    setPlaying(false);
+    setPlayIndex(0);
+    setProgress(0);
+  }, [playlistProp]);
 
   const favPlaylistIds = useMemo(() => {
       return favorites.map((f) => f.playlistId);
@@ -73,11 +86,27 @@ export default function PlaylistDetail({ playlist }: PlaylistDetailProps) {
 
       setFavorites(result.data.favorites);
     } catch (ex) {
-      alert(ex.message || 'There was an error saving the favorite');
+      toast.error(ex.message || 'There was an error saving the favorite');
     } finally {
       setFavoriting(false);
     }
-  }, [session, isFavorite, favorites, playlist.id]);
+  }, [session, isFavorite, favorites, playlist]);
+
+  const playItem = useCallback((index) => {
+    if (playing && playIndex === index) {
+      setPlaying(false);
+    } else {
+      setForcePlay(true);
+      setPlaying(true);
+      setPlayIndex(index);
+    }
+  }, [playIndex, playing]);
+
+  const copy = useCallback((text: string) => {
+    const copyText = `${document.location.protocol}//${document.location.host}${text}`;
+    clipboard.write(copyText);
+    toast.success('Copied!');
+  }, []);
 
   if (!playlist) {
     return null;
@@ -88,95 +117,131 @@ export default function PlaylistDetail({ playlist }: PlaylistDetailProps) {
       <Head>
         <title>{playlist.name} - Podmix</title>
       </Head>
-      <Container className="mt-3">
-        <Row>
-          <Col>
-            <Row>
-              <Col md={2}>
-                <PlaylistImage playlist={playlist} />
-              </Col>
-              <Col md={10}>
-                <div>
-                  <h1>{playlist.name}</h1>
-                  <h6 className={styles.author}>By {playlist.user?.name}</h6>
-                </div>
-                {playlist.description && <p className={styles.description}>{playlist.description}</p>}
-                <div className={styles.player}>
-                  <PlaylistPlayer
-                    playlist={playlist}
-                    onPlay={(item) => setPlaying(item)}
-                    play={play}
-                  />
-                </div>
-                <ul className={styles.links}>
-                  <li>
-                    <Link href={`/api/rss/${playlist.id}`}>
-                      <a target="_blank">
-                        <Icon icon="rss" fixedWidth className="me-2" />
-                        RSS Feed
-                      </a>
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href={`/api/m3u/${playlist.id}`}>
-                      <a target="_blank">
-                        <Icon icon="file-audio" fixedWidth className="me-2" />
-                        MP3 Playlist
-                      </a>
-                    </Link>
-                  </li>
-                  {session && (
+      <PlaylistDetailContext.Provider value={{
+        playlist,
+        setPlaylist,
+        playing,
+        setPlaying,
+        playIndex,
+        setPlayIndex,
+        progress,
+        setProgress,
+        duration,
+        setDuration,
+        volume,
+        setVolume,
+        forcePlay,
+        setForcePlay,
+      }}>
+        <Container className="mt-3">
+          <Row>
+            <Col>
+              <Row>
+                <Col md={2}>
+                  <PlaylistImage playlist={playlist} />
+                  <ul className={styles.links}>
                     <li>
-                      <Button variant="link" onClick={toggleFavorite} disabled={favoriting}>
-                        <Icon
-                          icon={favoriting ? 'spinner' : 'heart'}
-                          className={classnames('me-2', {[styles.isFavorite]: isFavorite })}
-                          spin={favoriting}
-                          fixedWidth
-                        />
-                        {isFavorite ? 'Remove' : 'Add'} Favorite
-                      </Button>
+                      <Link href={`/api/rss/${playlist.id}`}>
+                        <a target="_blank" title="Download RSS Feed">
+                          <Icon icon="rss" fixedWidth className="me-2" />
+                          RSS Feed
+                        </a>
+                      </Link>
+                      <div>
+                        <Button
+                          variant="link"
+                          className="p-0"
+                          onClick={() => copy(`/api/rss/${playlist.id}`)}
+                          title="Copy RSS Feed URL"
+                        >
+                          <Icon icon="clipboard" />
+                        </Button>
+                      </div>
                     </li>
+                    <li>
+                      <Link href={`/api/m3u/${playlist.id}`}>
+                        <a target="_blank" title="Download Playlist">
+                          <Icon icon="file-audio" fixedWidth className="me-2" />
+                          MP3 Playlist
+                        </a>
+                      </Link>
+                      <div>
+                        <Button
+                          variant="link"
+                          className="p-0"
+                          onClick={() => copy(`/api/m3u/${playlist.id}`)}
+                          title="Copy Playlist URL"
+                        >
+                          <Icon icon="clipboard" />
+                        </Button>
+                      </div>
+                    </li>
+                  </ul>
+                  {session.status === 'authenticated' && (
+                    <ul className={styles.links}>
+                      <li>
+                        <Button variant="link" onClick={toggleFavorite} disabled={favoriting}>
+                          <Icon
+                            icon={favoriting ? 'spinner' : (isFavorite ? 'heart-crack' : 'heart')}
+                            className={classnames('me-2', {[styles.isFavorite]: isFavorite })}
+                            spin={favoriting}
+                            fixedWidth
+                          />
+                          {isFavorite ? 'Remove' : 'Add'} Favorite
+                        </Button>
+                      </li>
+                    </ul>
                   )}
-                </ul>
-                {playlist.items.map((item, index) => {
-                  return (
-                    <div
-                      key={item.id}
-                      className={classnames(
-                        styles.item,
-                        {
-                          [styles.active]: item === playing,
-                        },
-                      )}
-                    >
-                      <Row>
-                        <Col sm={2}>
-                          <div className={styles.itemImage}>
-                            <img src={item.image} alt={`${item.title} image`} className={styles.image} />
-                            <Button
-                              variant="dark"
-                              onClick={() => setPlay(index)}
-                              title="Play"
-                            >
-                              <Icon icon='play' />
-                            </Button>
-                          </div>
-                        </Col>
-                        <Col sm={10}>
-                          <div className={styles.episodeTitle}>{item.title}</div>
-                          <div className={styles.description}>{item.description}</div>
-                          <div className={styles.duration}>{secondsToDuration(item.duration)}</div>
-                        </Col>
-                      </Row>
-                    </div>
-                  );
-                })}
-              </Col>
-            </Row>
-          </Col>
-        </Row>
-      </Container>
+                </Col>
+                <Col md={10}>
+                  <div className={styles.titleAndAuthor}>
+                    <h1>{playlist.name}</h1>
+                    <h6 className={styles.author}>By {playlist.user?.name}</h6>
+                  </div>
+                  {playlist.description && <p className={styles.playlistDescription}>{playlist.description}</p>}
+                  <div className={styles.player}>
+                    <PlaylistPlayer />
+                  </div>
+                  {playlist.items.map((item, index) => {
+                    const playingItem = (playIndex === index && playing);
+                    return (
+                      <div
+                        key={item.id}
+                        className={classnames(
+                          styles.item,
+                          {
+                            [styles.active]: playIndex === index,
+                          },
+                        )}
+                      >
+                        <Row>
+                          <Col sm={4} md={3} lg={2}>
+                            <div className={styles.itemImage}>
+                              <img src={item.image} alt={`${item.title} image`} className={styles.image} />
+                              <Button
+                                variant="dark"
+                                onClick={() => playItem(index)}
+                                title={playingItem ? 'Pause' : 'Play'}
+                              >
+                                <Icon icon={playingItem ? 'pause' : 'play'} size="2x" fixedWidth />
+                              </Button>
+                            </div>
+                          </Col>
+                          <Col sm={8} md={9} lg={10}>
+                            <div className={styles.episodeTitle}>{item.title}</div>
+                            <div className={styles.episodeDescription}>{item.description}</div>
+                            <div className={styles.episodeDuration}>{secondsToDuration(item.duration)}</div>
+                          </Col>
+                        </Row>
+                      </div>
+                    );
+                  })}
+                </Col>
+              </Row>
+            </Col>
+          </Row>
+        </Container>
+      </PlaylistDetailContext.Provider>
     </>
   );
 };

@@ -1,0 +1,17 @@
+.favorite {
+  position: relative;
+
+  &:hover {
+    .removeButton {
+      opacity: 1;
+    }
+  }
+}
+
+.removeButton {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  background: #fff;
+  opacity: 0.5;
+}
