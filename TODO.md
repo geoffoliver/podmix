@@ -38,10 +38,12 @@
 - [x] Sharing meta tags
 - [x] Playlist builder instructions
 - [x] Custom 404 page
-- [ ] Migrations
+- [ ] Migrations (https://www.npmjs.com/package/umzug)
+- [ ] Tests (https://nextjs.org/docs/testing#jest-and-react-testing-library)
+- [ ] Docker deploy stuff
 
 # Maybe
 
 - [ ] Monetize
 - [ ] Artist detail page
-- [ ] Linify descriptions
+- [ ] Linkify stuff
