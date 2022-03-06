@@ -1,4 +1,4 @@
-import type { NextApiRequest, NextApiResponse } from 'next'
+import type { NextApiRequest, NextApiResponse } from 'next';
 import { M3uPlaylist, M3uMedia } from 'm3u-parser-generator';
 
 import { Playlist, PlaylistItem, Podcast } from '@/lib/models';

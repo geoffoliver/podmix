@@ -1,4 +1,4 @@
-import type { NextApiRequest, NextApiResponse } from 'next'
+import type { NextApiRequest, NextApiResponse } from 'next';
 import { getSession } from 'next-auth/react';
 
 import { Playlist, PlaylistItem } from '@/lib/models';
@@ -70,5 +70,5 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
   await cache.deleteCache(rssCache, m3uCache);
 
-  return res.status(200).json({ playlist })
+  return res.status(200).json({ playlist });
 }

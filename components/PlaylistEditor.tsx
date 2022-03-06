@@ -4,7 +4,7 @@ import { Alert, Form, Modal, Button, Col, Row } from 'react-bootstrap';
 import { mutate } from 'swr';
 import Link from 'next/link';
 import axios from 'axios';
-import update from 'immutability-helper'
+import update from 'immutability-helper';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { toast } from 'react-toastify';

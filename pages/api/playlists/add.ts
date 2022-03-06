@@ -1,4 +1,4 @@
-import type { NextApiRequest, NextApiResponse } from 'next'
+import type { NextApiRequest, NextApiResponse } from 'next';
 import { getSession } from 'next-auth/react';
 
 import { Playlist } from '@/lib/models';
@@ -27,5 +27,5 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   //   duration: 0,
   // });
 
-  return res.status(200).json({ playlist })
+  return res.status(200).json({ playlist });
 }

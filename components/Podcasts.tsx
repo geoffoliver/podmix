@@ -28,7 +28,7 @@ const Podcasts = ({ onClick }: PodcastsProps) => {
 
     setSearching(false);
     setSearched(query);
-    setResults(resp.data.results || [])
+    setResults(resp.data.results || []);
   }, [query]);
 
   const Row = ({ index, style }) => {
@@ -85,7 +85,7 @@ const Podcasts = ({ onClick }: PodcastsProps) => {
         )}
       </div>
     </>
-  )
+  );
 };
 
 export default Podcasts;

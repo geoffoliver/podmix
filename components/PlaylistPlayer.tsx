@@ -75,7 +75,7 @@ const PlaylistPlayer = () => {
       return 'volume-xmark';
     }
 
-    return 'volume-high'
+    return 'volume-high';
   }, [volume]);
 
   const handleCanPlay = useCallback(() => {
@@ -311,7 +311,7 @@ const PlaylistPlayer = () => {
         </div>
       )}
     </>
-  )
+  );
 };
 
 export default PlaylistPlayer;

@@ -1,4 +1,4 @@
-import type { NextApiRequest, NextApiResponse } from 'next'
+import type { NextApiRequest, NextApiResponse } from 'next';
 
 import iTunes from '@/lib/external/itunes';
 
@@ -12,5 +12,5 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     results: results.results.filter((r) => !!r.feedUrl),
   };
 
-  res.status(200).json(cleaned)
+  res.status(200).json(cleaned);
 }

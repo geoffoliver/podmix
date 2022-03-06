@@ -2,12 +2,13 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useSession } from 'next-auth/react';
 import { Button, Form, Container, Row, Col } from 'react-bootstrap';
-import Head from 'next/head';
+import { DashboardModal } from '@uppy/react';
+import { DefaultSession } from "next-auth";
+import { useRouter } from 'next/router';
 import Uppy from '@uppy/core';
 import XHRUpload from '@uppy/xhr-upload';
 import Webcam from '@uppy/webcam';
-import { DashboardModal } from '@uppy/react';
-import { DefaultSession } from "next-auth";
+import ImageEditor from '@uppy/image-editor';
 import axios from 'axios';
 
 import '@uppy/core/dist/style.css';
@@ -15,10 +16,10 @@ import '@uppy/dashboard/dist/style.css';
 import '@uppy/image-editor/dist/style.css';
 import '@uppy/webcam/dist/style.css';
 
-import styles from '@/styles/profile.module.scss';
 import Icon from '@/components/Icon';
-import ImageEditor from '@uppy/image-editor';
-import { useRouter } from 'next/router';
+import Head from '@/components/Head';
+
+import styles from '@/styles/profile.module.scss';
 
 type UserProfile = DefaultSession["user"] & {
   id: string
@@ -124,9 +125,7 @@ const Profile = () => {
 
   return (
     <>
-      <Head>
-        <title>Edit Profile - Podmix</title>
-      </Head>
+      <Head title="Edit Profile" />
       <Container className="mt-3">
         <Row>
           <Col>

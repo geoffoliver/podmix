@@ -1,6 +1,6 @@
 // import ReactDOM from 'react-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { library } from '@fortawesome/fontawesome-svg-core'
+import { library } from '@fortawesome/fontawesome-svg-core';
 import {
   faRss,
   faFileAudio,
@@ -58,7 +58,7 @@ library.add(
 );
 
 const Icon = (props: FontAwesomeIconProps) => {
-  return <FontAwesomeIcon {...props} />
+  return <FontAwesomeIcon {...props} />;
 };
 
 export default Icon;

@@ -18,7 +18,7 @@ const SearchResults = ({ hits }: SearchResultsParams) => {
       </div>
       <Pagination />
     </div>
-  )
+  );
 };
 
 export default SearchResults;

@@ -1,4 +1,4 @@
-import type { NextApiRequest, NextApiResponse } from 'next'
+import type { NextApiRequest, NextApiResponse } from 'next';
 import { getSession } from 'next-auth/react';
 import formidable from 'formidable';
 import { v4 as uuid } from 'uuid';
@@ -58,7 +58,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         return reject(res.status(500).json({ error: ex.message }));
       }
     });
-  })
+  });
 }
 
 export const config = {

@@ -1,10 +1,9 @@
 /* eslint-disable @next/next/no-img-element */
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useSession } from 'next-auth/react';
-import Head from 'next/head';
 import Link from 'next/link';
 import { Button, Container, Row, Col } from 'react-bootstrap';
-import { GetStaticProps } from 'next';
+import { GetServerSideProps, GetStaticProps } from 'next';
 import dynamic from 'next/dynamic';
 import classnames from 'classnames';
 import useSWR from 'swr';
@@ -16,10 +15,12 @@ import { Favorite, Playlist, PlaylistItem, User } from '@/lib/models';
 
 import Icon from '@/components/Icon';
 import PlaylistImage from '@/components/PlaylistImage';
+import Head from '@/components/Head';
 import { secondsToDuration } from '@/lib/util';
 
 import styles from './playlistId.module.scss';
 import PlaylistDetailContext from '@/lib/context/playlistDetail';
+import SocialTags from '@/components/SocialTags';
 
 const PlaylistPlayer = dynamic(() => import('@/components/PlaylistPlayer'), {
   ssr: false,
@@ -27,9 +28,10 @@ const PlaylistPlayer = dynamic(() => import('@/components/PlaylistPlayer'), {
 
 type PlaylistDetailProps = {
   playlist: Playlist;
+  frontendUrl: string;
 };
 
-export default function PlaylistDetail({ playlist: playlistProp }: PlaylistDetailProps) {
+export default function PlaylistDetail({ playlist: playlistProp, frontendUrl }: PlaylistDetailProps) {
   const session = useSession();
   const { data } = useSWR(session.status === 'authenticated' ? '/api/favorites' : null, axios);
   const [favoriting, setFavoriting] = useState(false);
@@ -41,6 +43,8 @@ export default function PlaylistDetail({ playlist: playlistProp }: PlaylistDetai
   const [duration, setDuration] = useState(0);
   const [volume, setVolume] = useState(0);
   const [forcePlay, setForcePlay] = useState(false);
+
+  console.log(frontendUrl);
 
   useEffect(() => {
     if (data && data.data && data.data.favorites) {
@@ -79,7 +83,7 @@ export default function PlaylistDetail({ playlist: playlistProp }: PlaylistDetai
 
       if (isFavorite) {
         const fav = favorites.find((f) => f.playlistId === playlist.id);
-        result = await axios.delete(`/api/favorites/${fav.id}`)
+        result = await axios.delete(`/api/favorites/${fav.id}`);
       } else {
         result = await axios.post('/api/favorites/add', { playlist: playlist.id });
       }
@@ -108,14 +112,14 @@ export default function PlaylistDetail({ playlist: playlistProp }: PlaylistDetai
     toast.success('Copied!');
   }, []);
 
-  if (!playlist) {
-    return null;
-  }
-
   return (
     <>
-      <Head>
-        <title>{playlist.name} - Podmix</title>
+      <Head title={playlistProp.name}>
+        <SocialTags
+          title={`${playlistProp.name} - Podmix`}
+          description={playlistProp.description}
+          image={`${frontendUrl}/api/playlists/image/${playlistProp.id}`}
+        />
       </Head>
       <PlaylistDetailContext.Provider value={{
         playlist,
@@ -138,10 +142,10 @@ export default function PlaylistDetail({ playlist: playlistProp }: PlaylistDetai
             <Col>
               <Row>
                 <Col md={2}>
-                  <PlaylistImage playlist={playlist} />
+                  <PlaylistImage playlist={playlistProp} />
                   <ul className={styles.links}>
                     <li>
-                      <Link href={`/api/rss/${playlist.id}`}>
+                      <Link href={`/api/rss/${playlistProp.id}`}>
                         <a target="_blank" title="Download RSS Feed">
                           <Icon icon="rss" fixedWidth className="me-2" />
                           RSS Feed
@@ -151,7 +155,7 @@ export default function PlaylistDetail({ playlist: playlistProp }: PlaylistDetai
                         <Button
                           variant="link"
                           className="p-0"
-                          onClick={() => copy(`/api/rss/${playlist.id}`)}
+                          onClick={() => copy(`/api/rss/${playlistProp.id}`)}
                           title="Copy RSS Feed URL"
                         >
                           <Icon icon="clipboard" />
@@ -159,7 +163,7 @@ export default function PlaylistDetail({ playlist: playlistProp }: PlaylistDetai
                       </div>
                     </li>
                     <li>
-                      <Link href={`/api/m3u/${playlist.id}`}>
+                      <Link href={`/api/m3u/${playlistProp.id}`}>
                         <a target="_blank" title="Download Playlist">
                           <Icon icon="file-audio" fixedWidth className="me-2" />
                           MP3 Playlist
@@ -169,7 +173,7 @@ export default function PlaylistDetail({ playlist: playlistProp }: PlaylistDetai
                         <Button
                           variant="link"
                           className="p-0"
-                          onClick={() => copy(`/api/m3u/${playlist.id}`)}
+                          onClick={() => copy(`/api/m3u/${playlistProp.id}`)}
                           title="Copy Playlist URL"
                         >
                           <Icon icon="clipboard" />
@@ -195,14 +199,14 @@ export default function PlaylistDetail({ playlist: playlistProp }: PlaylistDetai
                 </Col>
                 <Col md={10}>
                   <div className={styles.titleAndAuthor}>
-                    <h1>{playlist.name}</h1>
-                    <h6 className={styles.author}>By {playlist.user?.name}</h6>
+                    <h1>{playlistProp.name}</h1>
+                    <h6 className={styles.author}>By {playlistProp.user?.name}</h6>
                   </div>
-                  {playlist.description && <p className={styles.playlistDescription}>{playlist.description}</p>}
+                  {playlistProp.description && <p className={styles.playlistDescription}>{playlistProp.description}</p>}
                   <div className={styles.player}>
                     <PlaylistPlayer />
                   </div>
-                  {playlist.items.map((item, index) => {
+                  {playlistProp.items.map((item, index) => {
                     const playingItem = (playIndex === index && playing);
                     return (
                       <div
@@ -245,6 +249,7 @@ export default function PlaylistDetail({ playlist: playlistProp }: PlaylistDetai
     </>
   );
 };
+
 /*
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
   const playlist = await Playlist.findByPk(params.playlistId.toString(), {
@@ -258,7 +263,7 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
         as: 'user',
       }
     ],
-    order: [['items', 'position', 'ASC']]
+    order: [['items', 'position', 'ASC']],
   });
 
   // not sure why we need to stringify and parse this, but if
@@ -272,6 +277,7 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
 
   return {
     props: {
+      frontendUrl: process.env.PUBLIC_URL,
       playlist: asJson,
     },
   };
@@ -306,9 +312,10 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
     revalidate: 300,
     props: {
       playlist: asJson,
+      frontendUrl: process.env.PUBLIC_URL,
     },
   };
-}
+};
 
 export async function getStaticPaths() {
   const lists = await Playlist.findAll({
@@ -318,10 +325,10 @@ export async function getStaticPaths() {
   // Get the paths we want to pre-render based on posts
   const paths = lists.map((list) => ({
     params: { playlistId: list.id },
-  }))
+  }));
 
   // We'll pre-render only these paths at build time.
   // { fallback: blocking } will server-render pages
   // on-demand if the path doesn't exist.
-  return { paths, fallback: 'blocking' }
+  return { paths, fallback: 'blocking' };
 }

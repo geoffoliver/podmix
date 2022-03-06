@@ -1,4 +1,4 @@
-import type { NextApiRequest, NextApiResponse } from 'next'
+import type { NextApiRequest, NextApiResponse } from 'next';
 import { getSession } from 'next-auth/react';
 
 import { User } from '@/lib/models';
@@ -40,5 +40,5 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     await bunny.delete(toDelete);
   }
 
-  return res.status(200).json({ user })
+  return res.status(200).json({ user });
 }

@@ -1,4 +1,4 @@
-import type { NextApiRequest, NextApiResponse } from 'next'
+import type { NextApiRequest, NextApiResponse } from 'next';
 import { getSession } from 'next-auth/react';
 import Parser from 'rss-parser';
 import crypto from 'crypto';
@@ -143,5 +143,5 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     await playlist.save();
   }
 
-  return res.status(200).json({ item })
+  return res.status(200).json({ item });
 }

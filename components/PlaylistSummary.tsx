@@ -33,7 +33,7 @@ const PlaylistSummary = ({ playlist }: PlaylistSummaryProps) => {
         </div>
       </div>
     </div>
-  )
+  );
 };
 
 export default PlaylistSummary;

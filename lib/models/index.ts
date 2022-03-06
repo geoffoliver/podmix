@@ -28,7 +28,7 @@ import stream from 'stream';
 import { promisify } from 'util';
 import { models } from '@next-auth/sequelize-adapter';
 import sharp from 'sharp';
-import UpdateSearchIndex from '@/pages/api/playlists/update-search-index'
+import UpdateSearchIndex from '@/pages/api/playlists/update-search-index';
 
 import { searchIndex } from '@/lib/external/algolia';
 import Bunny from '@/lib/external/bunny';
@@ -67,7 +67,7 @@ class Playlist extends Model<InferAttributes<Playlist>, InferCreationAttributes<
   declare hasItems: HasManyHasAssociationsMixin<PlaylistItem, string>;
   declare countItems: HasManyCountAssociationsMixin;
   declare createItem: HasManyCreateAssociationMixin<PlaylistItem, 'playlistId'>;
-  declare getUser: BelongsToGetAssociationMixin<User>
+  declare getUser: BelongsToGetAssociationMixin<User>;
 
   declare items: NonAttribute<PlaylistItem[]>;
   declare user: NonAttribute<User>;
@@ -75,7 +75,7 @@ class Playlist extends Model<InferAttributes<Playlist>, InferCreationAttributes<
   declare static associations: {
     items: Association<Playlist, PlaylistItem>;
     user: Association<Playlist, User>;
-  }
+  };
 
   async generateImage(): Promise<void> {
     const img: string[] = [];
@@ -254,7 +254,7 @@ class Playlist extends Model<InferAttributes<Playlist>, InferCreationAttributes<
     await searchIndex.saveObject({
       objectID: this.id,
       name: this.name,
-      image: `${process.env.PUBLIC_URL}/playlists/image/${this.id}`,
+      image: `${process.env.NEXT_PUBLIC_PUBLIC_URL}/api/playlists/image/${this.id}`,
       author: this.user.name,
       description: this.description,
       genres: Array.from(genres),
@@ -342,7 +342,7 @@ class PlaylistItem extends Model<InferAttributes<PlaylistItem>, InferCreationAtt
   declare static associations: {
     playlist: Association<PlaylistItem, Playlist>;
     podcast: Association<PlaylistItem, Podcast>;
-  }
+  };
 }
 
 PlaylistItem.init({
@@ -432,7 +432,7 @@ class Podcast extends Model<InferAttributes<Podcast>, InferCreationAttributes<Po
 
   declare static associations: {
     playlist: Association<Podcast, PlaylistItem>;
-  }
+  };
 }
 
 Podcast.init({
@@ -497,7 +497,7 @@ class Favorite extends Model<InferAttributes<Favorite>, InferCreationAttributes<
 
   declare static associations: {
     playlist: Association<Favorite, Playlist>;
-  }
+  };
 }
 
 Favorite.init({
@@ -544,7 +544,7 @@ class User extends Model<InferAttributes<User>, InferCreationAttributes<User>> {
   declare static associations: {
     playlists: Association<User, Playlist>;
     favorites: Association<User, Favorite>;
-  }
+  };
 }
 
 User.init({
@@ -564,7 +564,7 @@ User.hasMany(Favorite, { as: 'favorites', foreignKey: 'userId', onDelete: 'casca
 
 Playlist.belongsTo(User, { as: 'user', foreignKey: 'userId' });
 Playlist.hasMany(PlaylistItem, { as: 'items', foreignKey: 'playlistId', onDelete: 'cascade' });
-Playlist.hasMany(Favorite, { as: 'favorites', foreignKey: 'playlistId', onDelete: 'cascade' })
+Playlist.hasMany(Favorite, { as: 'favorites', foreignKey: 'playlistId', onDelete: 'cascade' });
 
 Podcast.hasMany(PlaylistItem, { as: 'items', foreignKey: 'podcastId' });
 

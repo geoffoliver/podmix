@@ -1,4 +1,4 @@
-import { NextApiRequest, NextApiResponse } from 'next'
+import { NextApiRequest, NextApiResponse } from 'next';
 
 import { Playlist } from '@/lib/models';
 import GenerateImage from '@/pages/api/playlists/generate-image';

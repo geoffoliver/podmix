@@ -24,7 +24,7 @@ const Podcast = ({ podcast, onClick }: PodcastProps) => {
         <div className={styles.name}>{podcast.collectionName}</div>
       </button>
     </div>
-  )
+  );
 };
 
 export default Podcast;

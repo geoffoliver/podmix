@@ -61,7 +61,7 @@ const Playlists = ({ onEdit }: PlaylistsProps) => {
         </ListGroup>
       </div>
     </div>
-  )
+  );
 };
 
 export default Playlists;

@@ -35,12 +35,12 @@
   - [x] Copy links to clipboard
   - [x] Favorite playlist
 - [x] Mobile nav
-- [ ] Migrations
+- [x] Sharing meta tags
 - [ ] Playlist builder instructions
-- [ ] Sharing meta tags
-- [ ] Defer playlist image generation
+- [ ] Custom 404 page
 - [ ] Search results
 - [ ] Playlist builder instructions
+- [ ] Migrations
 
 # Maybe
 

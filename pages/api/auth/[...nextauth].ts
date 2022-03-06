@@ -1,8 +1,8 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import NextAuth from 'next-auth'
-import FacebookProvider from 'next-auth/providers/facebook'
-import GoogleProvider from 'next-auth/providers/google'
-import EmailProvider from 'next-auth/providers/email'
+import NextAuth from 'next-auth';
+import FacebookProvider from 'next-auth/providers/facebook';
+import GoogleProvider from 'next-auth/providers/google';
+import EmailProvider from 'next-auth/providers/email';
 import SequelizeAdapter from '@next-auth/sequelize-adapter';
 
 import sequelize, { User } from '@/lib/models';

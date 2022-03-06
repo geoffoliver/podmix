@@ -80,7 +80,7 @@ const Refinements = ({ items, refine, currentRefinement }: RefinementsProps) => 
         </div>
       )}
     </>
-  )
+  );
 };
 
 export default Refinements;

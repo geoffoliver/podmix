@@ -4,11 +4,11 @@ import { SignInErrorTypes } from 'next-auth/core/pages/signin';
 import { ClientSafeProvider, getCsrfToken, getProviders, LiteralUnion, signIn, useSession } from 'next-auth/react';
 import { Container, Row, Col, Form, Button, Alert } from 'react-bootstrap';
 import { BuiltInProviderType } from 'next-auth/providers';
-import Head from 'next/head';
+import { useRouter } from 'next/router';
 
 import styles from '@/styles/login.module.scss';
 import Icon from '@/components/Icon';
-import { useRouter } from 'next/router';
+import Head from '@/components/Head';
 
 const errors: Record<SignInErrorTypes, string> = {
   Signin: 'Try signing in with a different account.',
@@ -69,14 +69,12 @@ export default function Login(props: LoginProps) {
   }, [providers]);
   */
   const error = useMemo(() => {
-    return errorType && (errors[errorType] ?? errors.default)
+    return errorType && (errors[errorType] ?? errors.default);
   } , [errorType]);
 
   return (
     <>
-      <Head>
-        <title>Podmix - Login</title>
-      </Head>
+      <Head title="Login" />
       <Container>
         <Row>
           <Col md={{ offset: 3, span: 6 }} className="pt-4">
@@ -151,7 +149,7 @@ export default function Login(props: LoginProps) {
         </Row>
       </Container>
     </>
-  )
+  );
 }
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
@@ -165,5 +163,5 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       callbackUrl: context.query?.callbackUrl || null,
       error: context.query?.error || null,
     },
-  }
-}
+  };
+};

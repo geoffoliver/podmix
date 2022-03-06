@@ -1,16 +1,16 @@
 import { useCallback, useEffect, useState } from 'react';
 import { Button, Container, Row, Col, Alert } from 'react-bootstrap';
 import { useSession } from 'next-auth/react';
-import Head from 'next/head'
 import useSWR, { useSWRConfig } from 'swr';
 import axios from 'axios';
+import { toast } from 'react-toastify';
 
 import { Favorite } from '@/lib/models';
 import Icon from '@/components/Icon';
 import PlaylistSummary from '@/components/PlaylistSummary';
+import Head from '@/components/Head';
 
 import styles from '@/styles/favorites.module.scss';
-import { toast } from 'react-toastify';
 
 export default function Favorites() {
   useSession({
@@ -27,7 +27,7 @@ export default function Favorites() {
     } else {
       setFavorites([]);
     }
-  }, [data])
+  }, [data]);
 
   const removeFavorite = useCallback(async (fav: Favorite) => {
     const doRemove = window.confirm(`Are you sure you want to remove the favorite "${fav.playlist.name}?"`);
@@ -48,9 +48,7 @@ export default function Favorites() {
 
   return (
     <>
-      <Head>
-        <title>Podmix - Favorites</title>
-      </Head>
+      <Head title="Favorites" />
       <Container className="my-3">
         <Row>
           <Col>

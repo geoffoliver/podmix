@@ -1,4 +1,4 @@
-import type { NextApiRequest, NextApiResponse } from 'next'
+import type { NextApiRequest, NextApiResponse } from 'next';
 import { getSession } from 'next-auth/react';
 
 import { Favorite, Playlist, User } from '@/lib/models';
@@ -33,5 +33,5 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
   const favorites = await user.getFavorites();
 
-  return res.status(200).json({ favorites })
+  return res.status(200).json({ favorites });
 }

@@ -1,4 +1,4 @@
-import type { NextApiRequest, NextApiResponse } from 'next'
+import type { NextApiRequest, NextApiResponse } from 'next';
 
 import { Playlist, PlaylistItem, User } from '@/lib/models';
 
@@ -23,5 +23,5 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     return res.status(404).json({ error: 'Invalid playlist' });
   }
 
-  return res.status(200).json({ playlist })
+  return res.status(200).json({ playlist });
 }

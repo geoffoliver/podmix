@@ -38,7 +38,7 @@ const Episode = ({ item, feedImage }: EpisodeProps) => {
   const image = useMemo(() => {
     return (item.itunes && item.itunes.image)
       ? item.itunes.image
-      : feedImage
+      : feedImage;
   }, [item, feedImage]);
 
   return (
@@ -62,7 +62,7 @@ const Episode = ({ item, feedImage }: EpisodeProps) => {
         </div>
       </div>
     </>
-  )
+  );
 };
 
 export default Episode;

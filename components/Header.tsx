@@ -4,7 +4,7 @@ import {
   useSession,
   signIn,
   signOut,
-} from 'next-auth/react'
+} from 'next-auth/react';
 import {
   Button,
   Container,
@@ -20,7 +20,7 @@ import Icon from './Icon';
 // const DEBOUNCE_TIME = 400;
 
 const Header = () => {
-  const { data: session } = useSession()
+  const { data: session } = useSession();
   const [mounted, setMounted] = useState(false);
   // const timeout = useRef(null);
 
@@ -124,7 +124,7 @@ const Header = () => {
         </Navbar.Collapse>
       </Container>
     </Navbar>
-  )
+  );
 };
 
 export default Header;

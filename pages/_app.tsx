@@ -15,7 +15,7 @@ import styles from '@/styles/app.module.scss';
 
 import 'react-toastify/dist/ReactToastify.css';
 import 'instantsearch.css/themes/algolia-min.css';
-import '@/styles/globals.scss'
+import '@/styles/globals.scss';
 
 
 const searchClient = algoliasearch(process.env.NEXT_PUBLIC_ALGOLIA_APP_ID, process.env.NEXT_PUBLIC_ALGOLIA_SEARCH_API_KEY);
@@ -48,7 +48,7 @@ function MyApp({
     }
 
     setSearch(searchState);
-    router.push(`/search${createURL(searchState)}`)
+    router.push(`/search${createURL(searchState)}`);
   }, [router]);
 
   useEffect(() => {
@@ -95,4 +95,4 @@ function MyApp({
   );
 }
 
-export default MyApp
+export default MyApp;
