@@ -11,12 +11,12 @@ import Icon from '@/components/Icon';
 import Head from '@/components/Head';
 
 const errors: Record<SignInErrorTypes, string> = {
-  Signin: 'Try signing in with a different account.',
-  OAuthSignin: 'Try signing in with a different account.',
-  OAuthCallback: 'Try signing in with a different account.',
-  OAuthCreateAccount: 'Try signing in with a different account.',
-  EmailCreateAccount: 'Try signing in with a different account.',
-  Callback: 'Try signing in with a different account.',
+  Signin: 'Try logging in in with a different account.',
+  OAuthSignin: 'Try logging in in with a different account.',
+  OAuthCallback: 'Try logging in in with a different account.',
+  OAuthCreateAccount: 'Try logging in in with a different account.',
+  EmailCreateAccount: 'Try logging in in with a different account.',
+  Callback: 'Try logging in in with a different account.',
   OAuthAccountNotLinked: 'To confirm your identity, login with the same account you used originally.',
   EmailSignin: 'The e-mail could not be sent.',
   CredentialsSignin: 'Login failed. Check the details you provided are correct.',
