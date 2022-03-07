@@ -41,9 +41,9 @@
 - [x] Migrations (https://www.npmjs.com/package/umzug)
 - [x] Docker deploy stuff
 - [x] Some episodes just won't play on iOS
+- [x] Improve sliders on player
 - [ ] Tests (https://nextjs.org/docs/testing#jest-and-react-testing-library)
 - [ ] Some podcast times are wonky (for example, Films To Be Buried With with Brett Goldstein)
-- [ ] Improve sliders on player
 
 # Maybe
 
