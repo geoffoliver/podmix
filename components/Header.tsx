@@ -16,11 +16,13 @@ import Link from 'next/link';
 
 import styles from '@/styles/Header.module.scss';
 import Icon from './Icon';
+import { useRouter } from 'next/router';
 
 // const DEBOUNCE_TIME = 400;
 
 const Header = () => {
   const { data: session } = useSession();
+  const router = useRouter();
   const [mounted, setMounted] = useState(false);
   // const timeout = useRef(null);
 
@@ -57,6 +59,8 @@ const Header = () => {
     return null;
   }
 
+  console.log(router.pathname);
+
   return (
     <Navbar variant="dark" expand="lg" className={styles.navbar}>
       <Container>
@@ -82,7 +86,7 @@ const Header = () => {
         <Navbar.Collapse id="navbar-nav" className="justify-content-end">
           <Nav>
             <Link href="/help" passHref>
-              <Nav.Link href="/help">
+              <Nav.Link active={router.pathname === '/help'}>
                 Help
               </Nav.Link>
             </Link>
@@ -90,17 +94,17 @@ const Header = () => {
               ? (
                 <>
                   <Link href="/favorites" passHref>
-                    <Nav.Link href="/favorites">
+                    <Nav.Link active={router.pathname === '/favorites'}>
                       Favorites
                     </Nav.Link>
                   </Link>
                   <Link href="/build" passHref>
-                    <Nav.Link href="/build">
+                    <Nav.Link active={router.pathname === '/build'}>
                       Playlists
                     </Nav.Link>
                   </Link>
                   <Link href="/profile" passHref>
-                    <Nav.Link href="/profile" className={styles.profileLink} title="Profile">
+                    <Nav.Link className={styles.profileLink} title="Profile" active={router.pathname === '/profile'}>
                       <img
                         src={session.user.image || '/default-user-image.png'}
                         className={styles.userIcon}
