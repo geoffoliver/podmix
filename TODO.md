@@ -39,7 +39,7 @@
 - [x] Playlist builder instructions
 - [x] Custom 404 page
 - [x] Migrations (https://www.npmjs.com/package/umzug)
-- [ ] Docker deploy stuff
+- [x] Docker deploy stuff
 - [ ] Tests (https://nextjs.org/docs/testing#jest-and-react-testing-library)
 
 # Maybe
@@ -47,3 +47,5 @@
 - [ ] Monetize
 - [ ] Artist detail page
 - [ ] Linkify stuff
+- [ ] Better docker deploy stuff
+- [ ] Sitemap.xml
