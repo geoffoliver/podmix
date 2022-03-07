@@ -4,7 +4,7 @@ Podcast playlists. Yipee.
 
 ## Getting Started
 
-First, configure your `.env.local` file like [.env.sample](.env.sample) as much as you can (see below).
+First, configure your `.env.development.local` file like [.env.sample](.env.sample) as much as you can (see below).
 
 Now run the development server:
 

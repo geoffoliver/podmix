@@ -5,7 +5,7 @@ services:
     restart: on-failure:5
     build:
       context: ./
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.production
     ports:
       - "3000:3000"
     depends_on:
@@ -16,10 +16,10 @@ services:
       - .:/app
       - nodemodules:/app/node_modules
     environment:
-      - NODE_ENV=development
+      - NODE_ENV=production
       - WAIT_HOSTS=mysql:3306, redis:6379, quirrel:9181
       - WAIT_HOSTS_TIMEOUT=300
-      - WAIT_SLEEP_INTERVAL=10
+      - WAIT_SLEEP_INTERVAL=30
       - WAIT_HOST_CONNECT_TIMEOUT=30
   mysql:
     container_name: mysql
@@ -29,8 +29,10 @@ services:
     ports:
       - "3306:3306"
     environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: podmix
+      MYSQL_ROOT_PASSWORD:
+      MYSQL_DATABASE:
+      MYSQL_USER:
+      MYSQL_PASSWORD:
     volumes:
       - ./mysql:/var/lib/mysql
   redis:
@@ -49,7 +51,7 @@ services:
       - "9181:9181"
     environment:
       REDIS_URL: "redis://redis:6379"
-      PASSPHRASES: Super cool passphrase for quirrel
-      LOG_LEVEL: info
+      PASSPHRASES:
+      LOG_LEVEL: error
 volumes:
   nodemodules: {}

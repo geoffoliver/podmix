@@ -4,13 +4,13 @@ WORKDIR /app
 
 ADD . /app
 
-ADD run-dev.sh /app
+ADD run-prod.sh /app
 
-RUN chmod +x /app/run-dev.sh
+RUN chmod +x /app/run-prod.sh
 
 ADD https://github.com/ufoscout/docker-compose-wait/releases/download/2.9.0/wait /wait
 RUN chmod +x /wait
 
 EXPOSE 3000
 
-CMD /wait && /app/run-dev.sh
+CMD /wait && /app/run-prod.sh
