@@ -48,9 +48,9 @@
 # Maybe
 
 - [ ] Monetize
-- [ ] Artist detail page
+- [ ] Show detail page
 - [ ] Linkify stuff
 - [ ] Better docker deploy stuff
 - [ ] Sitemap.xml
-- [ ] Embeddable player
 - [ ] User pages
+- [ ] Embeddable player
