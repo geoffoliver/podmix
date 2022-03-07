@@ -17,6 +17,7 @@ const PlaylistPlayer = () => {
   const [mounted, setMounted] = useState(false);
   const player = useRef<HTMLAudioElement>(null);
   const context = useContext(PlaylistDetailContext);
+  const progressTimeout = useRef(null);
 
   const {
     playlist,
@@ -275,7 +276,16 @@ const PlaylistPlayer = () => {
                 </Button>
               </div>
               <div className={styles.progress}>
-                <input type="range" value={progress} onChange={changeProgress} min={0} max={duration} step={1} />
+                <div className={styles.fancyRange}>
+                  <div className={styles.sliderContainer}>
+                    <div className={styles.slider}>
+                      <div className={styles.track}></div>
+                      <div className={styles.progress} style={{ width: ((progress / duration) * 100) + '%' }}></div>
+                      <div className={styles.scrubber} style={{ left: ((progress / duration) * 100) + '%' }}></div>
+                    </div>
+                  </div>
+                  <input type="range" value={progress} onChange={changeProgress} min={0} max={duration} step={1} />
+                </div>
               </div>
               <div className={styles.volume}>
                 <Button variant="link" className="p-0" onClick={toggleMute} title={volume ? 'Mute' : 'Unmute'}>
@@ -284,7 +294,16 @@ const PlaylistPlayer = () => {
                     fixedWidth
                   />
                 </Button>
-                <input type="range" value={volume} onChange={changeVolume} min={0} max={1} step={0.01} />
+                <div className={styles.fancyRange}>
+                  <div className={styles.sliderContainer}>
+                    <div className={styles.slider}>
+                      <div className={styles.track}></div>
+                      <div className={styles.progress} style={{ width: ((volume / 1) * 100) + '%' }}></div>
+                      <div className={styles.scrubber} style={{ left: ((volume / 1) * 100) + '%' }}></div>
+                    </div>
+                  </div>
+                  <input type="range" value={volume} onChange={changeVolume} min={0} max={1} step={0.01} />
+                </div>
               </div>
             </div>
             {current?.description && (
