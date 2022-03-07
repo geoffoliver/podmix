@@ -12,7 +12,7 @@ Now run the development server:
 docker compose up
 ```
 
-Now you can generate a quirrel token ([see here for details](https://docs.quirrel.dev/deploying/#how-to-deploy-your-own-server)) and pop that into the .env.local and (yes, this is annoying) restart the podmix container.
+Now you can generate a quirrel token ([see here for details](https://docs.quirrel.dev/deploying/#how-to-deploy-your-own-server)) and pop that into the `.env.development.local` and (yes, this is annoying) restart the podmix container.
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
