@@ -305,7 +305,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   // specific error:
   // Error serializing `.playlist.createdAt` returned from `getStaticProps` in "/playlist/[playlistId]".
   // Reason: `object` ("[object Date]") cannot be serialized as JSON. Please only return JSON serializable data types.
-  const asJson = JSON.parse(JSON.stringify(playlist.toJSON()));
+  const asJson = playlist ? JSON.parse(JSON.stringify(playlist.toJSON())) : {};
 
   return {
     revalidate: 300,
