@@ -4,7 +4,7 @@ const Privacy = () => {
   return (
     <Container>
       <Row>
-        <Col>
+        <Col className="pt-4" xl={{ span: 6, offset: 3 }}>
           <h1>Privacy Policy</h1>
           <p>
             We respect your privacy. We don&apos;t sell your data, and we don&apos;t track you with ads or other sketchy

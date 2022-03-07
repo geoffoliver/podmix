@@ -17,6 +17,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import 'instantsearch.css/themes/algolia-min.css';
 import '@/styles/globals.scss';
 import Icon from '@/components/Icon';
+import Link from 'next/link';
 
 
 const searchClient = algoliasearch(process.env.NEXT_PUBLIC_ALGOLIA_APP_ID, process.env.NEXT_PUBLIC_ALGOLIA_SEARCH_API_KEY);
@@ -91,6 +92,14 @@ function MyApp({
               <a href="https://twitter.com/podmix.me" target="_blank" rel="noreferrer">
                 <Icon icon={['fab', 'twitter']} className="me-2" fixedWidth />
               </a>
+              {' '}&middot;{' '}
+              <Link href="/terms">
+                <a>Terms Of Use</a>
+              </Link>
+              {' '}
+              <Link href="/privacy">
+                <a>Privacy Policy</a>
+              </Link>
             </Col>
           </Row>
         </Container>
