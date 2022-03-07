@@ -137,7 +137,7 @@ class Playlist extends Model<InferAttributes<Playlist>, InferCreationAttributes<
 
     return new Promise(async (resolve, reject) => {
       const now = new Date().getTime().toString();
-      const filename = `${this.id}.${now}.webp`;
+      const filename = `${this.id}.${now}.jpg`;
       const tmpfile = `${os.tmpdir()}/${filename}`;
       const width = 512;
       const height = 512;
@@ -146,7 +146,6 @@ class Playlist extends Model<InferAttributes<Playlist>, InferCreationAttributes<
       if (filePaths.length === 1) {
         sharp(filePaths[0])
           .resize(width, height, { fit: 'outside' })
-          .webp({ quality: 90 })
           .toFile(tmpfile, async (err: any) => {
             if (err) {
               return reject(err);
@@ -167,10 +166,9 @@ class Playlist extends Model<InferAttributes<Playlist>, InferCreationAttributes<
           });
       } else {
         await Promise.all(filePaths.slice().map((f, i) => {
-          filePaths[i] = `${f}_small.webp`;
+          filePaths[i] = `${f}_small.jpg`;
           return sharp(fs.readFileSync(f))
             .resize(Math.round(width / 2), Math.round(height / 2), { fit: 'outside' })
-            .webp({ quality: 100 })
             .toFile(filePaths[i]);
         }));
 
@@ -181,7 +179,6 @@ class Playlist extends Model<InferAttributes<Playlist>, InferCreationAttributes<
             { input: filePaths[2], top: 256, left: 0 },
             { input: filePaths[3], top: 256, left: 256 },
           ])
-          .webp({ quality: 90 })
           .toFile(tmpfile, async (err: any) => {
             if (err) {
               return reject(err);

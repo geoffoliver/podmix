@@ -23,44 +23,47 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
   const cacheKey = `playlist-rss-${playlist.id}`;
   const cached = await cache.getCache(cacheKey);
+  let rssFeed: string = '';
+
   if (cached) {
-    return res
-      .setHeader('content-type', 'application/rss+xml')
-      .setHeader('content-disposition', `attachment; filename=${playlist.name}.xml`)
-      .status(200)
-      .end(cached);
+    rssFeed = cached;
+  } else {
+    const f = new Feed({
+      id: playlist.id,
+      title: playlist.name,
+      description: playlist.description,
+      link: `${process.env.PUBLIC_URL}/playlist/${playlist.id}`,
+      copyright: new Date().getFullYear().toString(),
+      image: `${process.env.PUBLIC_URL}/api/playlists/image/${playlist.id}`,
+      favicon: `${process.env.PUBLIC_URL}/api/playlists/image/${playlist.id}`,
+      updated: new Date(),
+      generator: 'Podmix',
+    });
+
+    playlist.items.forEach((item) => {
+      f.addItem({
+        title: item.title,
+        id: item.id,
+        guid: item.url,
+        link: item.feedData.link,
+        date: item.pubDate,
+        description: item.description,
+        enclosure: {
+          url: item.url.replace(/&/g, '&amp;').replace(/=/g, '%3D'),
+          length: item.filesize,
+          type: 'audio/mpeg',
+          title: item.title,
+        },
+      });
+    });
+
+    rssFeed = f.rss2();
+
+    await cache.setCache(cacheKey, rssFeed, CACHE_TIME);
   }
 
-  const f = new Feed({
-    id: playlist.id,
-    title: playlist.name,
-    description: playlist.description,
-    link: `${process.env.PUBLIC_URL}/playlist/${playlist.id}`,
-    copyright: new Date().getFullYear().toString(),
-    image: `${process.env.PUBLIC_URL}/api/playlists/image/${playlist.id}`,
-  });
-
-  playlist.items.forEach((item) => {
-    f.addItem({
-      title: item.title,
-      id: item.id,
-      link: item.feedData.link,
-      date: item.pubDate,
-      description: item.description,
-      audio: {
-        url: item.url,
-        length: item.filesize,
-      },
-    });
-  });
-
-  const rssFeed = f.rss2();
-
-  await cache.setCache(cacheKey, rssFeed, CACHE_TIME);
-
   return res
-    .setHeader('content-type', 'application/rss+xml')
-    .setHeader('content-disposition', `attachment; filename=${playlist.name}.xml`)
+    .setHeader('content-type', 'application/xml')
     .status(200)
-    .end(rssFeed);
+    .send(rssFeed);
 }
