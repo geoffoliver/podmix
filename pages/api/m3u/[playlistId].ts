@@ -41,7 +41,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   playlist.items.forEach((item) => {
     const media = new M3uMedia(item.url);
     media.name = `${item.artist} - ${item.title}`;
-    media.group = item.podcast.iTunesCollectionName;
+    media.duration = item.duration;
     list.medias.push(media);
   });
 
