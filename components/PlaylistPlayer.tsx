@@ -162,6 +162,10 @@ const PlaylistPlayer = () => {
     player.current.volume = player.current.volume ? 0 : 1;
   }, []);
 
+  const handleError = useCallback((e) => {
+    console.error(e);
+  }, []);
+
   const prev = useCallback(() => {
     setPlayIndex(playIndex - 1);
     try {
@@ -321,12 +325,11 @@ const PlaylistPlayer = () => {
             onVolumeChange={handleVolumeChange}
             onDurationChange={handleDurationChange}
             onEnded={handleEnded}
+            onError={handleError}
+            onLoadedMetadata={handleCanPlay}
             key={current.url}
-          >
-            <source
-              src={current.url}
-            />
-          </audio>
+            src={current.url}
+          />
         </div>
       )}
     </>
