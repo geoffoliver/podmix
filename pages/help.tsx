@@ -1,3 +1,4 @@
+import { signIn } from 'next-auth/react';
 import { Container, Row, Col } from 'react-bootstrap';
 
 import Head from '@/components/Head';
@@ -33,6 +34,19 @@ const Terms = () => {
               Put it into a podcatcher (Apple Podcasts, Google Podcasts,
               Downcast, Overcast, etc.) on your phone or your computer and enjoy
               listening!
+            </p>
+            <h2 className="mt-5">Why should I create an account?</h2>
+            <p>
+              An account allows you to create your own playlists and to &ldquo;favorite&rdquo; other playlists.
+            </p>
+            <h2 className="mt-5">How do I create an account?</h2>
+            <p>
+              Go to the <a href="#" onClick={(e) => { e.preventDefault();
+              signIn(); }}>login/register page</a> and enter your email address
+              or use your Facebook or Google account. If you choose to login with
+              an email address, you won&apos;t need to enter a password - we
+              will send a link to the email address you provide with a link to
+              login.
             </p>
           </Col>
         </Row>
