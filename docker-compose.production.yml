@@ -19,7 +19,7 @@ services:
       - NODE_ENV=production
       - WAIT_HOSTS=mysql:3306, redis:6379, quirrel:9181
       - WAIT_HOSTS_TIMEOUT=300
-      - WAIT_SLEEP_INTERVAL=30
+      - WAIT_SLEEP_INTERVAL=10
       - WAIT_HOST_CONNECT_TIMEOUT=30
   mysql:
     container_name: mysql
