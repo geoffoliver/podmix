@@ -21,6 +21,7 @@ import { secondsToDuration } from '@/lib/util';
 import styles from './playlistId.module.scss';
 import PlaylistDetailContext from '@/lib/context/playlistDetail';
 import SocialTags from '@/components/SocialTags';
+import { useRouter } from 'next/router';
 
 const PlaylistPlayer = dynamic(() => import('@/components/PlaylistPlayer'), {
   ssr: false,
@@ -33,6 +34,7 @@ type PlaylistDetailProps = {
 
 export default function PlaylistDetail({ playlist: playlistProp, frontendUrl }: PlaylistDetailProps) {
   const session = useSession();
+  const router = useRouter();
   const { data } = useSWR(session.status === 'authenticated' ? '/api/favorites' : null, axios);
   const [favoriting, setFavoriting] = useState(false);
   const [favorites, setFavorites] = useState<Favorite[]>([]);
@@ -109,6 +111,10 @@ export default function PlaylistDetail({ playlist: playlistProp, frontendUrl }: 
     clipboard.write(copyText);
     toast.success('Copied!');
   }, []);
+
+  if (!playlistProp) {
+    return null;
+  }
 
   return (
     <>
@@ -305,7 +311,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   // specific error:
   // Error serializing `.playlist.createdAt` returned from `getStaticProps` in "/playlist/[playlistId]".
   // Reason: `object` ("[object Date]") cannot be serialized as JSON. Please only return JSON serializable data types.
-  const asJson = playlist ? JSON.parse(JSON.stringify(playlist.toJSON())) : {};
+  const asJson = playlist ? JSON.parse(JSON.stringify(playlist.toJSON())) : null;
 
   return {
     revalidate: 300,

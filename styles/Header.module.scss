@@ -74,7 +74,8 @@
 }
 
 .login {
-  border-radius: 1.5rem;
+  border-radius: 1.5rem !important;
+
 }
 
 @include media-breakpoint-up(lg) {
@@ -85,6 +86,10 @@
   .userName,
   .logout {
     display: none;
+  }
+
+  .login {
+    margin-left: 1rem;
   }
 }
 
@@ -103,9 +108,5 @@
   .userIcon,
   .logoutIcon {
     display: none;
-  }
-
-  .login {
-    margin: 1rem 0 0.5rem;
   }
 }

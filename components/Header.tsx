@@ -81,6 +81,11 @@ const Header = () => {
         </div>
         <Navbar.Collapse id="navbar-nav" className="justify-content-end">
           <Nav>
+            <Link href="/help" passHref>
+              <Nav.Link href="/help">
+                Help
+              </Nav.Link>
+            </Link>
             {session
               ? (
                 <>
