@@ -90,7 +90,7 @@ function MyApp({
               &copy; {new Date().getFullYear()} Podmix &amp; <a href="https://www.plan8studios.com" target="_blank" rel="noreferrer">Plan8 Studios</a>
               {' '}&middot;{' '}
               <a href="https://twitter.com/podmixme" target="_blank" rel="noreferrer">
-                <Icon icon={['fab', 'twitter']} className="me-2" fixedWidth />
+                <Icon icon={['fab', 'twitter']} />
               </a>
               {' '}&middot;{' '}
               <Link href="/terms">
