@@ -41,6 +41,7 @@
 - [x] Migrations (https://www.npmjs.com/package/umzug)
 - [x] Docker deploy stuff
 - [ ] Tests (https://nextjs.org/docs/testing#jest-and-react-testing-library)
+- [ ] Some podcast times are wonky (for example, Films To Be Buried With with Brett Goldstein)
 
 # Maybe
 
@@ -49,3 +50,5 @@
 - [ ] Linkify stuff
 - [ ] Better docker deploy stuff
 - [ ] Sitemap.xml
+- [ ] Embeddable player
+- [ ] User pages
