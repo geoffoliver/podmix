@@ -35,9 +35,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     id: playlist.id,
     title: playlist.name,
     description: playlist.description,
-    link: `${process.env.NEXT_PUBLIC_PUBLIC_URL}/playlist/${playlist.id}`,
+    link: `${process.env.PUBLIC_URL}/playlist/${playlist.id}`,
     copyright: new Date().getFullYear().toString(),
-    image: `${process.env.NEXT_PUBLIC_PUBLIC_URL}/api/playlists/image/${playlist.id}`,
+    image: `${process.env.PUBLIC_URL}/api/playlists/image/${playlist.id}`,
   });
 
   playlist.items.forEach((item) => {
