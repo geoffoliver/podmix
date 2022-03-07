@@ -192,8 +192,23 @@ const PlaylistPlayer = () => {
     <>
       <div className={styles.player}>
         <Row>
-          <Col sm={4} md={3} lg={2} className="text-center">
+          <Col sm={4} md={3} lg={2} className={styles.image}>
             <img src={current?.image} alt={`Image for ${current?.title}`} className="img-fluid" />
+            <div className={styles.mobileTitle}>
+              <h5>
+                <Truncate lines={1}>
+                  {current?.title}
+                </Truncate>
+                <div className={styles.showName}>
+                  <Truncate lines={1}>
+                    {current?.artist}
+                  </Truncate>
+                </div>
+              </h5>
+              <div className={styles.times}>
+                {secondsToDuration(progress)} / {secondsToDuration(duration)}
+              </div>
+            </div>
           </Col>
           <Col sm={8} md={9} lg={10}>
             <div className={styles.title}>

@@ -68,10 +68,20 @@
   font-size: 1.2rem;
 }
 
+.episodeShowName {
+  font-weight: bold;
+  color: $text-muted;
+  font-size: $font-size-sm;
+}
+
 .episodeDescription {
   white-space: pre-wrap;
   padding: 0.5rem 0;
   font-size: $font-size-sm;
+
+  @include media-breakpoint-down(xs) {
+    display: none;
+  }
 }
 
 .playlistItems {
@@ -91,7 +101,7 @@
 .itemImage {
   position: relative;
   z-index: 1;
-  min-height: 6rem;
+  min-height: 5rem;
 
   button {
     position: absolute;

@@ -217,7 +217,7 @@ export default function PlaylistDetail({ playlist: playlistProp, frontendUrl }: 
                         )}
                       >
                         <Row>
-                          <Col sm={4} md={3} lg={2}>
+                          <Col xs={4} sm={4} md={3} lg={2}>
                             <div className={styles.itemImage}>
                               <img src={item.image} alt={`${item.title} image`} className={styles.image} loading="lazy" />
                               <Button
@@ -229,8 +229,9 @@ export default function PlaylistDetail({ playlist: playlistProp, frontendUrl }: 
                               </Button>
                             </div>
                           </Col>
-                          <Col sm={8} md={9} lg={10}>
-                            <div className={styles.episodeTitle}>{item.artist} - {item.title}</div>
+                          <Col xs={8} sm={8} md={9} lg={10}>
+                            <div className={styles.episodeTitle}>{item.title}</div>
+                            <div className={styles.episodeShowName}>{item.artist}</div>
                             <div className={styles.episodeDescription}>{item.description}</div>
                             <div className={styles.episodeDuration}>{secondsToDuration(item.duration)}</div>
                           </Col>
