@@ -89,7 +89,7 @@ function MyApp({
             <Col className="text-center">
               &copy; {new Date().getFullYear()} Podmix &amp; <a href="https://www.plan8studios.com" target="_blank" rel="noreferrer">Plan8 Studios</a>
               {' '}&middot;{' '}
-              <a href="https://twitter.com/podmix.me" target="_blank" rel="noreferrer">
+              <a href="https://twitter.com/podmixme" target="_blank" rel="noreferrer">
                 <Icon icon={['fab', 'twitter']} className="me-2" fixedWidth />
               </a>
               {' '}&middot;{' '}
