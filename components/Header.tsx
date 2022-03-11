@@ -59,8 +59,6 @@ const Header = () => {
     return null;
   }
 
-  console.log(router.pathname);
-
   return (
     <Navbar variant="dark" expand="lg" className={styles.navbar}>
       <Container>
