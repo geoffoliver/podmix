@@ -1,8 +1,7 @@
 // import { useMemo } from 'react';
-import { Container, Row, Col } from 'react-bootstrap';
+import { Container, Row, Col, Button } from 'react-bootstrap';
 import { GetServerSideProps } from 'next';
-// import useSWR from 'swr';
-// import axios from 'axios';
+import Link from 'next/link';
 
 import { Playlist, PlaylistItem, User } from '@/lib/models';
 import PlaylistSummary from '@/components/PlaylistSummary';
@@ -39,10 +38,17 @@ export default function Home({ playlists, frontendUrl }: HomeProps) {
                 <span>Create &amp; share podcast playlists</span>
               </p>
             </div>
-          </Col>
-        </Row>
-        <Row>
-          <Col>
+            <div className={styles.learnMore}>
+              <p>
+                Podmix is a service that lets you create, listen to, and share playlists of podcast episodes.
+                <br />
+                <Link href="/help" passHref>
+                  <a>
+                    Learn More &raquo;
+                  </a>
+                </Link>
+              </p>
+            </div>
             {playlists.length > 0 && (
               <>
                 <h5>Newest Playlists</h5>

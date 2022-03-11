@@ -83,23 +83,29 @@ function MyApp({
           <Component {...pageProps} />
         </InstantSearch>
       </AppContext.Provider>
-      <div className={styles.footer}>
+      <div className={styles.footerContainer}>
         <Container>
           <Row>
-            <Col className="text-center">
-              &copy; {new Date().getFullYear()} Podmix &amp; <a href="https://www.plan8studios.com" target="_blank" rel="noreferrer">Plan8 Studios</a>
-              {' '}&middot;{' '}
-              <a href="https://twitter.com/podmixme" target="_blank" rel="noreferrer">
-                <Icon icon={['fab', 'twitter']} />
-              </a>
-              {' '}&middot;{' '}
-              <Link href="/terms">
-                <a>Terms Of Use</a>
-              </Link>
-              {' '}
-              <Link href="/privacy">
-                <a>Privacy Policy</a>
-              </Link>
+            <Col>
+              <div className={styles.footer}>
+                <div>
+                  &copy; {new Date().getFullYear()} Podmix &amp; <a href="https://www.plan8studios.com" target="_blank" rel="noreferrer">Plan8 Studios</a>
+                </div>
+                <div>
+                  <a href="https://twitter.com/podmixme" target="_blank" rel="noreferrer">
+                    <Icon icon={['fab', 'twitter']} />
+                  </a>
+                </div>
+                <div>
+                  <Link href="/terms">
+                    <a>Terms Of Use</a>
+                  </Link>
+                  &nbsp;&nbsp;
+                  <Link href="/privacy">
+                    <a>Privacy Policy</a>
+                  </Link>
+                </div>
+              </div>
             </Col>
           </Row>
         </Container>

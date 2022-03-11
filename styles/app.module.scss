@@ -1,6 +1,6 @@
 @import './bootstrap-files.scss';
 
-.footer {
+.footerContainer {
   padding: 20px 0;
   margin-top: auto;
   border-top: 1px solid $gray-200;
@@ -9,5 +9,19 @@
 
   a {
     color: $text-muted;
+  }
+}
+
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  @include media-breakpoint-down(sm) {
+    flex-direction: column;
+
+    > div + div {
+      padding-top: 10px;
+    }
   }
 }

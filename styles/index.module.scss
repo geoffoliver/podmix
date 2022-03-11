@@ -6,8 +6,12 @@
   text-align: center;
   padding: 0 1rem;
   margin-bottom: 1rem;
-  font-family: 'Shadows Into Light', cursive;
-  text-transform: uppercase;
+
+  h1,
+  p {
+    font-family: 'Shadows Into Light', cursive;
+    text-transform: uppercase;
+  }
 
   h1 {
     margin: 0;
@@ -23,6 +27,21 @@
   p {
     margin: 0;
     padding: 30px 0 180px;
+  }
+}
+
+.learnMore {
+  text-align: center;
+  margin: -5rem 0 2rem;
+  font-size: 1.4rem;
+
+  p {
+    margin: 0;
+    padding: 20px 40px;
+    display: inline-block;
+    background: $blue-100;
+    border: 1px solid $blue-200;
+    line-height: 2;
   }
 }
 
