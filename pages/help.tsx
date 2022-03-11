@@ -40,10 +40,11 @@ const Terms = () => {
             </p>
             <h2 className="mt-5">How do I create a playlist?</h2>
             <p>
-              You will need to create an account and login to create your own playlists.
-              Creating an account will also allow you to &ldquo;Favorite&rdquo; playlists.
-              list. For details about the data we collect and store, check out
-              the <Link href="/privacy"><a>Privacy Policy</a></Link> page.
+              You will need to create an account and login to create your own
+              playlists. Creating an account will also allow you to
+              &ldquo;Favorite&rdquo; playlists. For details about the data we
+              collect and store, check out the <Link href="/privacy"><a>Privacy
+              Policy</a></Link> page.
             </p>
             <h2 className="mt-5">What do I do with the M3U playlist?</h2>
             <p>
