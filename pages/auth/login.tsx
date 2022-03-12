@@ -92,7 +92,7 @@ export default function Login(props: LoginProps) {
                       />
                     </Form.Group>
                     <div className="d-grid">
-                      <Button variant="primary" type="submit">Sign In with Email</Button>
+                      <Button variant="primary" type="submit">Sign in with Email</Button>
                     </div>
                     <div className="text-center small text-muted pt-4">
                       We&apos;ll send you a link to sign in - no password!
@@ -109,7 +109,7 @@ export default function Login(props: LoginProps) {
                       })}
                     >
                       <Icon icon={['fab', 'facebook']} className="me-2" fixedWidth />
-                      Sign In with Facebook
+                      Sign in with Facebook
                     </Button>
                   </div>
                   <div>
@@ -125,7 +125,7 @@ export default function Login(props: LoginProps) {
                         alt="Sign In with Google"
                         className={styles.googleIcon}
                       />
-                      Sign In with Google
+                      Sign in with Google
                     </Button>
                   </div>
                   <div className="text-center small text-muted pt-4">
