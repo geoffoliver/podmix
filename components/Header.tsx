@@ -123,7 +123,7 @@ const Header = () => {
                 onClick={() => signIn()}
                 className={styles.login}
               >
-                Login/Register
+                Sign In/Register
               </Button>
               )
             }

@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import { useState, useMemo, useEffect } from 'react';
 import { GetServerSideProps } from 'next';
 import { SignInErrorTypes } from 'next-auth/core/pages/signin';
@@ -11,17 +12,17 @@ import Icon from '@/components/Icon';
 import Head from '@/components/Head';
 
 const errors: Record<SignInErrorTypes, string> = {
-  Signin: 'Try logging in in with a different account.',
-  OAuthSignin: 'Try logging in in with a different account.',
-  OAuthCallback: 'Try logging in in with a different account.',
-  OAuthCreateAccount: 'Try logging in in with a different account.',
-  EmailCreateAccount: 'Try logging in in with a different account.',
-  Callback: 'Try logging in in with a different account.',
-  OAuthAccountNotLinked: 'To confirm your identity, login with the same account you used originally.',
+  Signin: 'Try signing in in with a different account.',
+  OAuthSignin: 'Try signing in in with a different account.',
+  OAuthCallback: 'Try signing in in with a different account.',
+  OAuthCreateAccount: 'Try signing in in with a different account.',
+  EmailCreateAccount: 'Try signing in in with a different account.',
+  Callback: 'Try signing in in with a different account.',
+  OAuthAccountNotLinked: 'To confirm your identity, sign in with the same account you used originally.',
   EmailSignin: 'The e-mail could not be sent.',
-  CredentialsSignin: 'Login failed. Check the details you provided are correct.',
-  SessionRequired: 'Please login to access this page.',
-  default: 'Unable to login.',
+  CredentialsSignin: 'Sign in failed. Check the details you provided are correct.',
+  SessionRequired: 'Please sign in to access this page.',
+  default: 'Unable to sign in.',
 };
 
 type LoginProps = {
@@ -56,14 +57,14 @@ export default function Login(props: LoginProps) {
 
   return (
     <>
-      <Head title="Login" />
+      <Head title="Sign in" />
       <Container>
         <Row>
           <Col md={{ offset: 3, span: 6 }} className="pt-4">
-            <h1>Login / Register</h1>
+            <h1>Sign In / Register</h1>
             <p>
               If you&apos;re registering a new account, enter your email address and we&apos;ll
-              send you a link to login. Alternatively, use one of the external accounts we support.
+              send you a link to sign in. Alternatively, use one of the external accounts we support.
             </p>
             {error && (
               <Alert variant="danger">
@@ -91,10 +92,10 @@ export default function Login(props: LoginProps) {
                       />
                     </Form.Group>
                     <div className="d-grid">
-                      <Button variant="primary" type="submit">Login with Email</Button>
+                      <Button variant="primary" type="submit">Sign In with Email</Button>
                     </div>
                     <div className="text-center small text-muted pt-4">
-                      We&apos;ll send you a link to login - no password!
+                      We&apos;ll send you a link to sign in - no password!
                     </div>
                   </form>
                 </Col>
@@ -108,22 +109,27 @@ export default function Login(props: LoginProps) {
                       })}
                     >
                       <Icon icon={['fab', 'facebook']} className="me-2" fixedWidth />
-                      Login with Facebook
+                      Sign In with Facebook
                     </Button>
                   </div>
                   <div>
                     <Button
                       variant="outline-primary"
+                      className={styles.loginButton}
                       onClick={() => signIn('google', {
                         callbackUrl: '/',
                       })}
                     >
-                      <Icon icon={['fab', 'google']} className="me-2" fixedWidth />
-                      Login with Google
+                      <img
+                        src="/google-logo.svg"
+                        alt="Sign In with Google"
+                        className={styles.googleIcon}
+                      />
+                      Sign In with Google
                     </Button>
                   </div>
                   <div className="text-center small text-muted pt-4">
-                    Use an external account to login.
+                    Use an external account to sign in.
                   </div>
                 </Col>
               </Row>

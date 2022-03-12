@@ -40,7 +40,7 @@ const Terms = () => {
             </p>
             <h2 className="mt-5">How do I create a playlist?</h2>
             <p>
-              You will need to create an account and login to create your own
+              You will need to create an account and sign in to create your own
               playlists. Creating an account will also allow you to
               &ldquo;Favorite&rdquo; playlists. For details about the data we
               collect and store, check out the <Link href="/privacy"><a>Privacy
@@ -76,11 +76,11 @@ const Terms = () => {
             <h2 className="mt-5">How do I create an account?</h2>
             <p>
               Go to the <a href="#" onClick={(e) => { e.preventDefault();
-              signIn(); }}>login/register page</a> and enter your email address
-              or use your Facebook or Google account. If you choose to login with
+              signIn(); }}>sign in/register page</a> and enter your email address
+              or use your Facebook or Google account. If you choose to sign in with
               an email address, you won&apos;t need to enter a password - we
               will send a link to the email address you provide with a link to
-              login.
+              sign in.
             </p>
             <h2 className="mt-5">How does it work?</h2>
             <p>

@@ -5,6 +5,15 @@
 
   button {
     width: 100%;
+
+    &:global(.btn-outline-primary) {
+      &:hover,
+      &:active,
+      &:focus {
+        background-color: #fff;
+        color: $primary;
+      }
+    }
   }
 
   :global(.row) > div {
@@ -22,4 +31,15 @@
       line-height: 1;
     }
   }
+}
+
+.loginButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.googleIcon {
+  max-width: 15.5px;
+  margin-right: 0.5rem;
 }

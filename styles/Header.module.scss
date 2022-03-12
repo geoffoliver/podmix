@@ -75,7 +75,7 @@
 
 .login {
   border-radius: 1.5rem !important;
-
+  white-space: nowrap;
 }
 
 @include media-breakpoint-up(lg) {
